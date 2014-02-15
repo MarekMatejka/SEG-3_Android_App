@@ -9,7 +9,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -18,8 +17,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+/**
+ * Activity that can connect to the server, NOT FINISHED!
+ * Very provisional, but works.
+ * 
+ * @author Marek Matejka
+ *
+ */
 public class ConnectionActivity extends Activity {
 
 	 private EditText serverIp;
@@ -33,9 +38,7 @@ public class ConnectionActivity extends Activity {
 	 private TextView result;
 	 	 
 	 private Handler handler = new Handler();
-	 
-	 private Context context = this;
-	 
+	 	 
 	 private EditText command;
 	 
 	 private String commandS = "";
