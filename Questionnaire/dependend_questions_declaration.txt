@@ -1,0 +1,27 @@
+Yes/No Question
+ - Yes, questions
+ - No, questions
+ 
+TextQuestion
+ - ????????
+ 
+SelectOneQuestion
+ - Answer1, questions
+ - Answer2, questions
+ - Answer3, questions
+ 
+SelectManyQuestion
+ - Answer1, questions
+ - Answer2, questions
+ - Answer3, questions
+ 
+RankQuestion
+ - Answer1 1st, questions
+ - Answer1 2nd, questions
+ - Answer2 2nd, questions
+ - Answer3 3rd, questions
+ 
+RangeQuestion
+ - Answer1, questions
+ - Answer2, questions
+ - Answer3, questions
