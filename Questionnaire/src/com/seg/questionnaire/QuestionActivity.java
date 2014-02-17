@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.seg.questionnaire.backend.Questionnaire;
+import com.seg.questionnaire.backend.json.JSONParser;
 import com.seg.questionnaire.backend.question.Question;
 
 /**
@@ -47,6 +48,8 @@ public class QuestionActivity extends Activity
 				
 		//load first question
 		loadQuestion(ques.getQuestion(currentQuestion));
+		
+		JSONParser.parse(this);
 		
 		connect();
 		

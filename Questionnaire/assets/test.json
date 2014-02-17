@@ -1,0 +1,72 @@
+{
+    "questionnaire_id": 1,
+    "questionnaire_title": "FooBar",
+    "questions": [
+        {
+            "id": 1,
+            "title": "Foointhebar",
+            "type": 0,
+			"required": true,
+            "details": {
+                "upper_bound": 100,
+                "lower_bound": 0
+            }
+        },
+        {
+            "id": 2,
+            "title": "FoointheMultipleChoice",
+            "type": 1,
+			"required": false,
+            "details": {
+                "choices": [
+                    "Yomomma",
+                    "ChuckNorris",
+                    "Foo"
+                ]
+            }
+        },
+        {
+            "id": 3,
+            "title": "FoointheBoolean",
+            "type": 2,
+			"required": true
+
+        },
+        {
+            "id": 4,
+            "title": "Such foo many bar, amaze",
+            "type": 3,
+			"required": true
+        },
+        {
+            "id": 5,
+            "title": "FoointheMultipleChoice",
+            "type": 4,
+			"required": true,
+            "details": {
+                "choices": [
+                    "Yomomma",
+                    "ChuckNorris",
+                    "Foo"
+                ]
+            }
+        },
+        {
+            "id": 6,
+            "title": "FoointheBoolean",
+            "type": 2,
+			"required": false,
+            "dependent_questions": {
+                "condition": true,
+                "questions": [
+                    {
+						"id": 15,
+                        "title": "FoointheBoolean",
+                        "type": 2,
+						"required": true
+                    }
+                ]            
+            }
+        }
+    ]
+}
