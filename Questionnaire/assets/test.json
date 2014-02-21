@@ -56,17 +56,19 @@
             "title": "FoointheBoolean",
             "type": 2,
 			"required": false,
-            "dependent_questions": {
-                "condition": true,
-                "questions": [
-                    {
-						"id": 15,
-                        "title": "FoointheBoolean",
-                        "type": 2,
-						"required": true
-                    }
-                ]            
-            }
+            "dependent_questions": [
+				{
+					"condition": true,
+					"questions": [
+						{
+							"id": 15,
+							"title": "FoointheBoolean",
+							"type": 2,
+							"required": true
+						}
+					]            
+				}
+			]
         }
     ]
 }

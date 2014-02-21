@@ -54,14 +54,14 @@ public class TutorialActivity extends Activity
 		setContentView(R.layout.activity_main);
 		
 		//initialize the questionnaire
-		ques = new Questionnaire();
+		ques = new Questionnaire(new LinkedList<Question>());
 		
 		//add Yes/No question
 		ques.addQuestion(new YesNoQuestion("Is the weather nice?", true));
 		
 		//add Select Many Question
 		ques.addQuestion(new SelectManyQuestion("What do you need to prepare ham and eggs?", 
-												new LinkedList<Object>() {{add("Ham"); 
+												new LinkedList<String>() {{add("Ham"); 
 																		   add("Honey"); 
 																		   add("Lemon"); 
 																		   add("Eggs"); 
@@ -70,7 +70,7 @@ public class TutorialActivity extends Activity
 		
 		//add Select One Question
 		SelectOneQuestion q1 = new SelectOneQuestion("Which month is the shortest?",
-													new LinkedList<Object>() {{add("January"); 
+													new LinkedList<String>() {{add("January"); 
 													add("February"); 
 													add("March"); 
 													add("April"); 
@@ -78,7 +78,7 @@ public class TutorialActivity extends Activity
 													true);
 		//add its dependent Question
 		q1.addDependentQuestion("February", new SelectManyQuestion("How many days can it have?",
-																   new LinkedList<Object>() {{add("28"); 
+																   new LinkedList<String>() {{add("28"); 
 																   add("29"); 
 																   add("30"); 
 																   add("31");}}, 

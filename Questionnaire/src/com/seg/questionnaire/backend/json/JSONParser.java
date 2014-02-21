@@ -10,10 +10,23 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+/**
+ * Class responsible for parsing of a JSON input.
+ * 
+ * @author Marek Matejka
+ *
+ */
 public class JSONParser 
 {
-	public static void parse(Context context)
+	/**
+	 * Parses a JSON file into QuestionnaireJSON object.
+	 * 
+	 * @param context Activity's context.
+	 * @return JSON parsed QuestionnaireJSON object.
+	 */
+	public static QuestionnaireJSON parse(Context context)
 	{
+		QuestionnaireJSON qj = null;
 		 try {
 			AssetManager assetManager = context.getAssets();
 			BufferedReader in = new BufferedReader(new InputStreamReader(assetManager.open("test.json")));
@@ -27,9 +40,9 @@ public class JSONParser
 			Log.e("DEBUG", result);
 			
 			Gson gson = new Gson();
-			QuestionnaireJSON qj = gson.fromJson(result, QuestionnaireJSON.class);
+			qj = gson.fromJson(result, QuestionnaireJSON.class);
 			
-			Log.e("DEBUG", ""+qj.questions.size());
+			Log.e("DEBUG", ""+qj.getQuestions().size());
 			
 			Log.e("DEBUG", qj.toString());
 			
@@ -37,6 +50,8 @@ public class JSONParser
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		 
+		 return qj;
 	}
 
 }

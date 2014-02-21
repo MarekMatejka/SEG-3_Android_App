@@ -167,6 +167,21 @@ public abstract class Question
 	}
 	
 	/**
+	 * Adds a list of dependent questions and their condition
+	 * to a question.
+	 * 
+	 * @param condition Condition under which dependent 
+	 * questions will be displayed.
+	 * @param questions List of dependent questions displayed once the
+	 * condition is met.
+	 */
+	public void addDependentQuestions(String condition, List<Question> questions)
+	{
+		for (int i = 0; i < questions.size(); i++)
+			addDependentQuestion(condition, questions.get(i));
+	}
+	
+	/**
 	 * Returns the List of dependent question for a given condition.
 	 * 
 	 * @param condition Condition for which dependent questions are

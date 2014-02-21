@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.seg.questionnaire.backend.Questionnaire;
+import com.seg.questionnaire.backend.QuestionnaireFactory;
 import com.seg.questionnaire.backend.json.JSONParser;
 import com.seg.questionnaire.backend.question.Question;
 
@@ -43,8 +44,8 @@ public class QuestionActivity extends Activity
 		setContentView(R.layout.activity_main);
 		
 		//initialize questionnaire
-		ques = new Questionnaire();
-		ques.loadDummy();
+		ques = QuestionnaireFactory.creatQuestionnaire(JSONParser.parse(this));
+		//ques.loadDummy();
 				
 		//load first question
 		loadQuestion(ques.getQuestion(currentQuestion));
@@ -79,7 +80,7 @@ public class QuestionActivity extends Activity
 			
 			if (currentQuestion == 0) //if first question in new loop
 			{
-				ques = new Questionnaire(); //create new questionnaire
+				ques = QuestionnaireFactory.creatQuestionnaire(JSONParser.parse(this)); //create new questionnaire
 				ques.loadDummy();
 			}
 			

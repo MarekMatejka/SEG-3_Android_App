@@ -27,10 +27,12 @@ public class Questionnaire
 	/**
 	 * Constructor which initializes the Questionnaire.
 	 * Currently it also loads dummy data.
+	 * 
+	 * @param questions List of questions for the questionnaire.
 	 */
-	public Questionnaire() 
+	public Questionnaire(List<Question> questions) 
 	{
-		questions = new LinkedList<Question>();
+		this.questions = questions;
 	}
 	
 	/**
@@ -46,6 +48,17 @@ public class Questionnaire
 		return this.questions.get(index);
 	}
 	
+	/**
+	 * Sets the questionnaire's list of questions to the the 
+	 * given list of questions.
+	 * 
+	 * @param questions List of new questionnaire's questions.
+	 */
+	public void setQuestions(List<Question> questions)
+	{
+		this.questions = questions;
+	}
+
 	/**
 	 * Adds a question at the end of the questionnaire.
 	 * 
@@ -69,7 +82,7 @@ public class Questionnaire
 	{
 		this.questions.add(index+1, question);
 	}
-	
+		
 	/**
 	 * Adds all questions from the list at one after
 	 * a given position. So it makes them the next questions
@@ -103,7 +116,7 @@ public class Questionnaire
 	public void loadDummy()
 	{
 		//list of possible answerss
-		List <Object> a = new LinkedList<Object>();
+		List <String> a = new LinkedList<String>();
 		a.add("awesome");
 		a.add("good");
 		a.add("can be"); 

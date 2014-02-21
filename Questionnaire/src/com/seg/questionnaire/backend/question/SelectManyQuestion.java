@@ -21,7 +21,7 @@ public class SelectManyQuestion extends Question
 	/**
 	 * List of possible answers.
 	 */
-	private List<Object> answerOptions;
+	private List<String> answerOptions;
 	
 	/**
 	 * List of CheckBoxes with answers.
@@ -36,7 +36,7 @@ public class SelectManyQuestion extends Question
 	 * @param required Flag defining whether the question
 	 * is required or not.
 	 */
-	public SelectManyQuestion(String question, List<Object> answerOptions, boolean required)
+	public SelectManyQuestion(String question, List<String> answerOptions, boolean required)
 	{
 		this.question = question;
 		this.answer = new MultipleAnswer();

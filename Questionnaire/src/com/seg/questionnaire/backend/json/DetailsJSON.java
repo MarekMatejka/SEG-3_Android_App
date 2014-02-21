@@ -2,14 +2,68 @@ package com.seg.questionnaire.backend.json;
 
 import java.util.List;
 
+/**
+ * Class used as a template for Details object
+ * in the JSON.
+ * 
+ * @author Marek Matejka
+ *
+ */
 public class DetailsJSON 
 {
-	int upper_bound;
+	/**
+	 * Upper bound, defined only for Scale question. 
+	 */
+	private int upper_bound;
 	
-	int lower_bound;
+	/**
+	 * Lower bound, defined only for Scale question.
+	 */
+	private int lower_bound;
 	
-	List<String> choices;
+	/**
+	 * Answer options, defined for SelectManyQuestions, 
+	 * SelectOneQuestion and Rank Question.
+	 */
+	private List<String> choices;
 	
+	/**
+	 * Returns an upper bound for Scale question.
+	 * 
+	 * @return Upper bound for a Scale question.
+	 */
+	public int getUpperBound() 
+	{
+		return upper_bound;
+	}
+
+	/**
+	 * Returns a lower bound for Scale question.
+	 * 
+	 * @return Lower bound for Scale question.
+	 */
+	public int getLowerBound() 
+	{
+		return lower_bound;
+	}
+
+	/**
+	 * Returns answer options, for
+	 * SelectManyQuestion, SelectOneQuestion and RankQuestion.
+	 * 
+	 * @return Answer options.
+	 */
+	public List<String> getChoices() 
+	{
+		return choices;
+	}
+
+	/**
+	 * Returns Details object in String.
+	 * 
+	 * @param type Question type.
+	 * @return Details object as a String.
+	 */
 	public String toString(int type)
 	{
 		switch(type)
