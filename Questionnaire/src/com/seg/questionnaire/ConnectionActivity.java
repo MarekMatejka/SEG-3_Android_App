@@ -2,11 +2,15 @@ package com.seg.questionnaire;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+
+import com.google.gson.Gson;
+import com.seg.questionnaire.backend.json.QuestionnaireJSON;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -27,6 +31,8 @@ import android.widget.TextView;
  */
 public class ConnectionActivity extends Activity {
 
+	 private final int PORT = 4000;
+	
 	 private EditText serverIp;
 	 
 	 private Button connect;
@@ -76,7 +82,7 @@ public class ConnectionActivity extends Activity {
 	            try {
 	                InetAddress serverAddr = InetAddress.getByName(serverIpAddress);
 	                Log.e("ClientActivity", "C: Connecting...");
-	                Socket socket = new Socket(serverAddr, 4000);
+	                Socket socket = new Socket(serverAddr, PORT);
 	                connected = true;
 	                    try {
 	                        Log.e("ClientActivity", "C: Sending command.");
@@ -85,19 +91,43 @@ public class ConnectionActivity extends Activity {
 	                            out.println(commandS);
 	                             
 	                            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-	                            final String s = in.readLine();
-	                            Log.e("ClientActivity", "C: Sent. "+s);
+	                            String ss = "";
+	                            String s = "";
+
+	                            //Log.e("DEBUG", ""+in.ready());
+	                            //Log.e("DEBUG", in.readLine());
+	                            //s = in.readLine();
+	                            //Log.e("DEBUG", ""+in.ready());
+	                            //Log.e("DEBUG", "a - '"+in.readLine()+"'");
+	                            while (!((s = in.readLine()).endsWith("END")))
+	                            	//if (!s.equals(""))
+		                            {
+	                            		Log.e("DEBUG", s);
+		                            	ss += s;
+		                            	//s = in.readLine();
+		                            }
+	                            
+	                            ss += s.substring(0, s.length()-3);
+	                            
+	                            Log.e("ClientActivity", "C: Sent. "+ss);
+	                            	                            
+	                            Gson gson = new Gson();
+	                            
+	                            QuestionnaireJSON q = gson.fromJson(ss, QuestionnaireJSON.class);
+	                            final String res = q.toString();
+	                            
+	                            Log.e("DEBUG", q.toString());
 	                            
 	                            handler.post(new Runnable() {
 									
 									@Override
 									public void run() {
-										result.setText(s);
+										result.setText(res);
 									}
 								});
 	                            	                            
-	                    } catch (Exception e) {
-	                        Log.e("ClientActivity", "S: Error", e);
+	                    } catch (IOException ioe) {
+	                        Log.e("ClientActivity", "S: Error", ioe);
 	                }
 	                socket.close();
 	                connected = false;

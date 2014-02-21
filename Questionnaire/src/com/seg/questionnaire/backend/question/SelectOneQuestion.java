@@ -22,7 +22,7 @@ public class SelectOneQuestion extends Question
 	/**
 	 * List of answer options.
 	 */
-	private List<Object> answerOptions;
+	private List<String> answerOptions;
 	
 	/**
 	 * Array of RadioButtons used as answer options. 
@@ -42,7 +42,7 @@ public class SelectOneQuestion extends Question
 	 * @param required Flag defining whether the question
 	 * is required or not.
 	 */
-	public SelectOneQuestion(String question, List<Object> answerOptions, boolean required)
+	public SelectOneQuestion(String question, List<String> answerOptions, boolean required)
 	{
 		this.question = question;
 		this.answer = new SingleAnswer();

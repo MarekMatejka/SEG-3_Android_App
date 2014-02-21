@@ -15,7 +15,7 @@ public class YesNoQuestion extends SelectOneQuestion
 	 * List of answer options containing only 'Yes' and 'No' answers.
 	 */
 	@SuppressWarnings("serial")
-	private static final List<Object> answerOptions = new ArrayList<Object>() {{add("Yes"); add("No");}};
+	private static final List<String> answerOptions = new ArrayList<String>() {{add("Yes"); add("No");}};
 	
 	/**
 	 * Constructor defining question text and if the 

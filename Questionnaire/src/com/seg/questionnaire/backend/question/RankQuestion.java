@@ -26,7 +26,7 @@ public class RankQuestion extends Question implements OnItemSelectedListener
 	/**
 	 * List of all answer options.
 	 */
-	private List<Object> answerOptions;
+	private List<String> answerOptions;
 	
 	/**
 	 * List of all Spinners used.
@@ -46,7 +46,7 @@ public class RankQuestion extends Question implements OnItemSelectedListener
 	 * @param answerOptions List of answer options.
 	 * @param required Flag specifying whether the question is required or not.
 	 */
-	public RankQuestion(String question, List<Object> answerOptions, boolean required)
+	public RankQuestion(String question, List<String> answerOptions, boolean required)
 	{
 		this.question = question;
 		this.answer = new MultipleAnswer();
