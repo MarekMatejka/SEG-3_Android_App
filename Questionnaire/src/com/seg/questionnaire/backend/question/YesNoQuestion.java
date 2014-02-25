@@ -22,12 +22,13 @@ public class YesNoQuestion extends SelectOneQuestion
 	 * question is required or not.
 	 * Automatically, sets answer options.
 	 * 
+	 * @param id Question's unique ID.
 	 * @param question Question text.
 	 * @param required Defines whether the question
 	 * is required or not.
 	 */
-	public YesNoQuestion(String question, boolean required)
+	public YesNoQuestion(long id, String question, boolean required)
 	{
-		super(question, answerOptions, required);
+		super(id, question, answerOptions, required);
 	}
 }

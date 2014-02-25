@@ -19,6 +19,11 @@ import com.seg.questionnaire.backend.answer.Answer;
 public abstract class Question 
 {
 	/**
+	 * Question's unique ID. 
+	 */
+	protected long id;
+	
+	/**
 	 * Question text.
 	 */
 	protected String question;
@@ -209,5 +214,15 @@ public abstract class Question
 		if (getDependentQuestions(condition).size() > 0)
 			return true;
 		return false;
+	}
+	
+	/**
+	 * Returns the question's ID.
+	 * 
+	 * @return Question's ID.
+	 */
+	public long getID()
+	{
+		return this.id;
 	}
 }

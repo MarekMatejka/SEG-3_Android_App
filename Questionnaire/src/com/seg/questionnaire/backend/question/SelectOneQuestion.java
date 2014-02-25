@@ -37,15 +37,17 @@ public class SelectOneQuestion extends Question
 	/**
 	 * Constructor for SelecOneQuestion.
 	 * 
+	 * @param id Question's unique id.
 	 * @param question Question text.
 	 * @param answerOptions List of answer options.
 	 * @param required Flag defining whether the question
 	 * is required or not.
 	 */
-	public SelectOneQuestion(String question, List<String> answerOptions, boolean required)
+	public SelectOneQuestion(long id, String question, List<String> answerOptions, boolean required)
 	{
+		this.id = id;
 		this.question = question;
-		this.answer = new SingleAnswer();
+		this.answer = new SingleAnswer(id);
 		this.answerOptions = answerOptions;
 		this.required = required;
 	}

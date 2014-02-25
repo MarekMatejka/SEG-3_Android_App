@@ -17,9 +17,12 @@ public class SingleAnswer extends Answer
 	
 	/**
 	 * Constructor which sets the answer to default value.
+	 * 
+	 * @param id ID of a Question to which this Answer belongs.
 	 */
-	public SingleAnswer()
+	public SingleAnswer(long id)
 	{
+		this.id = id;
 		this.answer = "";
 	}
 	

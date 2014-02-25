@@ -33,18 +33,20 @@ public class RangeQuestion extends Question
 	/**
 	 * Constructor for a RangeQuestion.
 	 * 
+	 * @param id Question's unique ID.
 	 * @param question Question text.
 	 * @param lowerBound Lower bound of the range.
 	 * @param upperBound Upper bound of the range.
 	 * @param required Flag defining is the question is
 	 * required or not.
 	 */
-	public RangeQuestion(String question, int lowerBound, int upperBound, boolean required)
+	public RangeQuestion(long id, String question, int lowerBound, int upperBound, boolean required)
 	{
+		this.id = id;
 		this.question = question;
 		this.lowerBound = lowerBound;
 		this.upperBound = upperBound;
-		this.answer = new SingleAnswer();
+		this.answer = new SingleAnswer(id);
 		this.required = required;
 	}
 	

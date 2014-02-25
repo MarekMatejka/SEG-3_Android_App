@@ -64,27 +64,33 @@ public class QuestionnaireFactory
 		Question q;
 		switch(json.getType()) //based on the question type
 		{
-			case 0: q = new RangeQuestion(json.getTitle(), 
-			/*Range Question*/			  json.getDetails().getLowerBound(),
+			case 0: q = new RangeQuestion(json.getId(),
+			/*Range Question*/			  json.getTitle(), 
+										  json.getDetails().getLowerBound(),
 										  json.getDetails().getUpperBound(),
 										  json.isRequired());
 										  break;
-			case 1: q = new SelectManyQuestion(json.getTitle(),
-			/*Select Many Question*/		   json.getDetails().getChoices(),
+			case 1: q = new SelectManyQuestion(json.getId(),
+			/*Select Many Question*/  	 	   json.getTitle(),
+					   						   json.getDetails().getChoices(),
 											   json.isRequired());
 											   break;
-			case 2: q = new YesNoQuestion(json.getTitle(), 
-			/*Yes/No Question*/			  json.isRequired());
+			case 2: q = new YesNoQuestion(json.getId(),
+			/*Yes/No Question*/			  json.getTitle(), 
+										  json.isRequired());
 										  break;
-			case 3: q = new TextQuestion(json.getTitle(), 
-			/*Text Question*/			 json.isRequired());
+			case 3: q = new TextQuestion(json.getId(),
+			/*Text Question*/			 json.getTitle(), 
+						 				 json.isRequired());
 										 break;
-			case 4: q = new SelectOneQuestion(json.getTitle(),
-			/*Select One Question*/			  json.getDetails().getChoices(), 
+			case 4: q = new SelectOneQuestion(json.getId(),
+			/*Select One Question*/			  json.getTitle(),
+											  json.getDetails().getChoices(), 
 											  json.isRequired());
 											  break;
-			case 5: q = new RankQuestion(json.getTitle(), 
-			/*Rank Question*/			 json.getDetails().getChoices(),
+			case 5: q = new RankQuestion(json.getId(),
+			/*Rank Question*/			 json.getTitle(), 
+										 json.getDetails().getChoices(),
 										 json.isRequired());
 			default: q = null; //Unknown error
 		}

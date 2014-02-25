@@ -42,14 +42,16 @@ public class RankQuestion extends Question implements OnItemSelectedListener
 	/**
 	 * Constructor for RankQuestion
 	 * 
+	 * @param id Question's unique ID.
 	 * @param question Question text.
 	 * @param answerOptions List of answer options.
 	 * @param required Flag specifying whether the question is required or not.
 	 */
-	public RankQuestion(String question, List<String> answerOptions, boolean required)
+	public RankQuestion(long id, String question, List<String> answerOptions, boolean required)
 	{
+		this.id = id;
 		this.question = question;
-		this.answer = new MultipleAnswer();
+		this.answer = new MultipleAnswer(id);
 		this.answerOptions = answerOptions;
 		this.required = required;
 	}

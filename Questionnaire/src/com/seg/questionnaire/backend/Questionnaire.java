@@ -124,26 +124,26 @@ public class Questionnaire
 		a.add("terrible");
 		
 		//add different questions
-		questions.add(new TextQuestion("1. Tell me how you are", false));
+		questions.add(new TextQuestion(1, "1. Tell me how you are", false));
 		
 		//add also dependent questions
-		YesNoQuestion y = new YesNoQuestion("2. Are you good?", true);
-		y.addDependentQuestion("Yes", new YesNoQuestion("2.0 Feeling well?", true));
-		y.addDependentQuestion("Yes", new SelectOneQuestion("2.1 Mood?", a, true));
-		y.addDependentQuestion("No", new SelectManyQuestion("2.2 Mood? 2", a, false));
+		YesNoQuestion y = new YesNoQuestion(2, "2. Are you good?", true);
+		y.addDependentQuestion("Yes", new YesNoQuestion(3, "2.0 Feeling well?", true));
+		y.addDependentQuestion("Yes", new SelectOneQuestion(4, "2.1 Mood?", a, true));
+		y.addDependentQuestion("No", new SelectManyQuestion(5, "2.2 Mood? 2", a, false));
 		questions.add(y);
 		
 		//some more questions and dependent questions
-		SelectManyQuestion m = new SelectManyQuestion("3. Pick your mood", a, true);
-		m.addDependentQuestion("awesome", new YesNoQuestion("3.1 Is it raining?", false));
-		m.addDependentQuestion("nothing special", new YesNoQuestion("3.2 Is it freezing?", false));
+		SelectManyQuestion m = new SelectManyQuestion(6, "3. Pick your mood", a, true);
+		m.addDependentQuestion("awesome", new YesNoQuestion(7, "3.1 Is it raining?", false));
+		m.addDependentQuestion("nothing special", new YesNoQuestion(8, "3.2 Is it freezing?", false));
 		questions.add(m);
-		questions.add(new SelectOneQuestion("4. What is your current mood?", a, true));
-		RangeQuestion r = new RangeQuestion("5. How good are you?", -10, 10, true);
-		r.addDependentQuestion("10", new YesNoQuestion("5.1 Is it snowing?", false));
+		questions.add(new SelectOneQuestion(9, "4. What is your current mood?", a, true));
+		RangeQuestion r = new RangeQuestion(10, "5. How good are you?", -10, 10, true);
+		r.addDependentQuestion("10", new YesNoQuestion(11, "5.1 Is it snowing?", false));
 		questions.add(r);
 		
-		questions.add(new RankQuestion("Test", a, true));
+		questions.add(new RankQuestion(12, "Test", a, true));
 		
 	}
 }

@@ -31,15 +31,17 @@ public class SelectManyQuestion extends Question
 	/**
 	 * Constructor of SelectManyQuestion.
 	 * 
+	 * @param id Question's unique ID.
 	 * @param question Question text.
 	 * @param answerOptions List of possible answers.
 	 * @param required Flag defining whether the question
 	 * is required or not.
 	 */
-	public SelectManyQuestion(String question, List<String> answerOptions, boolean required)
+	public SelectManyQuestion(long id, String question, List<String> answerOptions, boolean required)
 	{
+		this.id = id;
 		this.question = question;
-		this.answer = new MultipleAnswer();
+		this.answer = new MultipleAnswer(id);
 		this.answerOptions = answerOptions;
 		this.required = required;
 	}

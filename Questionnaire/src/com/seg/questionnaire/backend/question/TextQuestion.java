@@ -22,14 +22,16 @@ public class TextQuestion extends Question
 	/**
 	 * Constructor of the TextQuestion.
 	 * 
+	 * @param id Question's unique ID.
 	 * @param question Question text.
 	 * @param required Flag defining whether the question
 	 * is required or not.
 	 */
-	public TextQuestion(String question, boolean required)
+	public TextQuestion(long id, String question, boolean required)
 	{
+		this.id = id;
 		this.question = question;
-		this.answer = new SingleAnswer();
+		this.answer = new SingleAnswer(id);
 		this.required = required;
 	}
 

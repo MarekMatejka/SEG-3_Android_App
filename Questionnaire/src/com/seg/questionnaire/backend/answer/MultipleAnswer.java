@@ -19,9 +19,12 @@ public class MultipleAnswer extends Answer
 	
 	/**
 	 * Constructor that sets the answer to be empty.
+	 * 
+	 * @param id ID of a Question to which this Answer belongs.
 	 */
-	public MultipleAnswer()
+	public MultipleAnswer(long id)
 	{
+		this.id = id;
 		this.answers = new LinkedList<Object>();
 	}
 	
