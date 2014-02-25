@@ -46,6 +46,7 @@ public class JSONParser
 			
 			Log.e("DEBUG", qj.toString());
 			
+			in.close();
 			
 		} catch (IOException e) {
 			e.printStackTrace();

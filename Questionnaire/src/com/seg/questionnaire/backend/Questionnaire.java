@@ -3,6 +3,8 @@ package com.seg.questionnaire.backend;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.util.Log;
+
 import com.seg.questionnaire.backend.question.Question;
 import com.seg.questionnaire.backend.question.RangeQuestion;
 import com.seg.questionnaire.backend.question.RankQuestion;
@@ -111,11 +113,13 @@ public class Questionnaire
 	}
 	
 	/**
+	 * UNUSED AT THE MOMENT!
+	 * 
 	 * Loads dummy data into the questionnaire.
 	 */
 	public void loadDummy()
 	{
-		//list of possible answerss
+		//list of possible answers
 		List <String> a = new LinkedList<String>();
 		a.add("awesome");
 		a.add("good");
@@ -145,5 +149,13 @@ public class Questionnaire
 		
 		questions.add(new RankQuestion(12, "Test", a, true));
 		
+	}
+	
+	public void deleteQuestionnaire()
+	{
+		for (Question q : questions)
+			Log.e("DEBUG", "deleting = "+q.getID()+" a = "+q.getAnswer().toString());
+		
+		questions.clear();
 	}
 }

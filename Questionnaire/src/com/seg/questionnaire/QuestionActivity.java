@@ -80,8 +80,9 @@ public class QuestionActivity extends Activity
 			
 			if (currentQuestion == 0) //if first question in new loop
 			{
+				ques.deleteQuestionnaire();
 				ques = QuestionnaireFactory.creatQuestionnaire(JSONParser.parse(this)); //create new questionnaire
-				ques.loadDummy();
+				//ques.loadDummy();
 			}
 			
 			loadQuestion(ques.getQuestion(currentQuestion)); //load next question
