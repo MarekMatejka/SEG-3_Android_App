@@ -7,11 +7,11 @@ import android.util.Log;
 
 import com.seg.questionnaire.backend.question.Question;
 import com.seg.questionnaire.backend.question.RangeQuestion;
-import com.seg.questionnaire.backend.question.RankQuestion;
 import com.seg.questionnaire.backend.question.SelectManyQuestion;
 import com.seg.questionnaire.backend.question.SelectOneQuestion;
 import com.seg.questionnaire.backend.question.TextQuestion;
 import com.seg.questionnaire.backend.question.YesNoQuestion;
+import com.seg.questionnaire.backend.question.rankquestion.RankQuestion;
 
 /**
  * Class representing a questionnaire.

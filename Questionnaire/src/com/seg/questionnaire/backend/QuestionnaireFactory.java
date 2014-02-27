@@ -8,11 +8,11 @@ import com.seg.questionnaire.backend.json.QuestionJSON;
 import com.seg.questionnaire.backend.json.QuestionnaireJSON;
 import com.seg.questionnaire.backend.question.Question;
 import com.seg.questionnaire.backend.question.RangeQuestion;
-import com.seg.questionnaire.backend.question.RankQuestion;
 import com.seg.questionnaire.backend.question.SelectManyQuestion;
 import com.seg.questionnaire.backend.question.SelectOneQuestion;
 import com.seg.questionnaire.backend.question.TextQuestion;
 import com.seg.questionnaire.backend.question.YesNoQuestion;
+import com.seg.questionnaire.backend.question.rankquestion.RankQuestion;
 
 /**
  * Class that converts JSON parsed objects into
@@ -92,6 +92,7 @@ public class QuestionnaireFactory
 			/*Rank Question*/			 json.getTitle(), 
 										 json.getDetails().getChoices(),
 										 json.isRequired());
+										 break;
 			default: q = null; //Unknown error
 		}
 				

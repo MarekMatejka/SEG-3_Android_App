@@ -19,6 +19,7 @@ import com.seg.questionnaire.backend.question.SelectManyQuestion;
 import com.seg.questionnaire.backend.question.SelectOneQuestion;
 import com.seg.questionnaire.backend.question.TextQuestion;
 import com.seg.questionnaire.backend.question.YesNoQuestion;
+import com.seg.questionnaire.backend.question.rankquestion.RankQuestion;
 
 /**
  * Class taking care of the tutorial
@@ -94,6 +95,14 @@ public class TutorialActivity extends Activity
 		
 		//Add Text Question
 		ques.addQuestion(new TextQuestion(6, "Please fill in your name", true));
+		
+		//Add Rank Question
+		ques.addQuestion(new RankQuestion(7, "Rank the following cities based on how much you like them", 
+											 new LinkedList<String>() {{add("London"); 
+											 							add("Paris"); 
+											 							add("Bratislava"); 
+											 							add("New York");}},
+											 true));
 		
 		//load first question and first tutorial step
 		loadQuestion(ques.getQuestion(currentQuestion));

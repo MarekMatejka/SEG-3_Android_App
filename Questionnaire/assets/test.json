@@ -3,6 +3,20 @@
     "questionnaire_title": "FooBar",
     "questions": [
         {
+            "id": 10,
+            "title": "Favourite city?",
+            "type": 5,
+			"required": false,
+            "details": {
+                "choices": [
+                    "London",
+                    "Bratislava",
+                    "Paris",
+					"New York"
+                ]
+            }
+        },
+		{
             "id": 1,
             "title": "Foointhebar",
             "type": 0,

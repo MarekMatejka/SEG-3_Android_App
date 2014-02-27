@@ -3,20 +3,17 @@
     "questionnaire_title": "FooBar",
     "questions": [
         {
-            "id": 6,
-            "title": "Hi Carl!",
-            "type": 2,
+            "id": 0,
+            "title": "Favourite city?",
+            "type": 5,
 			"required": false,
-            "dependent_questions": {
-                "condition": true,
-                "questions": [
-                    {
-						"id": 15,
-                        "title": "Bye Carl!",
-                        "type": 2,
-						"required": true
-                    }
-                ]            
+            "details": {
+                "choices": [
+                    "London",
+                    "Bratislava",
+                    "Paris",
+					"New York"
+                ]
             }
         }
     ]
