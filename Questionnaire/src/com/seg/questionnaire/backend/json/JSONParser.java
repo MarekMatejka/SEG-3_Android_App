@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -27,7 +26,7 @@ public class JSONParser
 	public static QuestionnaireJSON parse(Context context)
 	{
 		QuestionnaireJSON qj = null;
-		 try {
+		try {
 			AssetManager assetManager = context.getAssets();
 			BufferedReader in = new BufferedReader(new InputStreamReader(assetManager.open("test.json")));
 			
@@ -37,22 +36,26 @@ public class JSONParser
 			while ((s = in.readLine()) != null)
 				result += s.trim();
 			
-			Log.e("DEBUG", result);
-			
 			Gson gson = new Gson();
 			qj = gson.fromJson(result, QuestionnaireJSON.class);
 			
-			Log.e("DEBUG", ""+qj.getQuestions().size());
-			
-			Log.e("DEBUG", qj.toString());
-			
 			in.close();
 			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} catch (IOException e) {e.printStackTrace();}
 		 
-		 return qj;
+		return qj;
+	}
+	
+	/**
+	 * Parses the AnswersJSON file into JSON String.
+	 * 
+	 * @param a Object to parse.
+	 * @return Parsed JSON String
+	 */
+	public static String toJSON(AnswersJSON a)
+	{
+		Gson gson = new Gson();
+		return gson.toJson(a);
 	}
 
 }

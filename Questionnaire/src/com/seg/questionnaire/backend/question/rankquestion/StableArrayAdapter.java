@@ -16,17 +16,18 @@
 
 package com.seg.questionnaire.backend.question.rankquestion;
 
-import android.content.Context;
-import android.widget.ArrayAdapter;
-
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import android.content.Context;
+import android.widget.ArrayAdapter;
 
 public class StableArrayAdapter extends ArrayAdapter<String> {
 
     final int INVALID_ID = -1;
 
-    HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
+    Map<String, Integer> mIdMap = new HashMap<String, Integer>();
 
     public StableArrayAdapter(Context context, int textViewResourceId, List<String> objects) {
         super(context, textViewResourceId, objects);

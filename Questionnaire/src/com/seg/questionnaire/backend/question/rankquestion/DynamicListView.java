@@ -60,6 +60,8 @@ import android.widget.ListView;
  *
  * When the hover cell is either above or below the bounds of the listview, this
  * listview also scrolls on its own so as to reveal additional content.
+ * 
+ * @author Daniel Olshansky, adapted by Marek Matejka
  */
 public class DynamicListView extends ListView {
 

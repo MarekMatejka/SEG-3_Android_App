@@ -15,11 +15,11 @@ import android.widget.TextView;
 import com.seg.questionnaire.backend.Questionnaire;
 import com.seg.questionnaire.backend.question.Question;
 import com.seg.questionnaire.backend.question.RangeQuestion;
+import com.seg.questionnaire.backend.question.RankQuestion;
 import com.seg.questionnaire.backend.question.SelectManyQuestion;
 import com.seg.questionnaire.backend.question.SelectOneQuestion;
 import com.seg.questionnaire.backend.question.TextQuestion;
 import com.seg.questionnaire.backend.question.YesNoQuestion;
-import com.seg.questionnaire.backend.question.rankquestion.RankQuestion;
 
 /**
  * Class taking care of the tutorial
@@ -52,10 +52,10 @@ public class TutorialActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_question);
 		
 		//initialize the questionnaire
-		ques = new Questionnaire(new LinkedList<Question>());
+		ques = new Questionnaire(0, new LinkedList<Question>());
 		
 		//add Yes/No question
 		ques.addQuestion(new YesNoQuestion(0, "Is the weather nice?", true));

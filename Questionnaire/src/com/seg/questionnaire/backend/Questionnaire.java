@@ -3,15 +3,13 @@ package com.seg.questionnaire.backend;
 import java.util.LinkedList;
 import java.util.List;
 
-import android.util.Log;
-
 import com.seg.questionnaire.backend.question.Question;
 import com.seg.questionnaire.backend.question.RangeQuestion;
+import com.seg.questionnaire.backend.question.RankQuestion;
 import com.seg.questionnaire.backend.question.SelectManyQuestion;
 import com.seg.questionnaire.backend.question.SelectOneQuestion;
 import com.seg.questionnaire.backend.question.TextQuestion;
 import com.seg.questionnaire.backend.question.YesNoQuestion;
-import com.seg.questionnaire.backend.question.rankquestion.RankQuestion;
 
 /**
  * Class representing a questionnaire.
@@ -21,6 +19,11 @@ import com.seg.questionnaire.backend.question.rankquestion.RankQuestion;
  */
 public class Questionnaire 
 {
+	/**
+	 * Questionnaire's ID.
+	 */
+	private long id;
+	
 	/**
 	 * List of all questions contained in the questionnaire.
 	 */
@@ -32,9 +35,20 @@ public class Questionnaire
 	 * 
 	 * @param questions List of questions for the questionnaire.
 	 */
-	public Questionnaire(List<Question> questions) 
+	public Questionnaire(long id, List<Question> questions) 
 	{
+		this.id = id;
 		this.questions = questions;
+	}
+	
+	/**
+	 * Returns questionnaire's ID.
+	 * 
+	 * @return Questionnaire's ID.
+	 */
+	public long getQuestionnaireID()
+	{
+		return this.id;
 	}
 	
 	/**
@@ -151,11 +165,21 @@ public class Questionnaire
 		
 	}
 	
+	/**
+	 * Deletes the content of the Questionnaire.
+	 */
 	public void deleteQuestionnaire()
 	{
-		for (Question q : questions)
-			Log.e("DEBUG", "deleting = "+q.getID()+" a = "+q.getAnswer().toString());
-		
 		questions.clear();
+	}
+	
+	/**
+	 * Returns all the questions of the questionanire.
+	 * 
+	 * @return All questionnaire's questions.
+	 */
+	public List<Question> getQuestions()
+	{
+		return this.questions;
 	}
 }

@@ -1,4 +1,4 @@
-package com.seg.questionnaire.backend.question.rankquestion;
+package com.seg.questionnaire.backend.question;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -9,7 +9,8 @@ import android.widget.ListView;
 
 import com.seg.questionnaire.R;
 import com.seg.questionnaire.backend.answer.MultipleAnswer;
-import com.seg.questionnaire.backend.question.Question;
+import com.seg.questionnaire.backend.question.rankquestion.DynamicListView;
+import com.seg.questionnaire.backend.question.rankquestion.StableArrayAdapter;
 
 /**
  * Class representing a RankQuestion.

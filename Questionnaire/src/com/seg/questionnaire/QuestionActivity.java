@@ -1,15 +1,15 @@
 package com.seg.questionnaire;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.seg.questionnaire.backend.AnswersFactory;
 import com.seg.questionnaire.backend.Questionnaire;
 import com.seg.questionnaire.backend.QuestionnaireFactory;
 import com.seg.questionnaire.backend.json.JSONParser;
@@ -41,7 +41,7 @@ public class QuestionActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_question);
 		
 		//initialize questionnaire
 		ques = QuestionnaireFactory.creatQuestionnaire(JSONParser.parse(this));
@@ -50,10 +50,7 @@ public class QuestionActivity extends Activity
 		//load first question
 		loadQuestion(ques.getQuestion(currentQuestion));
 		
-		JSONParser.parse(this);
-		
-		connect();
-		
+		JSONParser.parse(this);	
 	}
 	
 	/**
@@ -80,6 +77,7 @@ public class QuestionActivity extends Activity
 			
 			if (currentQuestion == 0) //if first question in new loop
 			{
+				Log.e("DEBUG", JSONParser.toJSON(AnswersFactory.createJSON(ques))); //create and print AnswersJSON
 				ques.deleteQuestionnaire();
 				ques = QuestionnaireFactory.creatQuestionnaire(JSONParser.parse(this)); //create new questionnaire
 				//ques.loadDummy();
@@ -125,36 +123,5 @@ public class QuestionActivity extends Activity
 		ProgressBar p = (ProgressBar) findViewById(R.id.progressBar1);
 		p.setMax(ques.getNumberOfQuestions());
 		p.setProgress(currentQuestion+1);
-	}
-	
-	/**
-	 * Start the tutorial when outOf TextView is clicked.
-	 * 
-	 * @param v View which was clicked.
-	 */
-	public void startTutorial(View v)
-	{
-		startActivity(new Intent(this, TutorialActivity.class));
-		onStop();
-	}
-	
-	private void connect()
-	{
-		TextView v = (TextView)findViewById(R.id.outOf);
-		v.setOnLongClickListener(new OnLongClickListener() 
-		{
-			
-			@Override
-			public boolean onLongClick(View v) {
-				startConnection();
-				return true;
-			}
-		});
-	}
-	
-	private void startConnection()
-	{
-		startActivity(new Intent(this, ConnectionActivity.class));
-		onStop();
 	}
 }
