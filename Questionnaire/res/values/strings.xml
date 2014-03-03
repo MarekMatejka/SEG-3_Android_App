@@ -10,5 +10,8 @@
     <string name="title_activity_connection">ConnectionActivity</string>
     <string name="title_activity_video">VideoActivity</string>
     <string name="title_activity_menu">MenuActivity</string>
+    <string name="title_activity_thank_you">ThankYouActivity</string>
+    
+    <string name="thank_you">Thank you for finishing the questionnaire!</string>
 
 </resources>
