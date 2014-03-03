@@ -36,6 +36,8 @@ public class MenuActivity extends Activity {
 			case R.id.tutorial_button: startActivity(new Intent(this, TutorialActivity.class)); onStop(); break;
 			case R.id.connection_button: startActivity(new Intent(this, ConnectionActivity.class)); onStop(); break;
 			case R.id.video_button: startActivity(new Intent(this, VideoActivity.class)); onStop(); break;
+			case R.id.login_button: startActivity(new Intent(this, LoginActivity.class)); onStop(); break;
+			case R.id.thank_you_button: startActivity(new Intent(this, ThankYouActivity.class)); onStop(); break;
 		}
 	}
 

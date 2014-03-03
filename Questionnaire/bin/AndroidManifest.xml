@@ -48,6 +48,11 @@
             android:name="com.seg.questionnaire.ThankYouActivity"
             android:label="@string/title_activity_thank_you" >
         </activity>
+        <activity
+            android:name="com.seg.questionnaire.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
     </application>
 
 </manifest>

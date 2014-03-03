@@ -36,5 +36,21 @@
         android:layout_height="wrap_content"
         android:text="Video"
         android:onClick="onClick" />
+    
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:onClick="onClick" />
+    
+    <Button
+        android:id="@+id/thank_you_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thank you"
+        android:onClick="onClick" />
+    
+    
 
 </LinearLayout>
