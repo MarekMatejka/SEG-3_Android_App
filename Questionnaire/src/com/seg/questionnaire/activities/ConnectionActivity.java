@@ -1,4 +1,4 @@
-package com.seg.questionnaire;
+package com.seg.questionnaire.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.seg.questionnaire.R;
 import com.seg.questionnaire.backend.connectivity.SocketAPI;
 
 /**
@@ -53,7 +54,7 @@ public class ConnectionActivity extends Activity
 		switch (v.getId()) //based on the View call proper API function and print the result on the screen
 		{
 			case R.id.findPatient:
-				result.setText(SocketAPI.findPatient(serverIP, params[0], params[1])); 
+				result.setText(SocketAPI.findPatient(serverIP, params[0])); 
 				break;
 			case R.id.getQuesForPatient:
 				result.setText(SocketAPI.getAllQuestionnairesForPatient(serverIP, params[0]));

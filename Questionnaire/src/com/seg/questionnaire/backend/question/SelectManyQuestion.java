@@ -37,7 +37,7 @@ public class SelectManyQuestion extends Question
 	 * @param required Flag defining whether the question
 	 * is required or not.
 	 */
-	public SelectManyQuestion(long id, String question, List<String> answerOptions, boolean required)
+	public SelectManyQuestion(String id, String question, List<String> answerOptions, boolean required)
 	{
 		this.id = id;
 		this.question = question;
@@ -84,19 +84,16 @@ public class SelectManyQuestion extends Question
 		{
 			CheckBox c = options.get(i);
 			if (c.isChecked())
-				this.answer.addAnswer(c.getText());
+				this.answer.addAnswer(c.getText().toString());
 		}
 	}
 
 	@Override
 	protected boolean isAnswered() 
 	{
-		if (!required)
-			return true;
-		else
-			for (int i = 0; i < options.size(); i++)
-				if (options.get(i).isChecked())
-					return true;
+		for (int i = 0; i < options.size(); i++)
+			if (options.get(i).isChecked())
+				return true;
 		return false;
 	}
 	
@@ -142,5 +139,18 @@ public class SelectManyQuestion extends Question
 			ss[i] = ss[i].trim();
 		return ss;
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.seg.questionnaire.backend.question.Question#loadAnswer()
+	 */
+	@Override
+	public void loadAnswer() 
+	{
+		String a = answer.getAnswer();
+		if (!a.equals(""))
+			for (CheckBox b : options)
+				if (a.contains(b.getText().toString()))
+					b.setChecked(true);
 	}
 }

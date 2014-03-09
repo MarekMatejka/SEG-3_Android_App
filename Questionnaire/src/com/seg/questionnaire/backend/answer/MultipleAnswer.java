@@ -15,17 +15,17 @@ public class MultipleAnswer extends Answer
 	/**
 	 * Answers for a given question.
 	 */
-	List<Object> answers;
+	List<String> answers;
 	
 	/**
 	 * Constructor that sets the answer to be empty.
 	 * 
 	 * @param id ID of a Question to which this Answer belongs.
 	 */
-	public MultipleAnswer(long id)
+	public MultipleAnswer(String id)
 	{
 		this.id = id;
-		this.answers = new LinkedList<Object>();
+		this.answers = new LinkedList<String>();
 	}
 	
 	/**
@@ -34,7 +34,7 @@ public class MultipleAnswer extends Answer
 	 * 
 	 * @param answers Initial answers to a question.
 	 */
-	public MultipleAnswer(List<Object> answers)
+	public MultipleAnswer(List<String> answers)
 	{
 		this.answers = answers;
 	}
@@ -43,7 +43,7 @@ public class MultipleAnswer extends Answer
 	 * @see com.seg.questionnaire.backend.answer.Answer#getAnswer()
 	 */
 	@Override
-	public Object getAnswer() 
+	public String getAnswer() 
 	{
 		if (answers.isEmpty())
 			return "";
@@ -59,7 +59,7 @@ public class MultipleAnswer extends Answer
 	 * 
 	 * @param answers New List of answers for a question.
 	 */
-	public void setAnswers(List<Object> answers)
+	public void setAnswers(List<String> answers)
 	{
 		this.answers = answers;
 	}
@@ -68,7 +68,7 @@ public class MultipleAnswer extends Answer
 	 * @see com.seg.questionnaire.backend.answer.Answer#addAnswer(java.lang.Object)
 	 */
 	@Override
-	public void addAnswer(Object answer)
+	public void addAnswer(String answer)
 	{
 		this.answers.add(answer);
 	}
@@ -78,8 +78,17 @@ public class MultipleAnswer extends Answer
 	 * 
 	 * @param answer Answer to be removed.
 	 */
-	public void removeAnswer(Object answer)
+	public void removeAnswer(String answer)
 	{
 		this.answers.remove(answer);
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.seg.questionnaire.backend.answer.Answer#clearAnswer()
+	 */
+	@Override
+	public void clearAnswer()
+	{
+		this.answers.clear();
 	}
 }

@@ -21,7 +21,7 @@ public abstract class Question
 	/**
 	 * Question's unique ID. 
 	 */
-	protected long id;
+	protected String id;
 	
 	/**
 	 * Question text.
@@ -32,7 +32,7 @@ public abstract class Question
 	 * Answer for the question - Single/Multiple Answer.
 	 */
 	protected Answer answer;
-	
+		
 	/**
 	 * Flag specifying if the question is required.
 	 */
@@ -72,10 +72,9 @@ public abstract class Question
 	protected abstract boolean isAnswered();
 	
 	/**
-	 * Flag specifying whether the question's answer was 
-	 * read already or not. 
+	 * Loads the current answer into the view.
 	 */
-	private boolean read = false;
+	public abstract void loadAnswer();
 	
 	/**
 	 * Returns the question text.
@@ -87,7 +86,7 @@ public abstract class Question
 	public String getQuestion()
 	{
 		if (required)
-			question += " *";
+			return question +" *";
 		return this.question;
 	}
 	
@@ -100,17 +99,18 @@ public abstract class Question
 	 * @return Answer for the question, if it is answered,
 	 * NULL otherwise.
 	 */
-	public Object getAnswer()
+	public String getAnswer()
 	{
+		if (!answer.getAnswer().equals(""))
+			answer.clearAnswer();
+		
 		if (isAnswered())
 		{
-			if (!read)
-			{
-				readAnswer();
-				read = true;
-			}
+			readAnswer();
 			return this.answer.getAnswer();
 		}
+		else if (!isRequired())
+			return this.answer.getAnswer();
 		else
 			return null;
 	}
@@ -221,8 +221,30 @@ public abstract class Question
 	 * 
 	 * @return Question's ID.
 	 */
-	public long getID()
+	public String getID()
 	{
 		return this.id;
+	}
+	
+	/**
+	 * Returns lastly read answer.
+	 * 
+	 * @return Lastly read answer.
+	 */
+	public String getLastAnswer()
+	{
+		return this.answer.getAnswer();
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object question)
+	{
+		Question q = (Question)question; //change Object to Question
+		if (this.id == q.getID()) //compare based on ID
+			return true;
+		return false;
 	}
 }

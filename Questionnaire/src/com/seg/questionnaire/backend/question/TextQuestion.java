@@ -27,7 +27,7 @@ public class TextQuestion extends Question
 	 * @param required Flag defining whether the question
 	 * is required or not.
 	 */
-	public TextQuestion(long id, String question, boolean required)
+	public TextQuestion(String id, String question, boolean required)
 	{
 		this.id = id;
 		this.question = question;
@@ -55,7 +55,7 @@ public class TextQuestion extends Question
 	@Override
 	protected void readAnswer() 
 	{
-		this.answer.addAnswer(et.getText());
+		this.answer.addAnswer(et.getText().toString());
 	}
 
 	/* (non-Javadoc)
@@ -64,9 +64,18 @@ public class TextQuestion extends Question
 	@Override
 	protected boolean isAnswered() 
 	{
-		if (!required || !et.getText().toString().trim().equals(""))
+		if (!et.getText().toString().trim().equals(""))
 			return true;
 		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.seg.questionnaire.backend.question.Question#loadAnswer()
+	 */
+	@Override
+	public void loadAnswer() 
+	{
+		et.setText(answer.getAnswer());
 	}
 
 }

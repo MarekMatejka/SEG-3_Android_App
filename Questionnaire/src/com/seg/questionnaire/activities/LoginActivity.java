@@ -1,4 +1,4 @@
-package com.seg.questionnaire;
+package com.seg.questionnaire.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -9,6 +9,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.seg.questionnaire.R;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
@@ -48,22 +50,7 @@ public class LoginActivity extends Activity
 
 		// Set up the login form.
 		usernameView = (EditText) findViewById(R.id.username);
-		usernameView.setText(username);
-
 		passwordView = (EditText) findViewById(R.id.password);
-		/*passwordView.setOnEditorActionListener(new TextView.OnEditorActionListener() 
-		{
-			@Override
-			public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) 
-			{
-				if (id == R.id.login || id == EditorInfo.IME_NULL) 
-				{
-					attemptLogin();
-					return true;
-				}
-				return false;
-			}
-		});*/
 
 		findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() 
 		{
@@ -195,6 +182,7 @@ public class LoginActivity extends Activity
 			// TODO: attempt authentication against a network service.
 			try {
 				// Simulate network access.
+				//SocketAPI.checkUser(serverIP, username, password);
 				Thread.sleep(3000);
 			} catch (InterruptedException e) {return false;}
 

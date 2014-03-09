@@ -1,4 +1,4 @@
-package com.seg.questionnaire;
+package com.seg.questionnaire.activities;
 
 import android.app.Activity;
 import android.media.MediaPlayer;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.widget.MediaController;
 import android.widget.VideoView;
+
+import com.seg.questionnaire.R;
 
 /**
  * Activity playing a video file.

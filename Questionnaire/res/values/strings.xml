@@ -6,5 +6,9 @@
     <string name="thank_you">Thank you for finishing the questionnaire!</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    
+    <string name="answer_first">Please select your answer first.</string>
+    <string name="auto_close_1">This window will close automatically in</string>
+    <string name="auto_close_2">seconds.</string>
 
 </resources>

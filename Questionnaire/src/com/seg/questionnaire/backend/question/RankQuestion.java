@@ -21,6 +21,7 @@ import com.seg.questionnaire.backend.question.rankquestion.StableArrayAdapter;
 public class RankQuestion extends Question
 {
 	private StableArrayAdapter adapter;
+	private DynamicListView list;
 	
 	/**
 	 * List of all answer options.
@@ -35,7 +36,7 @@ public class RankQuestion extends Question
 	 * @param answerOptions List of answer options.
 	 * @param required Flag specifying whether the question is required or not.
 	 */
-	public RankQuestion(long id, String question, List<String> answerOptions, boolean required)
+	public RankQuestion(String id, String question, List<String> answerOptions, boolean required)
 	{
 		this.id = id;
 		this.question = question;
@@ -50,7 +51,7 @@ public class RankQuestion extends Question
 	@Override
 	public View getView(Context context)
 	{
-		DynamicListView list = new DynamicListView(context);
+		list = new DynamicListView(context);
 		adapter = new StableArrayAdapter(context, R.layout.text_view, answerOptions);
 		
 		list.setAdapter(adapter);
@@ -121,5 +122,14 @@ public class RankQuestion extends Question
 			ss[i] = ss[i].trim();
 		return ss;
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.seg.questionnaire.backend.question.Question#loadAnswer()
+	 */
+	@Override
+	public void loadAnswer() 
+	{		
+		//do nothing, updated automatically by adapter
 	}
 }

@@ -27,7 +27,7 @@ public class YesNoQuestion extends SelectOneQuestion
 	 * @param required Defines whether the question
 	 * is required or not.
 	 */
-	public YesNoQuestion(long id, String question, boolean required)
+	public YesNoQuestion(String id, String question, boolean required)
 	{
 		super(id, question, answerOptions, required);
 	}

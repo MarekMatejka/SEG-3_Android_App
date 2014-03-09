@@ -12,7 +12,7 @@ public class AnswerJSON
 	 * Question ID field.
 	 */
 	@SuppressWarnings("unused")
-	private long question_id;
+	private String question_id;
 	
 	/**
 	 * Answer field.
@@ -25,7 +25,7 @@ public class AnswerJSON
 	 * 
 	 * @param question_id Value of the field.
 	 */
-	public void setQuestion_id(long question_id) 
+	public void setQuestion_id(String question_id) 
 	{
 		this.question_id = question_id;
 	}

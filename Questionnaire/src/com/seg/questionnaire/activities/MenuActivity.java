@@ -1,10 +1,12 @@
-package com.seg.questionnaire;
+package com.seg.questionnaire.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+
+import com.seg.questionnaire.R;
 
 /**
  * TEMPORARY ACTIVITY USED AS MENU TO ALLOW EASY ACCESS TO 

@@ -23,6 +23,11 @@ import java.util.Map;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
+/**
+ * @author Daniel Olshansky
+ * @see https://www.youtube.com/watch?v=_BZIvjMgH-Q
+ *
+ */
 public class StableArrayAdapter extends ArrayAdapter<String> {
 
     final int INVALID_ID = -1;

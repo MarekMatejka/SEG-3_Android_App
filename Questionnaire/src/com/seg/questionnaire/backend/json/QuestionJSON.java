@@ -14,7 +14,7 @@ public class QuestionJSON
 	/**
 	 * Question's id.
 	 */
-	private long id;
+	private String id;
 	
 	/**
 	 * Question's title.
@@ -47,7 +47,7 @@ public class QuestionJSON
 	 * 
 	 * @return Question's id.
 	 */
-	public long getId() 
+	public String getId() 
 	{
 		return id;
 	}

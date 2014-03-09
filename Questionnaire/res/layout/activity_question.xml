@@ -21,8 +21,28 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:onClick="onClick"
+        android:onClick="changeQuestion"
         android:text="Next" />
+    
+    <Button
+        android:id="@+id/previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="changeQuestion"
+        android:layout_toLeftOf="@id/next"
+        android:text="Previous" />
+    
+    <Button
+        android:id="@+id/skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="changeQuestion"
+        android:layout_toRightOf="@id/next"
+        android:text="Skip" />
     
     <LinearLayout
         android:id="@+id/pb"
@@ -54,6 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/question"
         android:layout_above="@id/pb"
+        android:animateLayoutChanges="true"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
     

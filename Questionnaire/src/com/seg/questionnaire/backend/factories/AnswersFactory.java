@@ -1,5 +1,7 @@
-package com.seg.questionnaire.backend;
+package com.seg.questionnaire.backend.factories;
 
+import com.google.gson.Gson;
+import com.seg.questionnaire.backend.Questionnaire;
 import com.seg.questionnaire.backend.json.AnswerJSON;
 import com.seg.questionnaire.backend.json.AnswersJSON;
 import com.seg.questionnaire.backend.question.Question;
@@ -13,12 +15,13 @@ import com.seg.questionnaire.backend.question.Question;
 public class AnswersFactory 
 {
 	/**
-	 * Converts the whole Questionnaire object into AnswersJSON object.
+	 * Converts the whole Questionnaire object into AnswersJSON object
+	 * and parses it into JSON String.
 	 * 
 	 * @param q Questionnaire object to convert.
-	 * @return Converted AnswersJSON object.
+	 * @return Converted Questionnaire into AnswersJSON formatted JSON String.
 	 */
-	public static AnswersJSON createJSON(Questionnaire q)
+	public static String createJSON(Questionnaire q)
 	{
 		AnswersJSON a = new AnswersJSON();
 		a.setPatient_id(1);
@@ -27,7 +30,8 @@ public class AnswersFactory
 		for (Question qq : q.getQuestions())
 			a.addAnswer(getAnswerJSON(qq));
 		
-		return a;
+		Gson gson = new Gson();
+		return gson.toJson(a);
 	}
 	
 	/**

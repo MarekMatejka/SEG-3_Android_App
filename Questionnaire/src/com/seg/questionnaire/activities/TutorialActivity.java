@@ -1,4 +1,4 @@
-package com.seg.questionnaire;
+package com.seg.questionnaire.activities;
 
 import java.util.LinkedList;
 
@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.seg.questionnaire.R;
 import com.seg.questionnaire.backend.Questionnaire;
 import com.seg.questionnaire.backend.question.Question;
 import com.seg.questionnaire.backend.question.RangeQuestion;
@@ -58,10 +59,10 @@ public class TutorialActivity extends Activity
 		ques = new Questionnaire(0, new LinkedList<Question>());
 		
 		//add Yes/No question
-		ques.addQuestion(new YesNoQuestion(0, "Is the weather nice?", true));
+		ques.addQuestion(new YesNoQuestion("0", "Is the weather nice?", true));
 		
 		//add Select Many Question
-		ques.addQuestion(new SelectManyQuestion(1, "What do you need to prepare ham and eggs?", 
+		ques.addQuestion(new SelectManyQuestion("1", "What do you need to prepare ham and eggs?", 
 												new LinkedList<String>() {{add("Ham"); 
 																		   add("Honey"); 
 																		   add("Lemon"); 
@@ -70,7 +71,7 @@ public class TutorialActivity extends Activity
 												true));
 		
 		//add Select One Question
-		SelectOneQuestion q1 = new SelectOneQuestion(2, "Which month is the shortest?",
+		SelectOneQuestion q1 = new SelectOneQuestion("2", "Which month is the shortest?",
 													new LinkedList<String>() {{add("January"); 
 													add("February"); 
 													add("March"); 
@@ -78,7 +79,7 @@ public class TutorialActivity extends Activity
 													add("May");}}, 
 													true);
 		//add its dependent Question
-		q1.addDependentQuestion("February", new SelectManyQuestion(3, "How many days can it have?",
+		q1.addDependentQuestion("February", new SelectManyQuestion("3", "How many days can it have?",
 																   new LinkedList<String>() {{add("28"); 
 																   add("29"); 
 																   add("30"); 
@@ -87,17 +88,17 @@ public class TutorialActivity extends Activity
 		ques.addQuestion(q1);
 		
 		//Add Range Question
-		ques.addQuestion(new RangeQuestion(4, "Which month in a year is February? Select on a scale from 1 to 12, where 1 is January and 12 is December.", 
+		ques.addQuestion(new RangeQuestion("4", "Which month in a year is February? Select on a scale from 1 to 12, where 1 is January and 12 is December.", 
 										   1, 12, true));
 		//Add Non-Required Question
-		ques.addQuestion(new RangeQuestion(5, "Which month in a year is August? Select on a scale from 1 to 12, where 1 is January and 12 is December.", 
+		ques.addQuestion(new RangeQuestion("5", "Which month in a year is August? Select on a scale from 1 to 12, where 1 is January and 12 is December.", 
 				   1, 12, false));
 		
 		//Add Text Question
-		ques.addQuestion(new TextQuestion(6, "Please fill in your name", true));
+		ques.addQuestion(new TextQuestion("6", "Please fill in your name", true));
 		
 		//Add Rank Question
-		ques.addQuestion(new RankQuestion(7, "Rank the following cities based on how much you like them", 
+		ques.addQuestion(new RankQuestion("7", "Rank the following cities based on how much you like them", 
 											 new LinkedList<String>() {{add("London"); 
 											 							add("Paris"); 
 											 							add("Bratislava"); 

@@ -62,6 +62,7 @@ import android.widget.ListView;
  * listview also scrolls on its own so as to reveal additional content.
  * 
  * @author Daniel Olshansky, adapted by Marek Matejka
+ * @see https://www.youtube.com/watch?v=_BZIvjMgH-Q
  */
 public class DynamicListView extends ListView {
 

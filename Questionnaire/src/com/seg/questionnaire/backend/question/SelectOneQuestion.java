@@ -43,7 +43,7 @@ public class SelectOneQuestion extends Question
 	 * @param required Flag defining whether the question
 	 * is required or not.
 	 */
-	public SelectOneQuestion(long id, String question, List<String> answerOptions, boolean required)
+	public SelectOneQuestion(String id, String question, List<String> answerOptions, boolean required)
 	{
 		this.id = id;
 		this.question = question;
@@ -93,7 +93,7 @@ public class SelectOneQuestion extends Question
 	{
 		RadioButton rb = options.get(rg.getCheckedRadioButtonId());
 		if (rb != null)
-			this.answer.addAnswer(rb.getText());
+			this.answer.addAnswer(rb.getText().toString());
 	}
 
 	/* (non-Javadoc)
@@ -102,9 +102,24 @@ public class SelectOneQuestion extends Question
 	@Override
 	protected boolean isAnswered() 
 	{
-		if (!required || (required && rg.getCheckedRadioButtonId() != -1))
+		if (rg.getCheckedRadioButtonId() != -1)
 			return true;			
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.seg.questionnaire.backend.question.Question#loadAnswer()
+	 */
+	@Override
+	public void loadAnswer() 
+	{	
+		String a = answer.getAnswer();
+		if (!a.equals(""))
+			for (int i = 0; i < options.size(); i++)
+				if (options.get(options.keyAt(i)).getText().toString().equals(a))
+				{
+					options.get(options.keyAt(i)).setChecked(true);
+					break;
+				}
+	}
 }

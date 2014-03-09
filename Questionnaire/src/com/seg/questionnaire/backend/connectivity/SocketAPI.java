@@ -18,9 +18,9 @@ public class SocketAPI
 	 * @param dob Patient's Date of Birth
 	 * @return JSON String result.
 	 */
-	public static String findPatient(String serverIP, String surname, String dob)
+	public static String findPatient(String serverIP, String NHS)
 	{
-		return executeCommand(serverIP, "FindPatient : "+surname+","+dob);
+		return executeCommand(serverIP, "FindPatient : "+NHS);
 	}
 
 	/**
@@ -58,6 +58,18 @@ public class SocketAPI
 	public static String checkUser(String serverIP, String username, String password)
 	{
 		return executeCommand(serverIP, "CheckUser : "+username+","+password);
+	}
+	
+	/**
+	 * Calls 'SendAnswers' method at the server side.
+	 * 
+	 * @param serverIP IP of a server.
+	 * @param answersJSON JSON formatted String of answers.
+	 * @return TRUE if received correctly, FALSE otherwise.
+	 */
+	public static String sendAnswers(String serverIP, String answersJSON)
+	{
+		return executeCommand(serverIP, "SendAnswers: "+answersJSON);
 	}
 	
 	/**

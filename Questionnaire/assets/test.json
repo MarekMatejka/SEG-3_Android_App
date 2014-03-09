@@ -17,13 +17,65 @@
             }
         },
 		{
+            "id": 6,
+            "title": "FoointheBoolean",
+            "type": 2,
+			"required": false,
+            "dependent_questions": [
+				{
+					"condition": "Yes",
+					"questions": [
+						{
+							"id": 14,
+							"title": "YES 1",
+							"type": 2,
+							"required": false
+						}
+					]            
+				},
+				{
+					"condition": "No",
+					"questions": [
+						{
+							"id": 11,
+							"title": "NO 1",
+							"type": 2,
+							"required": false
+						}
+					]            
+				},
+				{
+					"condition": "Yes",
+					"questions": [
+						{
+							"id": 12,
+							"title": "YES 2",
+							"type": 2,
+							"required": false
+						}
+					]            
+				},
+				{
+					"condition": "No",
+					"questions": [
+						{
+							"id": 13,
+							"title": "NO 2",
+							"type": 2,
+							"required": false
+						}
+					]            
+				}
+			]
+        },
+		{
             "id": 1,
             "title": "Foointhebar",
             "type": 0,
 			"required": true,
             "details": {
                 "upper_bound": 100,
-                "lower_bound": 0
+                "lower_bound": -100
             }
         },
         {
@@ -64,25 +116,6 @@
                     "Foo"
                 ]
             }
-        },
-        {
-            "id": 6,
-            "title": "FoointheBoolean",
-            "type": 2,
-			"required": false,
-            "dependent_questions": [
-				{
-					"condition": true,
-					"questions": [
-						{
-							"id": 15,
-							"title": "FoointheBoolean",
-							"type": 2,
-							"required": true
-						}
-					]            
-				}
-			]
         }
     ]
 }

@@ -13,14 +13,14 @@ public class SingleAnswer extends Answer
 	/**
 	 * Currently set answer.
 	 */
-	private Object answer;
+	private String answer;
 	
 	/**
 	 * Constructor which sets the answer to default value.
 	 * 
 	 * @param id ID of a Question to which this Answer belongs.
 	 */
-	public SingleAnswer(long id)
+	public SingleAnswer(String id)
 	{
 		this.id = id;
 		this.answer = "";
@@ -31,8 +31,9 @@ public class SingleAnswer extends Answer
 	 * 
 	 * @param answer New value of the answer.
 	 */
-	public SingleAnswer(Object answer)
+	public SingleAnswer(String id, String answer)
 	{
+		this.id = id;
 		this.answer = answer;
 	}
 	
@@ -40,7 +41,7 @@ public class SingleAnswer extends Answer
 	 * @see com.seg.questionnaire.backend.answer.Answer#getAnswer()
 	 */
 	@Override
-	public Object getAnswer() 
+	public String getAnswer() 
 	{
 		return answer;
 	}
@@ -50,7 +51,7 @@ public class SingleAnswer extends Answer
 	 * 
 	 * @param answer New value of the answer.
 	 */
-	public void setAnswer(Object answer)
+	public void setAnswer(String answer)
 	{
 		this.answer = answer;
 	}
@@ -59,8 +60,14 @@ public class SingleAnswer extends Answer
 	 * @see com.seg.questionnaire.backend.answer.Answer#addAnswer(java.lang.Object)
 	 */
 	@Override
-	public void addAnswer(Object answer) 
+	public void addAnswer(String answer) 
 	{
 		this.answer = answer;
+	}
+	
+	@Override
+	public void clearAnswer()
+	{
+		this.answer = "";
 	}
 }

@@ -40,7 +40,7 @@ public class RangeQuestion extends Question
 	 * @param required Flag defining is the question is
 	 * required or not.
 	 */
-	public RangeQuestion(long id, String question, int lowerBound, int upperBound, boolean required)
+	public RangeQuestion(String id, String question, int lowerBound, int upperBound, boolean required)
 	{
 		this.id = id;
 		this.question = question;
@@ -112,6 +112,16 @@ public class RangeQuestion extends Question
 	protected boolean isAnswered() 
 	{
 		return true;
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.seg.questionnaire.backend.question.Question#loadAnswer()
+	 */
+	@Override
+	public void loadAnswer()
+	{
+		if (!answer.getAnswer().equals(""))
+			b.setProgress(Integer.parseInt(answer.getAnswer())-lowerBound);
 	}
 	
 	/**

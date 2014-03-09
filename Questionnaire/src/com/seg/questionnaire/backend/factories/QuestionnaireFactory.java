@@ -1,8 +1,9 @@
-package com.seg.questionnaire.backend;
+package com.seg.questionnaire.backend.factories;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import com.seg.questionnaire.backend.Questionnaire;
 import com.seg.questionnaire.backend.json.DependentQuestionsJSON;
 import com.seg.questionnaire.backend.json.QuestionJSON;
 import com.seg.questionnaire.backend.json.QuestionnaireJSON;
