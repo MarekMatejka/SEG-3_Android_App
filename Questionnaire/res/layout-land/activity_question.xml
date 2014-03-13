@@ -1,0 +1,112 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="25dp"
+    tools:context=".QuestionActivity" >
+
+   	<!-- Navigation bar -->
+    <RelativeLayout 
+        android:id="@+id/navigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+			android:textAppearance="?android:attr/textAppearanceLarge"            
+			android:text="@string/app_name"/>
+        
+    </RelativeLayout>
+    
+    <!-- Side list -->
+    <ListView
+        android:id="@+id/questionsList"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/navigationBar"
+        android:paddingRight="10dp" />
+    
+    <!-- Main Question space -->
+    <RelativeLayout 
+        android:id="@+id/questionSpace"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/navigationBar"
+        android:layout_toRightOf="@id/questionsList">
+    
+	    <TextView
+	        android:id="@+id/question"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
+	    
+	    <Button
+	        android:id="@+id/next"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:layout_centerHorizontal="true"
+	        android:onClick="changeQuestion"
+	        android:text="Next" />
+	    
+	    <Button
+	        android:id="@+id/previous"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:layout_centerHorizontal="true"
+	        android:onClick="changeQuestion"
+	        android:layout_toLeftOf="@id/next"
+	        android:text="Previous" />
+	    
+	    <Button
+	        android:id="@+id/skip"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:layout_centerHorizontal="true"
+	        android:onClick="changeQuestion"
+	        android:layout_toRightOf="@id/next"
+	        android:text="Skip" />
+	    
+	    <LinearLayout
+	        android:id="@+id/pb"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_above="@id/next"
+	        android:orientation="horizontal" >
+	
+	       <ProgressBar
+	            android:id="@+id/progressBar1"
+	            style="?android:attr/progressBarStyleHorizontal"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:clickable="true" />
+	
+	        <TextView
+	            android:id="@+id/outOf"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="3dip" />
+	        
+	    </LinearLayout>
+	    
+	    <RelativeLayout
+	        android:id="@+id/answer"
+	        android:orientation="horizontal"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/question"
+	        android:layout_above="@id/pb"
+	        android:animateLayoutChanges="true"
+	        android:layout_centerHorizontal="true"
+	        android:layout_centerVertical="true" />
+    
+    </RelativeLayout>
+    
+</RelativeLayout>

@@ -22,7 +22,7 @@ public class SingleAnswer extends Answer
 	 */
 	public SingleAnswer(String id)
 	{
-		this.id = id;
+		super(id);
 		this.answer = "";
 	}
 	
@@ -33,7 +33,7 @@ public class SingleAnswer extends Answer
 	 */
 	public SingleAnswer(String id, String answer)
 	{
-		this.id = id;
+		super(id);
 		this.answer = answer;
 	}
 	

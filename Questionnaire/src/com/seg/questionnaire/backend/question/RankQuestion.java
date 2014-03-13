@@ -38,11 +38,9 @@ public class RankQuestion extends Question
 	 */
 	public RankQuestion(String id, String question, List<String> answerOptions, boolean required)
 	{
-		this.id = id;
-		this.question = question;
+		super(id, question, required);
 		this.answer = new MultipleAnswer(id);
 		this.answerOptions = answerOptions;
-		this.required = required;
 	}
 	
 	/* (non-Javadoc)
@@ -75,7 +73,7 @@ public class RankQuestion extends Question
 	 * @see com.seg.questionnaire.backend.question.Question#isAnswered()
 	 */
 	@Override
-	protected boolean isAnswered() 
+	public boolean isAnswerReady() 
 	{
 		return true;
 	}

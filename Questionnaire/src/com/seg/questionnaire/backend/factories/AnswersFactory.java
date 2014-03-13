@@ -44,7 +44,7 @@ public class AnswersFactory
 	{
 		AnswerJSON a = new AnswerJSON();
 		a.setQuestion_id(q.getID());
-		a.setAnswer(q.getAnswer().toString());
+		a.setAnswer(q.getAnswer());
 		return a;
 	}
 

@@ -45,11 +45,9 @@ public class SelectOneQuestion extends Question
 	 */
 	public SelectOneQuestion(String id, String question, List<String> answerOptions, boolean required)
 	{
-		this.id = id;
-		this.question = question;
+		super(id, question, required);
 		this.answer = new SingleAnswer(id);
 		this.answerOptions = answerOptions;
-		this.required = required;
 	}
 	
 	/* (non-Javadoc)
@@ -100,7 +98,7 @@ public class SelectOneQuestion extends Question
 	 * @see com.seg.questionnaire.backend.question.Question#isAnswered()
 	 */
 	@Override
-	protected boolean isAnswered() 
+	public boolean isAnswerReady() 
 	{
 		if (rg.getCheckedRadioButtonId() != -1)
 			return true;			

@@ -14,6 +14,16 @@ public abstract class Answer
 	protected String id;
 	
 	/**
+	 * Public constructor for Answer.
+	 * 
+	 * @param id ID of a Question to which this Answer belongs.
+	 */
+	public Answer(String id)
+	{
+		this.id = id;
+	}
+	
+	/**
 	 * Returns answer for a question to which it belongs.
 	 * Answer is in comma separated format. 
 	 * 

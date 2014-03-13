@@ -203,4 +203,54 @@ public class Questionnaire
 		for (Question q : questions)
 			this.questions.remove(q);
 	}
+	
+	/**
+	 * Checks whether all required questions are completed.
+	 * 
+	 * @return TRUE if all required questions are completed,
+	 * FALSE otherwise.
+	 */
+	public boolean isCompleted()
+	{
+		for (Question q : questions)
+			if (q.isRequired() && !q.isAnswered())
+				return false;
+		return true;
+	}
+	
+	/**
+	 * Finds the index of the first required question that
+	 * needs to be completed.
+	 * 
+	 * @return Index of the first required question that needs to be
+	 * completed or -1 if no such question is found.
+	 */
+	public int getFirstRequiredQuestionToComplete()
+	{
+		for (int i = 0; i < questions.size(); i++)
+		{
+			Question q = questions.get(i);
+			if (q.isRequired() && !q.isAnswered())
+				return i;
+		}
+		return -1;
+	}
+	
+	/**
+	 * Finds the index of the first non-required question that
+	 * needs to be completed.
+	 * 
+	 * @return Index of the first non-required question that needs to be
+	 * completed or -1 if no such question is found.
+	 */
+	public int getFirstNonRequiredQuestionToComplete()
+	{
+		for (int i = 0; i < questions.size(); i++)
+		{
+			Question q = questions.get(i);
+			if (!q.isRequired() && !q.isAnswered())
+				return i;
+		}
+		return -1;
+	}
 }

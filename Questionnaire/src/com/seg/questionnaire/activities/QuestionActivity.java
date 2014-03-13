@@ -1,11 +1,20 @@
 package com.seg.questionnaire.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,6 +26,7 @@ import com.seg.questionnaire.backend.factories.AnswersFactory;
 import com.seg.questionnaire.backend.factories.QuestionnaireFactory;
 import com.seg.questionnaire.backend.json.JSONParser;
 import com.seg.questionnaire.backend.question.Question;
+import com.seg.questionnaire.backend.question.adapter.SideListAdapter;
 
 /**
  * Class responsible for displaying all questions from a 
@@ -26,13 +36,7 @@ import com.seg.questionnaire.backend.question.Question;
  *
  */
 public class QuestionActivity extends Activity 
-{	
-	/**
-	 * Should be used with changeQuestion method, because it properly defines
-	 * values to change questions appropriately.
-	 */
-	private static final int NEXT_QUESTION = 1, PREVIOUS_QUESTION = -1;
-		
+{		
 	/**
 	 * Defines the current question
 	 */
@@ -43,6 +47,11 @@ public class QuestionActivity extends Activity
 	 */
 	private Questionnaire ques;
 		
+	/**
+	 * Context of this Activity
+	 */
+	private Context context = this;
+	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
@@ -63,66 +72,127 @@ public class QuestionActivity extends Activity
 	}
 	
 	/**
-	 * Responds to click event on 'Next' button.
+	 * Responds to click event on a button.
 	 * 
 	 * @param v View on which the event happened.
 	 */
 	public void changeQuestion(View v)
 	{
-		if (v.getId() == R.id.next || v.getId() == R.id.skip)
-			changeQuestion(NEXT_QUESTION);
-		else //R.id.previous
-			changeQuestion(PREVIOUS_QUESTION);
+		if (v.getId() == R.id.next)
+			changeQuestion(currentQuestion+1);
+		else if (v.getId() == R.id.previous)
+			changeQuestion(currentQuestion-1);
+		else //v.getId() == R.id.skip
+			skipQuestion(currentQuestion+1);
+		
+		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 	}
 	
 	/**
 	 * Does all the necessary steps to change the question.
 	 * 
-	 * @param direction Should only use {@link #PREVIOUS_QUESTION} or
-	 * {@link #NEXT_QUESTION}.
+	 * @param changeTo Position to which the question should be moved
 	 */
-	private void changeQuestion(int direction)
+	private void changeQuestion(int changeTo)
 	{		
 		//take current question and answer
 		Question q = ques.getQuestion(currentQuestion);
-		String lastAnswer = q.getLastAnswer();
+		String lastAnswer = q.getAnswer();
+		q.saveAnswer();
 		String answer = q.getAnswer();
 				
-		if (answer == null) //if no answer
+		if (answer.equals("")) //if no answer
 			Toast.makeText(this, getString(R.string.answer_first), Toast.LENGTH_SHORT).show(); //ask for it
 		else
 		{
-			if (!answer.equals(lastAnswer)) //if the last answer and the new answer does not equal
-			{
-				if(q.hasDependentQuestions(lastAnswer)) //if there are any dependent questions for last answer
-					ques.removeQuestions(q.getDependentQuestions(lastAnswer)); //remove them from the questionnaire
-				
-				if (q.hasDependentQuestions(answer)) //if there are some dependent questions for a given answer
-					ques.addQuestions(q.getDependentQuestions(answer.toString()), currentQuestion); //add them to the questionnaire
-			}
-										
+			checkDependentQuestions(q, answer, lastAnswer); //deal with dependent questions
+			
 			Toast.makeText(this, "answer = '"+answer+"'", Toast.LENGTH_SHORT).show(); //show the answer
 					
-			currentQuestion = (currentQuestion+direction); //change the current position pointer value
-					
-			/*if (currentQuestion == 0) //if first question in new loop
-			{
-				Log.e("DEBUG", JSONParser.toJSON(AnswersFactory.createJSON(ques))); //create and print AnswersJSON
-				ques.deleteQuestionnaire();
-				ques = QuestionnaireFactory.creatQuestionnaire(JSONParser.parse(this)); //create new questionnaire
-				//ques.loadDummy();
-			}*/
+			currentQuestion = changeTo; //change the current position pointer value
 			
-			if (currentQuestion == ques.getNumberOfQuestions())
+			if (currentQuestion == ques.getNumberOfQuestions()) //if we are at the end of the questionnaire
 			{
-				Log.e("DEBUG", AnswersFactory.createJSON(ques));
-				startActivity(new Intent(this, ThankYouActivity.class));
-				finish();
+				if (ques.isCompleted()) //if all required questions has been answered
+				{
+					int index = ques.getFirstNonRequiredQuestionToComplete(); //get index of the first non-required non-answered question
+					if (index == -1) //there are no non-required non-answered questions
+						sendAnswers(); //send answers to server
+					else
+						showOptionDialog(index); //show dialog to the user
+				}
+				else //not all required questions has been answered
+				{
+					Toast.makeText(this, R.string.answer_question, Toast.LENGTH_SHORT).show(); //tell user what happened
+					skipQuestion((currentQuestion = ques.getFirstRequiredQuestionToComplete())); //send him to the first required non-answered question
+				}
 			}
 			else
 				loadQuestion(ques.getQuestion(currentQuestion)); //load next question
 		}
 		
+	}
+	
+	/**
+	 * Sends the data to the server and closes the Activity.
+	 * Next Activity is ThankYouActivity.
+	 */
+	private void sendAnswers()
+	{
+		//TODO: SocketAPI.sendAnswers(serverIP, AnswersFactory.createJSON(ques));
+		Log.e("DEBUG", AnswersFactory.createJSON(ques));
+		
+		startActivity(new Intent(this, ThankYouActivity.class));
+		finish();
+	}
+	
+	/**
+	 * Displays the option dialog (if user wants to complete also 
+	 * non-required questions) and handles user's response.
+	 * 
+	 * @param index Index of the first non-answered non-required question.
+	 */
+	private void showOptionDialog(final int index)
+	{
+		AlertDialog.Builder b = new Builder(this);
+		b.setCancelable(false);
+		b.setMessage(R.string.option_dialog);
+		b.setNegativeButton(R.string.no, new OnClickListener() 
+		{	
+			@Override
+			public void onClick(DialogInterface dialog, int which) 
+			{
+				sendAnswers();
+				dialog.cancel();
+			}
+		});
+		b.setPositiveButton(R.string.yes, new OnClickListener() 
+		{	
+			@Override
+			public void onClick(DialogInterface dialog, int which) 
+			{
+				skipQuestion((currentQuestion = index));
+				dialog.cancel();
+			}
+		});
+		AlertDialog d = b.create();
+		d.show();
+		
+	}
+	
+	/**
+	 * Skips question (i.e. does not save any answer for the question).
+	 * 
+	 * @param skipTo Index of the question to which the questionnaire should go next.
+	 */
+	private void skipQuestion(int skipTo)
+	{
+		Question q  = ques.getQuestion(currentQuestion);
+		Toast.makeText(this, "answer = '"+q.getAnswer()+"'", Toast.LENGTH_SHORT).show(); //show the answer
+			
+		currentQuestion = skipTo; //change the current position pointer value
+		loadQuestion(ques.getQuestion(currentQuestion)); //load next question
 	}
 	
 	/**
@@ -182,6 +252,36 @@ public class QuestionActivity extends Activity
 		ProgressBar p = (ProgressBar) findViewById(R.id.progressBar1);
 		p.setMax(ques.getNumberOfQuestions());
 		p.setProgress(currentQuestion+1);
+		
+		updateList();
+	}
+	
+	/**
+	 * Updates the side list and handles question changes when question is
+	 * directly selected from the list.
+	 */
+	private void updateList()
+	{
+		ListView list = (ListView)findViewById(R.id.questionsList);
+		list.setAdapter(new SideListAdapter(this, ques.getQuestions()));
+		list.setOnItemClickListener(new OnItemClickListener() 
+		{
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) 
+			{
+				Question q = ques.getQuestions().get(currentQuestion);
+				if (!q.isRequired())
+					skipQuestion(position);
+				else
+				{	
+					if (q.getAnswer().equals(""))
+						Toast.makeText(context, getString(R.string.answer_first), Toast.LENGTH_SHORT).show();
+					else
+						changeQuestion(position);
+				}
+			}
+
+		});
 	}
 	
 	/* (non-Javadoc)
@@ -191,7 +291,7 @@ public class QuestionActivity extends Activity
 	public void onBackPressed()
 	{
 		if (currentQuestion > 0)
-			changeQuestion(PREVIOUS_QUESTION); //change to previous question
+			changeQuestion(currentQuestion-1); //change to previous question
 	}
 	
 	/* (non-Javadoc)
@@ -202,5 +302,26 @@ public class QuestionActivity extends Activity
 	{
 		super.onStop();
 		if (currentQuestion != ques.getNumberOfQuestions())
-			startActivity(new Intent(this, LoginActivity.class));}
+			startActivity(new Intent(this, LoginActivity.class));
+	}
+	
+	/**
+	 * Deals with dependent questions and makes sure that if the
+	 * answer changed, dependent questions will be adjusted accordingly.
+	 * 
+	 * @param question Question for which dependent questions should be adjusted.
+	 * @param answer The  current answer for the question
+	 * @param lastAnswer The last answer for the question
+	 */
+	private void checkDependentQuestions(Question question, String answer, String lastAnswer)
+	{
+		if (!answer.equals(lastAnswer)) //if the last answer and the new answer does not equal
+		{
+			if(question.hasDependentQuestions(lastAnswer)) //if there are any dependent questions for last answer
+				ques.removeQuestions(question.getDependentQuestions(lastAnswer)); //remove them from the questionnaire
+			
+			if (question.hasDependentQuestions(answer)) //if there are some dependent questions for a given answer
+				ques.addQuestions(question.getDependentQuestions(answer.toString()), currentQuestion); //add them to the questionnaire
+		}
+	}
 }

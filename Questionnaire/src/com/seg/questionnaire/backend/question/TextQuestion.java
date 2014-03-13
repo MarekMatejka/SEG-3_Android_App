@@ -2,6 +2,8 @@ package com.seg.questionnaire.backend.question;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
 
 import com.seg.questionnaire.backend.answer.SingleAnswer;
@@ -29,21 +31,20 @@ public class TextQuestion extends Question
 	 */
 	public TextQuestion(String id, String question, boolean required)
 	{
-		this.id = id;
-		this.question = question;
+		super(id, question, required);
 		this.answer = new SingleAnswer(id);
-		this.required = required;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.seg.questionnaire.backend.question.Question#getView(android.content.Context)
 	 */
 	@Override
-	public View getView(Context context) 
+	public View getView(final Context context) 
 	{	
 		//Initialize and prepare EditText
 		et = new EditText(context);
-		et.setEms(10);
+		et.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 
+											ViewGroup.LayoutParams.WRAP_CONTENT));
 		et.requestFocus();
 		
 		return et;//return the EditText
@@ -62,7 +63,7 @@ public class TextQuestion extends Question
 	 * @see com.seg.questionnaire.backend.question.Question#isAnswered()
 	 */
 	@Override
-	protected boolean isAnswered() 
+	public boolean isAnswerReady() 
 	{
 		if (!et.getText().toString().trim().equals(""))
 			return true;

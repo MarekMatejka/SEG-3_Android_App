@@ -61,20 +61,27 @@ public abstract class Question
 	protected abstract void readAnswer();
 	
 	/**
-	 * Checks whether the question is answered.
+	 * Checks whether the question's answer is ready 
+	 * (has been selected or is ready to be saved).
 	 * Based on whether the question is required
 	 * and if the user inputed some answer.
 	 * 
-	 * @return TRUE if the question is not required or
-	 * is answered, FALSE if question is required and 
-	 * was not answered.
+	 * @return TRUE if the question has answer that 
+	 * is non-empty, FALSE otherwise.
 	 */
-	protected abstract boolean isAnswered();
+	public abstract boolean isAnswerReady();
 	
 	/**
 	 * Loads the current answer into the view.
 	 */
 	public abstract void loadAnswer();
+	
+	public Question (String id, String question, boolean required)
+	{
+		this.id = id;
+		this.question = question;
+		this.required = required;
+	}
 	
 	/**
 	 * Returns the question text.
@@ -91,28 +98,26 @@ public abstract class Question
 	}
 	
 	/**
-	 * Reads the answer currently specified
-	 * for the question or NULL.
-	 * Firstly checks whether the question is answered,
-	 * then reads the answer and then returns it.
+	 * Returns the currently selected answer.
 	 * 
-	 * @return Answer for the question, if it is answered,
-	 * NULL otherwise.
+	 * @return Answer to the question.
 	 */
 	public String getAnswer()
 	{
+		return this.answer.getAnswer();
+	}
+	
+	/**
+	 * Saves the currently selected answer.
+	 */
+	public void saveAnswer()
+	{
+		//if there is some answer already, erase it
 		if (!answer.getAnswer().equals(""))
 			answer.clearAnswer();
 		
-		if (isAnswered())
-		{
+		if (isAnswerReady())
 			readAnswer();
-			return this.answer.getAnswer();
-		}
-		else if (!isRequired())
-			return this.answer.getAnswer();
-		else
-			return null;
 	}
 	
 	/**
@@ -225,17 +230,7 @@ public abstract class Question
 	{
 		return this.id;
 	}
-	
-	/**
-	 * Returns lastly read answer.
-	 * 
-	 * @return Lastly read answer.
-	 */
-	public String getLastAnswer()
-	{
-		return this.answer.getAnswer();
-	}
-	
+		
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -246,5 +241,18 @@ public abstract class Question
 		if (this.id == q.getID()) //compare based on ID
 			return true;
 		return false;
+	}
+	
+	/**
+	 * Says whether the question contains an answer or not.
+	 * 
+	 * @return TRUE if some answer was already selected,
+	 * FALSE otherwise.
+	 */
+	public boolean isAnswered()
+	{
+		if (answer.getAnswer().equals(""))
+			return false;
+		return true;
 	}
 }

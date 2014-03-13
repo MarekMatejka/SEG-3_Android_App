@@ -42,12 +42,10 @@ public class RangeQuestion extends Question
 	 */
 	public RangeQuestion(String id, String question, int lowerBound, int upperBound, boolean required)
 	{
-		this.id = id;
-		this.question = question;
+		super(id, question, required);
 		this.lowerBound = lowerBound;
 		this.upperBound = upperBound;
 		this.answer = new SingleAnswer(id);
-		this.required = required;
 	}
 	
 	/* (non-Javadoc)
@@ -109,7 +107,7 @@ public class RangeQuestion extends Question
 	 * @see com.seg.questionnaire.backend.question.Question#isAnswered()
 	 */
 	@Override
-	protected boolean isAnswered() 
+	public boolean isAnswerReady() 
 	{
 		return true;
 	}

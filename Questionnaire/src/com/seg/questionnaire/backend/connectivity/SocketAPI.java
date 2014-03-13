@@ -20,6 +20,7 @@ public class SocketAPI
 	 */
 	public static String findPatient(String serverIP, String NHS)
 	{
+		//TODO: fully implement in the PatientDetail screen
 		return executeCommand(serverIP, "FindPatient : "+NHS);
 	}
 
@@ -32,6 +33,7 @@ public class SocketAPI
 	 */
 	public static String getAllQuestionnairesForPatient(String serverIP, String NHSNumber)
 	{
+		//TODO: implement in QuestionnaireScreen
 		return executeCommand(serverIP, "GetAllQuestionnairesForPatient : "+NHSNumber);
 	}
 	
@@ -44,6 +46,7 @@ public class SocketAPI
 	 */
 	public static String getQuestionnaireByName(String serverIP, String questionnaireName)
 	{
+		//TODO: implement in QuestionnaireScreen
 		return executeCommand(serverIP, "GetQuestionnaireByName: "+questionnaireName);
 	}
 	
@@ -57,6 +60,7 @@ public class SocketAPI
 	 */
 	public static String checkUser(String serverIP, String username, String password)
 	{
+		//TODO: implement in LoginScreen
 		return executeCommand(serverIP, "CheckUser : "+username+","+password);
 	}
 	
@@ -69,6 +73,7 @@ public class SocketAPI
 	 */
 	public static String sendAnswers(String serverIP, String answersJSON)
 	{
+		//TODO: implement in QuestionScreen
 		return executeCommand(serverIP, "SendAnswers: "+answersJSON);
 	}
 	

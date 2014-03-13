@@ -40,6 +40,7 @@ public class MenuActivity extends Activity {
 			case R.id.video_button: startActivity(new Intent(this, VideoActivity.class)); onStop(); break;
 			case R.id.login_button: startActivity(new Intent(this, LoginActivity.class)); onStop(); break;
 			case R.id.thank_you_button: startActivity(new Intent(this, ThankYouActivity.class)); onStop(); break;
+			case R.id.patient_details_button: startActivity(new Intent(this, PatientDetailActivity.class)); onStop(); break;
 		}
 	}
 

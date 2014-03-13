@@ -39,11 +39,9 @@ public class SelectManyQuestion extends Question
 	 */
 	public SelectManyQuestion(String id, String question, List<String> answerOptions, boolean required)
 	{
-		this.id = id;
-		this.question = question;
+		super(id, question, required);
 		this.answer = new MultipleAnswer(id);
 		this.answerOptions = answerOptions;
-		this.required = required;
 	}
 	
 	/* (non-Javadoc)
@@ -88,8 +86,11 @@ public class SelectManyQuestion extends Question
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.seg.questionnaire.backend.question.Question#isAnswerReady()
+	 */
 	@Override
-	protected boolean isAnswered() 
+	public boolean isAnswerReady() 
 	{
 		for (int i = 0; i < options.size(); i++)
 			if (options.get(i).isChecked())

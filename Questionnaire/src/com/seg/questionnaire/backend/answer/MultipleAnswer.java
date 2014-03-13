@@ -24,7 +24,7 @@ public class MultipleAnswer extends Answer
 	 */
 	public MultipleAnswer(String id)
 	{
-		this.id = id;
+		super(id);
 		this.answers = new LinkedList<String>();
 	}
 	
@@ -32,10 +32,12 @@ public class MultipleAnswer extends Answer
 	 * Constructor that sets the List of answers as answers
 	 * to a given question.
 	 * 
+	 * @param id ID of a Question to which this Answer belongs.
 	 * @param answers Initial answers to a question.
 	 */
-	public MultipleAnswer(List<String> answers)
+	public MultipleAnswer(String id, List<String> answers)
 	{
+		super(id);
 		this.answers = answers;
 	}
 	

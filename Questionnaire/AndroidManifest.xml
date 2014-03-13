@@ -17,8 +17,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.seg.questionnaire.activities.QuestionActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:label="@string/app_name">
         </activity>
         <activity
             android:name="com.seg.questionnaire.activities.TutorialActivity"
@@ -36,21 +35,26 @@
             android:label="@string/app_name" >
         </activity>
         <activity
- 			android:name="com.seg.questionnaire.activities.MenuActivity"
+            android:name="com.seg.questionnaire.activities.MenuActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-		<activity
+        <activity
             android:name="com.seg.questionnaire.activities.ThankYouActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-    		android:name="com.seg.questionnaire.activities.LoginActivity"
+            android:name="com.seg.questionnaire.activities.LoginActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
+        <activity
+            android:name="com.seg.questionnaire.activities.PatientDetailActivity"
+            android:label="@string/title_activity_patient_detail" >
         </activity>
     </application>
 
