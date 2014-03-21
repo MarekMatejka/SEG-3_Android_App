@@ -18,7 +18,7 @@ import com.seg.questionnaire.backend.connectivity.SocketAPI;
 public class ConnectionActivity extends Activity 
 {
 	private TextView result;
-	private EditText ip, params;
+	private EditText params;
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -29,7 +29,6 @@ public class ConnectionActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_connection);
 
-		ip = (EditText) findViewById(R.id.server_ip);
 		params = (EditText) findViewById(R.id.parameters);
 		result = (TextView) findViewById(R.id.result);
 	}
@@ -41,12 +40,11 @@ public class ConnectionActivity extends Activity
 	 */
 	public void onClick(View v) 
 	{
-		String serverIP = ip.getText().toString(); //read IP
 		String parameters = params.getText().toString(); //read Parameters
 
-		if (parameters.isEmpty() || serverIP.isEmpty()) //if both fields are NOT filled
+		if (parameters.isEmpty()) //if both fields are NOT filled
 		{
-			result.setText("IP - "+serverIP+" | param - "+parameters+" | NOT ALL FIELD FILLED");
+			result.setText("param - "+parameters+" | NOT ALL FIELD FILLED");
 			return;
 		}
 

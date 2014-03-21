@@ -21,7 +21,10 @@
     <string name="server_ip_address">Server IP Address</string>
     <string name="new_search">New search</string>
     <string name="one_moment_please">One moment please &#8230;</string>
-    
+    <string name="questionnaires_available">Questionnaires available to</string>
+    <string name="no_available_questionnaires">No available questionnaires found for</string>
+    <string name="close">Close</string>
+
     <!-- Patient detail activity -->
     <string name="title_activity_patient_detail">PatientDetailActivity</string>
     <string name="patient_details">Patient details:</string>
@@ -31,5 +34,6 @@
     <string name="confirm_patient_details">Confirm patient details</string>
     <string name="incorrect_nhs_format">Incorrect NHS number format.</string>
     <string name="no_patient_found">No patient found for this NHS number.</string>
+    <string name="title_activity_available_questionnaires">AvailableQuestionnairesActivity</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.seg.questionnaire.backend.question.adapter;
+package com.seg.questionnaire.activities.adapter;
 
 import java.util.List;
 

@@ -21,12 +21,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.seg.questionnaire.R;
+import com.seg.questionnaire.activities.adapter.SideListAdapter;
 import com.seg.questionnaire.backend.Questionnaire;
 import com.seg.questionnaire.backend.factories.AnswersFactory;
 import com.seg.questionnaire.backend.factories.QuestionnaireFactory;
 import com.seg.questionnaire.backend.json.JSONParser;
 import com.seg.questionnaire.backend.question.Question;
-import com.seg.questionnaire.backend.question.adapter.SideListAdapter;
 
 /**
  * Class responsible for displaying all questions from a 

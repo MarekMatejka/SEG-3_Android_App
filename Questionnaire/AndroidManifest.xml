@@ -17,8 +17,8 @@
         android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
         <activity
             android:name="com.seg.questionnaire.activities.QuestionActivity"
-            android:screenOrientation="landscape"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name="com.seg.questionnaire.activities.TutorialActivity"
@@ -29,18 +29,18 @@
         </activity>
         <activity
             android:name="com.seg.questionnaire.activities.ConnectionActivity"
-            android:screenOrientation="landscape"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name="com.seg.questionnaire.activities.VideoActivity"
-            android:screenOrientation="landscape"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name="com.seg.questionnaire.activities.MenuActivity"
-            android:screenOrientation="landscape"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,8 +49,8 @@
         </activity>
         <activity
             android:name="com.seg.questionnaire.activities.ThankYouActivity"
-            android:screenOrientation="landscape"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name="com.seg.questionnaire.activities.LoginActivity"
@@ -60,8 +60,12 @@
         </activity>
         <activity
             android:name="com.seg.questionnaire.activities.PatientDetailActivity"
-            android:screenOrientation="landscape"
-            android:label="@string/title_activity_patient_detail" >
+            android:label="@string/title_activity_patient_detail"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="com.seg.questionnaire.activities.AvailableQuestionnairesActivity"
+            android:label="@string/title_activity_available_questionnaires" >
         </activity>
     </application>
 

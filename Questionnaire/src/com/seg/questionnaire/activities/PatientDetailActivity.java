@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -26,10 +27,12 @@ import com.seg.questionnaire.backend.json.PatientJSON;
  */
 public class PatientDetailActivity extends Activity 
 {
+	private static String patientName = "";
+	private static String patientNHS = "";
 
-	PatientDetailsTask task = null;
-	PatientJSON patient = null;
-	EditText nhs;
+	private PatientDetailsTask task = null;
+	private PatientJSON patient = null;
+	private EditText nhs;
 	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -59,7 +62,10 @@ public class PatientDetailActivity extends Activity
 			inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
 		}
 		else if (v.getId() == R.id.confirm)
+		{
+			startActivity(new Intent(this, AvailableQuestionnairesActivity.class));
 			finish();
+		}
 		else if (v.getId() == R.id.newSearch)
 			newSearch();
 	}
@@ -70,6 +76,7 @@ public class PatientDetailActivity extends Activity
 	private void validateNHS()
 	{
 		String NHS = nhs.getText().toString(); //get NHS number
+		patientNHS = NHS;
 		
 		if (NHS.length() != 10) //if it is too short
 			nhs.setError(getString(R.string.incorrect_nhs_format));
@@ -88,9 +95,10 @@ public class PatientDetailActivity extends Activity
 	 * @param patient Patient object from which data will be used.
 	 */
 	private void setPatientDetails(PatientJSON patient)
-	{
+	{		
 		TextView name = (TextView)findViewById(R.id.patient_name);
 		name.setText(patient.getName());
+		patientName = patient.getName();
 		
 		TextView dob = (TextView)findViewById(R.id.patient_dob);
 		dob.setText(patient.getDateOfBirth());
@@ -240,6 +248,26 @@ public class PatientDetailActivity extends Activity
 										setPatientDetails(patient);
 								    }
 							    });
+	}
+	
+	/**
+	 * Returns the currently active patient's name.
+	 * 
+	 * @return Name of the currently active patient.
+	 */
+	public static String getPatientName()
+	{
+		return patientName;
+	}
+	
+	/**
+	 * Returns the currently active patient's NHS number.
+	 * 
+	 * @return NHS number of the currently active patient.
+	 */
+	public static String getPatientNHS()
+	{
+		return patientNHS;
 	}
 	
 	/**
