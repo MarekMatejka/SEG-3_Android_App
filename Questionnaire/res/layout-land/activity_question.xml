@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="25dp"
-    tools:context=".QuestionActivity" >
+    tools:context=".QuestionActivity"
+    android:background="@color/mediq_blue" >
 
    	<!-- Navigation bar -->
     <RelativeLayout 
@@ -12,22 +13,45 @@
         android:layout_height="wrap_content">
         
         <TextView 
+            android:id="@+id/questionnaireTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/white"
+            android:textSize="35sp"
 			android:textAppearance="?android:attr/textAppearanceLarge"            
 			android:text="@string/app_name"/>
         
     </RelativeLayout>
     
     <!-- Side list -->
-    <ListView
-        android:id="@+id/questionsList"
+    <LinearLayout 
+        android:id="@+id/sideList"
         android:layout_width="300dp"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
         android:layout_below="@id/navigationBar"
-        android:paddingRight="10dp" />
+        android:layout_alignParentLeft="true"
+        android:orientation="vertical">
+        
+	    <ListView
+	        android:id="@+id/questionsList"
+	        android:layout_width="match_parent"
+	        android:layout_height="0dp"
+	        android:paddingRight="10dp"
+	        android:paddingBottom="10dp"
+	        android:layout_weight="3"/>
+	    
+	    <TextView 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:textColor="@color/white"
+			android:textAppearance="?android:attr/textAppearanceMedium" 
+			android:fontFamily="sans-serif-light"
+			android:text="@string/powered_by"
+			android:drawableBottom="@drawable/logo_with_text_small_300"/>        
+	    
+    </LinearLayout>
     
     <!-- Main Question space -->
     <RelativeLayout 
@@ -35,49 +59,73 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/navigationBar"
-        android:layout_toRightOf="@id/questionsList">
+        android:layout_toRightOf="@id/sideList">
     
 	    <TextView
 	        android:id="@+id/question"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_centerHorizontal="true"
+	        android:fontFamily="sans-serif-light"
+            android:textColor="@color/white"
+            android:textSize="35sp"
 	        android:textAppearance="?android:attr/textAppearanceLarge" />
 	    
-	    <Button
-	        android:id="@+id/next"
-	        android:layout_width="wrap_content"
+	    <LinearLayout
+	        android:id="@+id/navigationButtonsBar"
+	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentBottom="true"
-	        android:layout_centerHorizontal="true"
-	        android:onClick="changeQuestion"
-	        android:text="Next" />
-	    
-	    <Button
-	        android:id="@+id/previous"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentBottom="true"
-	        android:layout_centerHorizontal="true"
-	        android:onClick="changeQuestion"
-	        android:layout_toLeftOf="@id/next"
-	        android:text="Previous" />
-	    
-	    <Button
-	        android:id="@+id/skip"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentBottom="true"
-	        android:layout_centerHorizontal="true"
-	        android:onClick="changeQuestion"
-	        android:layout_toRightOf="@id/next"
-	        android:text="Skip" />
+	        android:orientation="horizontal">
+		    
+		    <Button
+			    android:id="@+id/previous"
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:layout_marginLeft="3dp"
+	            android:layout_marginRight="3dp"
+	            android:layout_marginTop="16dp"
+	            android:layout_weight="1"
+	            android:fontFamily="sans-serif-light"
+	            android:background="@color/button_background_color"
+	            style="?android:attr/textAppearanceLarge"
+	            android:onClick="changeQuestion"
+	            android:text="@string/previous_question" />
+		    
+		    <Button
+			    android:id="@+id/next"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="3dp"
+	            android:layout_marginRight="3dp"
+	            android:layout_marginTop="16dp"
+	            android:layout_weight="1"
+	            android:fontFamily="sans-serif-light"
+	            android:background="@color/button_background_color"
+	            style="?android:attr/textAppearanceLarge"
+	            android:onClick="changeQuestion"
+	            android:text="@string/next_question" />
+		    
+		    <Button
+			    android:id="@+id/skip"
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:layout_marginLeft="3dp"
+	            android:layout_marginRight="3dp"
+	            android:layout_marginTop="16dp"
+	            android:layout_weight="1"
+	            android:fontFamily="sans-serif-light"
+	            android:background="@color/button_background_color"
+	            style="?android:attr/textAppearanceLarge"
+	            android:onClick="changeQuestion"
+	            android:text="@string/skip_question" />	    
+	    </LinearLayout>
 	    
 	    <LinearLayout
 	        android:id="@+id/pb"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_above="@id/next"
+	        android:layout_above="@id/navigationButtonsBar"
 	        android:orientation="horizontal" >
 	
 	       <ProgressBar
@@ -85,13 +133,19 @@
 	            style="?android:attr/progressBarStyleHorizontal"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
+	            android:layout_marginRight="5dp"
 	            android:layout_weight="1"
+	            android:layout_gravity="center"
+	            android:progressDrawable="@drawable/progress_bar_style"
 	            android:clickable="true" />
 	
 	        <TextView
 	            android:id="@+id/outOf"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
+	            android:fontFamily="sans-serif-light"
+            	android:textColor="@color/white"
+            	android:textAppearance="?android:attr/textAppearanceMedium"
 	            android:layout_marginLeft="3dip" />
 	        
 	    </LinearLayout>

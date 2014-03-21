@@ -7,8 +7,20 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
+import java.security.spec.KeySpec;
 import java.util.concurrent.CountDownLatch;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
+
+import android.util.Base64;
 
 /**
  * Custom implementation of Thread object which opens a new 
@@ -19,6 +31,12 @@ import java.util.concurrent.CountDownLatch;
  */
 public class SocketThread extends Thread 
 {
+    private static SecretKeySpec secret;
+
+    private static IvParameterSpec iv;
+    private static Cipher decryptor;
+    private static Cipher encryptor;
+	
 	/**
 	 * Port at which the app and the server communicates
 	 */
@@ -97,41 +115,158 @@ public class SocketThread extends Thread
 	@Override
 	public void run() 
 	{
+		Socket socket = new Socket();
 		try {
 			//initialize the connection
 			InetAddress serverAddr = InetAddress.getByName(serverIP);
-			Socket socket = new Socket(serverAddr, PORT); //open connection
+			socket.connect(new InetSocketAddress(serverAddr, PORT), 4000);
 			connected = true;
+			PrintWriter out = null;
 			try {				
 				//prepare a stream to send command
-				PrintWriter out = new PrintWriter(new BufferedWriter(
-						new OutputStreamWriter(socket.getOutputStream())), true);
-
-				out.println(command); //send the command to the server
+				out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+				
+				String temps = encrypt(command);
+				temps = temps.replace("\n", "");
+				temps = temps.replace("\r", "");				
+				temps += "END";				
+				out.println(temps); //send the command to the server
 
 				//prepare a stream to receive response
-				BufferedReader in = new BufferedReader(new InputStreamReader(
-														socket.getInputStream()));
+				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				
 				//temporary variables
 				String result = "";
 				String temp = "";
 
 				//while we still have something to read
-				while (!((temp = in.readLine()).endsWith(END)))
+				while (!(temp = in.readLine()).endsWith("END"))
+				{
 					result += temp; //read and append
-
+				}
+				
 				result += temp.substring(0, temp.length() - END.length()); //get rid of the END
-
-				this.result = result; //save result;
-								
-				latch.countDown(); //notify that the result was received
-
+				
+				this.result = decrypt(result); //save result;				
 			} catch (IOException ioe) {ioe.printStackTrace();}
-
-			socket.close(); //close socket connection
-			connected = false;
+			finally
+			{
+				if (out != null)
+				{
+					out.println("Close");
+					out.close();
+				}
+				latch.countDown(); //notify that the communication is over
+				socket.close(); //close socket connection
+				connected = false;
+			}
 			
-		} catch (Exception e) {e.printStackTrace(); connected = false;}
+		} catch (SocketTimeoutException se) {se.printStackTrace(); this.result = "Socket timeout";}
+		catch (Exception e) {e.printStackTrace();}	
+		finally{
+			if (!socket.isClosed())
+			{
+				try {
+					socket.close();
+					connected = false;
+					latch.countDown();
+				} catch (IOException e) {e.printStackTrace();}
+			}
+		}
 	}
+	
+	//ENCRYTION AND DECRYPTION
+    private static void createSecret()
+    {
+        try
+        {
+            char[] password = new char[]{'f','x','5','6','x','o','r'};
+            byte[] salt = new byte[]{1,2,3,4,5,6,7,8};
+
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            KeySpec spec = new PBEKeySpec(password, salt, 65536, 128);
+            SecretKey tmp = factory.generateSecret(spec);
+            secret = new SecretKeySpec(tmp.getEncoded(), "AES");
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private static void createIV()
+    {
+        byte[] ivSpec = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        iv = new IvParameterSpec(ivSpec);
+    }
+
+    private static void createEncryptor()
+    {
+        try
+        {
+            encryptor = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            encryptor.init(Cipher.ENCRYPT_MODE, secret, iv);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private static void createDecryptor()
+    {
+        try
+        {
+            decryptor = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            decryptor.init(Cipher.DECRYPT_MODE, secret, iv);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private static String decrypt(String message)
+    {
+    	if(secret == null)
+        {
+            createSecret();
+            createIV();
+            createEncryptor();
+            createDecryptor();
+        }
+        try
+        {
+            byte[] encrypted = Base64.decode(message.getBytes("UTF-8"), Base64.DEFAULT); //DatatypeConverter.parseBase64Binary(message);            
+            byte[] decrypted = decryptor.doFinal(encrypted);
+            String s = new String(decrypted, "UTF-8");
+            return s;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return "hello";
+    }
+
+    private static String encrypt(String message)
+    {
+        if(secret == null)
+        {
+            createSecret();
+            createIV();
+            createEncryptor();
+            createDecryptor();
+        }
+        try
+        {
+            byte[] encrypted = encryptor.doFinal(message.getBytes("UTF-8"));
+            return Base64.encodeToString(encrypted, Base64.DEFAULT); //DatatypeConverter.printBase64Binary(encrypted);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return "";
+    }
 }

@@ -10,6 +10,7 @@
         android:id="@+id/server_ip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:inputType="text"
 		android:hint="IP"
         android:ems="15" >
 

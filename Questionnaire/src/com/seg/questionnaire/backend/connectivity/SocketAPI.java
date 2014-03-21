@@ -2,6 +2,8 @@ package com.seg.questionnaire.backend.connectivity;
 
 import java.util.concurrent.CountDownLatch;
 
+import com.seg.questionnaire.activities.LoginActivity;
+
 /**
  * Class providing the interface between the app and the server.
  * 
@@ -13,68 +15,62 @@ public class SocketAPI
 	/**
 	 * Calls 'FindPatient' method at the server side.
 	 * 
-	 * @param serverIP IP of a server
-	 * @param surname Patient's surname
-	 * @param dob Patient's Date of Birth
+	 * @param NHS Patient's NHS number.
 	 * @return JSON String result.
 	 */
-	public static String findPatient(String serverIP, String NHS)
+	public static String findPatient(String NHS)
 	{
 		//TODO: fully implement in the PatientDetail screen
-		return executeCommand(serverIP, "FindPatient : "+NHS);
+		return executeCommand("FindPatient: "+NHS);
 	}
 
 	/**
 	 * Calls 'GetAllQuestionnairesForPatient' method at the server side.
 	 * 
-	 * @param serverIP IP of a server
-	 * @param NHSNumber Patient's NHS number
+	 * @param NHS Patient's NHS number
 	 * @return JSON String result.
 	 */
-	public static String getAllQuestionnairesForPatient(String serverIP, String NHSNumber)
+	public static String getAllQuestionnairesForPatient(String NHS)
 	{
 		//TODO: implement in QuestionnaireScreen
-		return executeCommand(serverIP, "GetAllQuestionnairesForPatient : "+NHSNumber);
+		return executeCommand("GetAllQuestionnairesForPatient: "+NHS);
 	}
 	
 	/**
 	 * Calls 'GetQuestionnaireByName' method at the server side
 	 * 
-	 * @param serverIP IP of a server
 	 * @param questionnaireName Name of the questionnaire.
 	 * @return JSON String result.
 	 */
-	public static String getQuestionnaireByName(String serverIP, String questionnaireName)
+	public static String getQuestionnaireByName(String questionnaireID)
 	{
 		//TODO: implement in QuestionnaireScreen
-		return executeCommand(serverIP, "GetQuestionnaireByName: "+questionnaireName);
+		return executeCommand("GetQuestionnaireByID: "+questionnaireID);
 	}
 	
 	/**
-	 * Calls 'CheckUser' method at the server side.
+	 * Calls 'CheckPasscode' method at the server side.
+	 * Format = { "result": true/false }
 	 * 
-	 * @param serverIP IP of a server
-	 * @param username Username
-	 * @param password Password
+	 * @param passcode Passcode
 	 * @return TRUE String if the combination is correct, FALSE String otherwise.
 	 */
-	public static String checkUser(String serverIP, String username, String password)
+	public static String checkPasscode(String passcode)
 	{
 		//TODO: implement in LoginScreen
-		return executeCommand(serverIP, "CheckUser : "+username+","+password);
+		return executeCommand("CheckPasscode: "+passcode);
 	}
 	
 	/**
 	 * Calls 'SendAnswers' method at the server side.
 	 * 
-	 * @param serverIP IP of a server.
 	 * @param answersJSON JSON formatted String of answers.
 	 * @return TRUE if received correctly, FALSE otherwise.
 	 */
-	public static String sendAnswers(String serverIP, String answersJSON)
+	public static String sendAnswers(String answersJSON)
 	{
 		//TODO: implement in QuestionScreen
-		return executeCommand(serverIP, "SendAnswers: "+answersJSON);
+		return executeCommand("SendAnswers: "+answersJSON);
 	}
 	
 	/**
@@ -84,12 +80,12 @@ public class SocketAPI
 	 * @param command Command send to the server.
 	 * @return String response of a server to the command.
 	 */
-	private static String executeCommand(String serverIP, String command)
+	private static String executeCommand(String command)
 	{
 		//used to make sure that the result is not returned before the Thread received it.
 		CountDownLatch l = new CountDownLatch(1);
 		
-		SocketThread t = new SocketThread(serverIP, command, l); //create new custom Thread
+		SocketThread t = new SocketThread(LoginActivity.getServerIP(), command, l); //create new custom Thread
 		t.start(); //start the Thread
 		try {
 			l.await(); //turn on 'waiting mode' which is turned off only when the Thread receives the answer

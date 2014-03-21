@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
+import com.seg.questionnaire.R;
 import com.seg.questionnaire.backend.answer.MultipleAnswer;
 
 /**
@@ -63,6 +64,8 @@ public class SelectManyQuestion extends Question
 			//create a CheckBox and set its text to one of the answers
 			CheckBox c = new CheckBox(context);
 			c.setText(answerOptions.get(i).toString());
+			c.setTextColor(context.getResources().getColor(R.color.white));
+			c.setTextSize(context.getResources().getDimension(R.dimen.normal_text_size));
 			
 			//add the CheckBox to options List and to the LinearLayout
 			options.add(c);

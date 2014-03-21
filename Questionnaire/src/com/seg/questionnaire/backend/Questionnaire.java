@@ -25,6 +25,11 @@ public class Questionnaire
 	private long id;
 	
 	/**
+	 * Questionnaire's title.
+	 */
+	private String title;
+	
+	/**
 	 * List of all questions contained in the questionnaire.
 	 */
 	private List<Question> questions;
@@ -33,12 +38,15 @@ public class Questionnaire
 	 * Constructor which initializes the Questionnaire.
 	 * Currently it also loads dummy data.
 	 * 
+	 * @param id Questionnaire's ID.
 	 * @param questions List of questions for the questionnaire.
+	 * @param title Questionnaire's title.
 	 */
-	public Questionnaire(long id, List<Question> questions) 
+	public Questionnaire(long id, List<Question> questions, String title) 
 	{
 		this.id = id;
 		this.questions = questions;
+		this.title = title;
 	}
 	
 	/**
@@ -49,6 +57,16 @@ public class Questionnaire
 	public long getQuestionnaireID()
 	{
 		return this.id;
+	}
+	
+	/**
+	 * Returns questionnaire's title.
+	 * 
+	 * @return Questionnaire's title.
+	 */
+	public String getQuestionnaireTitle()
+	{
+		return this.title;
 	}
 	
 	/**

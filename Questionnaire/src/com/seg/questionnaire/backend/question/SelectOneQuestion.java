@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.seg.questionnaire.R;
 import com.seg.questionnaire.backend.answer.SingleAnswer;
 
 /**
@@ -72,6 +73,8 @@ public class SelectOneQuestion extends Question
 			//create new RadioButton and set its text
 			RadioButton rb = new RadioButton(context);
 			rb.setText(answerOptions.get(i).toString());
+			rb.setTextColor(context.getResources().getColor(R.color.white));
+			rb.setTextSize(context.getResources().getDimension(R.dimen.normal_text_size));
 			
 			//add the RadioButton to the RadioGroup and options list.
 			rg.addView(rb);

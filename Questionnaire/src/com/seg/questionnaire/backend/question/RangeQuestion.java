@@ -10,6 +10,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import com.seg.questionnaire.R;
 import com.seg.questionnaire.backend.answer.SingleAnswer;
 
 /**
@@ -66,6 +67,8 @@ public class RangeQuestion extends Question
 		t.setText(""+(lowerBound+upperBound)/2);
 		t.setLayoutParams(getLayoutParams());
 		t.setGravity(Gravity.CENTER_HORIZONTAL);
+		t.setTextColor(context.getResources().getColor(R.color.white));
+		t.setTextSize(context.getResources().getDimension(R.dimen.normal_text_size));
 		
 		//create and initialize the SeekBar
 		b = new SeekBar(context);

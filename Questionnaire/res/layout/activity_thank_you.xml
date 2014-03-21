@@ -3,21 +3,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="25dp"
-    tools:context=".ThankYouActivity" >
+    tools:context=".ThankYouActivity"
+    android:background="@color/mediq_blue" >
 
+    <ImageView 
+        android:id="@+id/logoThankYou"
+		android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_centerInParent="true"
+	    android:paddingLeft="30dp"
+	    android:paddingRight="30dp"
+	    android:paddingTop="15dp"
+	    android:paddingBottom="10dp"
+	    android:src="@drawable/mediq_logo"/>
+    
     <TextView
         android:id="@+id/thankYou"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:layout_below="@id/logoThankYou"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif-light"
+        android:textSize="35sp"
         android:text="@string/thank_you"/>
     
     <TextView
         android:id="@+id/autoClose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif-light"
         android:layout_centerHorizontal="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

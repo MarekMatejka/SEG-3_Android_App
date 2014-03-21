@@ -34,7 +34,8 @@ public class QuestionnaireFactory
 	public static Questionnaire creatQuestionnaire(QuestionnaireJSON json)
 	{
 		return new Questionnaire(json.getQuestionnaireId(),
-								 convertQuestions(json.getQuestions()));
+								 convertQuestions(json.getQuestions()),
+								 json.getQuestionnaireTitle());
 	}
 	
 	/**

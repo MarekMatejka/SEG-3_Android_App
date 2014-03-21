@@ -62,7 +62,14 @@ public class ThankYouActivity extends Activity implements OnInitListener
 		tts.shutdown();
 	}
 
-	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onBackPressed()
+	 */
+	@Override
+	public void onBackPressed()
+	{
+		//do nothing
+	}
 	
 
 }

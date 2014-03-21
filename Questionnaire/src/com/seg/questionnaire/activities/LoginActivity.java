@@ -3,14 +3,19 @@ package com.seg.questionnaire.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.seg.questionnaire.R;
+import com.seg.questionnaire.backend.connectivity.SocketAPI;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
@@ -19,12 +24,8 @@ import com.seg.questionnaire.R;
  * @author Android, adapted by Marek Matejka
  */
 public class LoginActivity extends Activity 
-{
-	/**
-	 * A dummy authentication store containing known user names and passwords.
-	 * TODO: remove after connecting to a real authentication system.
-	 */
-	private static final String[] DUMMY_CREDENTIALS = new String[] {"Marek:marek"};
+{	
+	private static String serverIP = "";
 
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
@@ -32,12 +33,13 @@ public class LoginActivity extends Activity
 	private UserLoginTask authTask = null;
 
 	// Values for username and password at the time of the login attempt.
-	private String username;
+	//private String username;
 	private String password;
 
 	// UI references.
-	private EditText usernameView;
+	//private EditText usernameView;
 	private EditText passwordView;
+	private EditText serverIPView;
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -49,8 +51,11 @@ public class LoginActivity extends Activity
 		setContentView(R.layout.activity_login);
 
 		// Set up the login form.
-		usernameView = (EditText) findViewById(R.id.username);
+		//usernameView = (EditText) findViewById(R.id.username);
 		passwordView = (EditText) findViewById(R.id.password);
+		serverIPView = (EditText) findViewById(R.id.serverIPAddress);
+		serverIPView.setText(serverIP);
+		
 
 		findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() 
 		{
@@ -58,6 +63,9 @@ public class LoginActivity extends Activity
 			public void onClick(View view) 
 			{
 				attemptLogin();
+				//hide the keyboard
+				InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); 
+				inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS); 
 			}
 		});
 	}
@@ -73,15 +81,17 @@ public class LoginActivity extends Activity
 			return;
 
 		// Reset errors.
-		usernameView.setError(null);
+		//usernameView.setError(null);
 		passwordView.setError(null);
+		serverIPView.setError(null);
 
 		// Store values at the time of the login attempt.
-		username = usernameView.getText().toString();
+		//username = usernameView.getText().toString();
 		password = passwordView.getText().toString();
+		serverIP = serverIPView.getText().toString();
 
 
-		if (validateUsername() && validatePassword())
+		if (validatePassword() && validateIP()) //validateUsername() && 
 		{
 			// Show a progress spinner, and start a background task to perform the user login attempt.
 			TextView mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
@@ -108,7 +118,7 @@ public class LoginActivity extends Activity
 			passwordView.requestFocus();
 			return false;
 		} 
-		else if (password.length() < 4) 
+		else if (password.length() < 4 || password.length() > 12) 
 		{
 			passwordView.setError(getString(R.string.error_invalid_password));
 			passwordView.requestFocus();
@@ -122,12 +132,23 @@ public class LoginActivity extends Activity
 	 * 
 	 * @return TRUE if not empty, FALSE otherwise.
 	 */
-	private boolean validateUsername()
+	/*private boolean validateUsername()
 	{
 		if (TextUtils.isEmpty(username)) 
 		{
 			usernameView.setError(getString(R.string.error_field_required));
 			usernameView.requestFocus();
+			return false;
+		} 
+		return true;
+	}*/
+	
+	private boolean validateIP()
+	{
+		if (TextUtils.isEmpty(serverIP)) 
+		{
+			serverIPView.setError(getString(R.string.error_field_required));
+			serverIPView.requestFocus();
 			return false;
 		} 
 		return true;
@@ -140,6 +161,10 @@ public class LoginActivity extends Activity
 	{
 		//get animation time
 		int animTime = getResources().getInteger(android.R.integer.config_mediumAnimTime);
+		
+		//loads the spinner animation
+		ImageView spinner = (ImageView)findViewById(R.id.spinnerLogin);
+		spinner.startAnimation(AnimationUtils.loadAnimation(this, R.anim.loading_bar));
 		
 		//animate logining in view to appear
 		final View loginStatusView = findViewById(R.id.login_status);
@@ -169,6 +194,11 @@ public class LoginActivity extends Activity
 						 }
 					 });
 	}
+	
+	public static String getServerIP()
+	{
+		return serverIP;
+	}
 
 	/**
 	 * Represents an asynchronous login/registration task used to authenticate
@@ -186,15 +216,8 @@ public class LoginActivity extends Activity
 				Thread.sleep(3000);
 			} catch (InterruptedException e) {return false;}
 
-			// TODO: remove this when real connection is available
-			for (String credential : DUMMY_CREDENTIALS) 
-			{
-				String[] pieces = credential.split(":");
-				if (pieces[0].equals(username)) 
-					return pieces[1].equals(password); // Account exists, return true if the password matches.
-			}
-
-			return false;
+			// TODO: remove this when real connection is available			
+			return SocketAPI.checkPasscode(password).contains("true") ? true : false;
 		}
 
 		@Override

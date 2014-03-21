@@ -1,11 +1,14 @@
 package com.seg.questionnaire.backend.question;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
 
+import com.seg.questionnaire.R;
 import com.seg.questionnaire.backend.answer.SingleAnswer;
 
 /**
@@ -46,6 +49,12 @@ public class TextQuestion extends Question
 		et.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 
 											ViewGroup.LayoutParams.WRAP_CONTENT));
 		et.requestFocus();
+		et.setHint(context.getString(R.string.answer_here_hint));
+		et.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
+		et.setSingleLine(false);
+		et.setBackground(context.getResources().getDrawable(android.R.drawable.edit_text));
+		et.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+		et.setTextSize(context.getResources().getDimension(R.dimen.normal_text_size));
 		
 		return et;//return the EditText
 	}

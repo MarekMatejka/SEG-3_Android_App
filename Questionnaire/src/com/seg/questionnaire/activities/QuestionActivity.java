@@ -64,7 +64,11 @@ public class QuestionActivity extends Activity
 		//initialize questionnaire
 		ques = QuestionnaireFactory.creatQuestionnaire(JSONParser.parse(this));
 		//ques.loadDummy();
-				
+			
+		//set questionnaire's title
+		TextView questionnaireTitle = (TextView)findViewById(R.id.questionnaireTitle);
+		questionnaireTitle.setText(ques.getQuestionnaireTitle());
+		
 		//load first question
 		loadQuestion(ques.getQuestion(currentQuestion));
 		
@@ -85,8 +89,9 @@ public class QuestionActivity extends Activity
 		else //v.getId() == R.id.skip
 			skipQuestion(currentQuestion+1);
 		
-		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+		//hide keyboard
+		InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); 
+		inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
 	}
 	
 	/**

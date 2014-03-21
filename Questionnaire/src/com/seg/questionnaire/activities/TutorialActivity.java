@@ -56,7 +56,7 @@ public class TutorialActivity extends Activity
 		setContentView(R.layout.activity_question);
 		
 		//initialize the questionnaire
-		ques = new Questionnaire(0, new LinkedList<Question>());
+		ques = new Questionnaire(0, new LinkedList<Question>(), "Tutorial questionnaire");
 		
 		//add Yes/No question
 		ques.addQuestion(new YesNoQuestion("0", "Is the weather nice?", true));

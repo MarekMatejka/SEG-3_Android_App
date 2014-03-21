@@ -3,13 +3,19 @@ package com.seg.questionnaire.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.seg.questionnaire.R;
+import com.seg.questionnaire.backend.connectivity.SocketAPI;
 import com.seg.questionnaire.backend.json.PatientJSON;
 
 /**
@@ -21,6 +27,10 @@ import com.seg.questionnaire.backend.json.PatientJSON;
 public class PatientDetailActivity extends Activity 
 {
 
+	PatientDetailsTask task = null;
+	PatientJSON patient = null;
+	EditText nhs;
+	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
@@ -29,6 +39,8 @@ public class PatientDetailActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_patient_detail);
+		
+		nhs = (EditText)findViewById(R.id.patientNHS);
 	}
 
 	/**
@@ -39,9 +51,17 @@ public class PatientDetailActivity extends Activity
 	public void onClick(View v)
 	{
 		if (v.getId() == R.id.getPatient)
+		{
 			validateNHS();
+			
+			//hide keyboard
+			InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); 
+			inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+		}
 		else if (v.getId() == R.id.confirm)
 			finish();
+		else if (v.getId() == R.id.newSearch)
+			newSearch();
 	}
 	
 	/**
@@ -49,24 +69,16 @@ public class PatientDetailActivity extends Activity
 	 */
 	private void validateNHS()
 	{
-		EditText e = (EditText)findViewById(R.id.patientNHS);
-		String nhs = e.getText().toString(); //get NHS number
+		String NHS = nhs.getText().toString(); //get NHS number
 		
-		if (nhs.length() != 10) //if it is too short
-			e.setError(getString(R.string.incorrect_nhs_format));
+		if (NHS.length() != 10) //if it is too short
+			nhs.setError(getString(R.string.incorrect_nhs_format));
 		else
 		{	
-			fromFormToWaitingAnimation(true);//start animation
+			fromFormToWaitingAnimation(true); //start animation
 			
-			//TODO: PatientJSON patient = gson.fromJSON(SocketAPI.findPatient(serverIP, nhs), PatientJSON.class);
-			PatientJSON patient = findPatient(nhs); //parse JSON
-			if (patient == null)
-			{
-				e.setError(getString(R.string.no_patient_found));
-				fromFormToWaitingAnimation(false); //start animation
-			}
-			else
-				fromWaitingToPatientDetailsAnimation(patient); //start animation
+			task = new PatientDetailsTask();
+			task.execute(new String[] {NHS});
 		}
 	}
 	
@@ -87,35 +99,26 @@ public class PatientDetailActivity extends Activity
 		postcode.setText(patient.getPostcode());
 		
 		TextView disability = (TextView)findViewById(R.id.patient_disability);
-		disability.setText(patient.getDisability());
+		disability.setText(patient.getDisability() == null ? "No dissability" : patient.getDisability());
 	}
 	
 	
 	/**
-	 * TEMPORARY METHOD.
+	 * Connects to the server and retrieves a patient object
+	 * from the database for the given NHS number
 	 * 
-	 * @param NHS
-	 * @return
+	 * @param NHS Patient's NHS number.
+	 * @return Patient object or NULL if no such patient found.
 	 */
 	private PatientJSON findPatient(String NHS)
 	{
-		//TODO: DELETE METHOD
 		Gson gson = new Gson();
-		if (NHS.equals("1234567890"))
-		{
-			String p1 = "{\"nhsNumber\":\"1234567890\",\"first_name\":\"Marek\",\"middle_name\":\"\",\"surname\":\"Matejka\"," +
-						"\"dateOfBirth\":\"15.08.1994\",\"postcode\":\"WC2R 2LS\",\"disability\":\"No dissability\"}";
-			return gson.fromJson(p1, PatientJSON.class);
-		}
-		else if (NHS.equals("0987654321"))
-		{
-			String p1 = "{\"nhsNumber\":\"0987654321\",\"first_name\":\"James\",\"middle_name\":\"\",\"surname\":\"Bellamy\"," +
-						"\"dateOfBirth\":\"14.01.1994\",\"postcode\":\"CT19 5JY\",\"disability\":\"No dissability\"}";
-			return gson.fromJson(p1, PatientJSON.class);
-		}
-		else
+		String patient = SocketAPI.findPatient(NHS);
+		
+		if (patient.contains("'error_code': 666"))
 			return null;
-	}	
+		return gson.fromJson(patient, PatientJSON.class);
+	}
 	
 	/**
 	 * Animate the transition from NHS number input to Waiting for response
@@ -125,9 +128,13 @@ public class PatientDetailActivity extends Activity
 	 * FALSE for the other way.
 	 */
 	private void fromFormToWaitingAnimation(final boolean show)
-	{
+	{		
 		//get animation time
 		int animTime = getResources().getInteger(android.R.integer.config_mediumAnimTime);
+		
+		//loads the spinner animation
+		ImageView spinner = (ImageView)findViewById(R.id.spinnerPatientDetail);
+		spinner.startAnimation(AnimationUtils.loadAnimation(this, R.anim.loading_bar));
 				
 		//animate waiting for response to appear
 		final View loginStatusView = findViewById(R.id.login_status_patient);
@@ -159,6 +166,42 @@ public class PatientDetailActivity extends Activity
 	}
 	
 	/**
+	 * Animate the transition from Patient Details input to Patient Form.
+	 */
+	private void newSearch()
+	{		
+		//get animation time
+		int animTime = getResources().getInteger(android.R.integer.config_mediumAnimTime);
+				
+		//animate patient details to disappear
+		final View patientDetails = findViewById(R.id.patient_details);
+		patientDetails.setVisibility(View.VISIBLE);
+		patientDetails.animate().setDuration(animTime)
+							    .alpha(0)
+							    .setListener(new AnimatorListenerAdapter() 
+							    {
+								    @Override
+								    public void onAnimationEnd(Animator animation) 
+								    {
+								 	    patientDetails.setVisibility(View.GONE);
+								    }
+							    });
+
+		//animate waiting for response to appear
+		final View loginFormView = findViewById(R.id.search_form);
+		loginFormView.animate().setDuration(animTime)
+								 .alpha(1)
+								 .setListener(new AnimatorListenerAdapter() 
+								 {
+									 @Override
+									 public void onAnimationEnd(Animator animation) 
+									 {
+										 loginFormView.setVisibility(View.VISIBLE);
+									 }
+								 });
+	}
+	
+	/**
 	 * Animate the transition from Waiting for response to Patient Details
 	 * or the other way round
 	 * 
@@ -168,7 +211,7 @@ public class PatientDetailActivity extends Activity
 	{
 		//get animation time
 		int animTime = getResources().getInteger(android.R.integer.config_mediumAnimTime);
-				
+
 		//animate waiting for response to disappear
 		final View loginStatusView = findViewById(R.id.login_status_patient);
 		loginStatusView.setVisibility(View.VISIBLE);
@@ -197,5 +240,52 @@ public class PatientDetailActivity extends Activity
 										setPatientDetails(patient);
 								    }
 							    });
+	}
+	
+	/**
+	 * AsyncTask making sure that the animation is working correctly with the 
+	 * data retrieval.
+	 * 
+	 * @author Marek Matejka
+	 *
+	 */
+	public class PatientDetailsTask extends AsyncTask<String, Void, Void> 
+	{
+		/* (non-Javadoc)
+		 * @see android.os.AsyncTask#doInBackground(Params[])
+		 */
+		@Override
+		protected Void doInBackground(String... params) 
+		{
+			patient = findPatient(params[0]); //get patient
+			return (Void)null;
+		}
+
+		/* (non-Javadoc)
+		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+		 */
+		@Override
+		protected void onPostExecute(Void v) 
+		{
+			if (patient == null) //if no patient retrieved
+			{
+				nhs.setError(getString(R.string.no_patient_found));
+				fromFormToWaitingAnimation(false); //start animation
+			}
+			else
+				fromWaitingToPatientDetailsAnimation(patient); //start animation
+			
+			task = null;
+		}
+
+		/* (non-Javadoc)
+		 * @see android.os.AsyncTask#onCancelled()
+		 */
+		@Override
+		protected void onCancelled() 
+		{
+			task = null;
+			fromFormToWaitingAnimation(false);
+		}
 	}
 }

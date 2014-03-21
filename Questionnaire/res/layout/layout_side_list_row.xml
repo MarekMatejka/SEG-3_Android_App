@@ -4,8 +4,9 @@
 	android:id="@+id/sideListRow"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:textAppearance="?android:attr/textAppearanceMedium"
+	android:textAppearance="?android:attr/textAppearanceLarge"
 	android:fontFamily="sans-serif-light"
+	android:textColor="@color/white"
 	android:paddingTop="3dp"
 	android:paddingBottom="3dp" />
 	

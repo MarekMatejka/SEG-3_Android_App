@@ -54,16 +54,16 @@ public class ConnectionActivity extends Activity
 		switch (v.getId()) //based on the View call proper API function and print the result on the screen
 		{
 			case R.id.findPatient:
-				result.setText(SocketAPI.findPatient(serverIP, params[0])); 
+				result.setText(SocketAPI.findPatient(params[0])); 
 				break;
 			case R.id.getQuesForPatient:
-				result.setText(SocketAPI.getAllQuestionnairesForPatient(serverIP, params[0]));
+				result.setText(SocketAPI.getAllQuestionnairesForPatient(params[0]));
 				break;
 			case R.id.getQuesByID:
-				result.setText(SocketAPI.getQuestionnaireByName(serverIP, params[0]));
+				result.setText(SocketAPI.getQuestionnaireByName(params[0]));
 				break;
 			case R.id.checkUser:
-				result.setText(SocketAPI.checkUser(serverIP, params[0], params[1]));
+				result.setText(SocketAPI.checkPasscode(params[0]));
 				break;
 		}
 	}

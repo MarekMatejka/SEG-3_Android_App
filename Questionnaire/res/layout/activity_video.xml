@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="25dp"
-    tools:context=".VideoActivity" >
+    tools:context=".VideoActivity" 
+    android:background="@color/mediq_blue">
 
     <VideoView
         android:id="@+id/videoView1"
