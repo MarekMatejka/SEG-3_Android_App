@@ -1,5 +1,7 @@
 package com.seg.questionnaire.backend.answer;
 
+import java.util.List;
+
 /**
  * Abstract class defining basic method for all Answers.
  * 
@@ -42,6 +44,13 @@ public abstract class Answer
 	 * Clears the content of the answer.
 	 */
 	public abstract void clearAnswer();
+	
+	/**
+	 * Returns the answer in a form of a List.
+	 * 
+	 * @return List of answers.
+	 */
+	public abstract List<String> getAnswersAsList();
 	
 	/**
 	 * Returns an ID of a Question which it belongs.

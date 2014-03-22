@@ -1,5 +1,6 @@
 package com.seg.questionnaire.backend.json;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -32,15 +33,13 @@ public class QuestionJSON
 	 */
 	private boolean required;
 	
-	/**
-	 * Details of the question - lower/upper bound, answer options.
-	 */
-	private DetailsJSON details;
+	private String description;
 	
-	/**
-	 * List of dependent questions to this question.
-	 */
-	private List<DependentQuestionsJSON> dependent_questions;
+	private HashMap<String, List<QuestionJSON>> dependentQuestions;
+	
+	private int upperBound, lowerBound;
+	
+	private List<String> answerOptions;
 		
 	/**
 	 * Return question's id.
@@ -83,25 +82,29 @@ public class QuestionJSON
 		return required;
 	}
 
-	/**
-	 * Returns further details about the question.
-	 * Details include lower/upper bound and answer options.
-	 * 
-	 * @return Details about the question.
-	 */
-	public DetailsJSON getDetails() 
+	public String getDescription() {
+		return description;
+	}
+	
+	public HashMap<String, List<QuestionJSON>> getDependentQuestions() {
+		return dependentQuestions;
+	}
+	
+	public List<QuestionJSON> getDependentQuestions(String key)
 	{
-		return details;
+		return dependentQuestions.get(key);
+	}
+	
+	public int getUpperBound() {
+		return upperBound;
 	}
 
-	/**
-	 * Returns dependent questions for this question.
-	 * 
-	 * @return Dependent questions for this question.
-	 */
-	public List<DependentQuestionsJSON> getDependentQuestions() 
-	{
-		return dependent_questions;
+	public int getLowerBound() {
+		return lowerBound;
+	}
+
+	public List<String> getAnswerOptions() {
+		return answerOptions;
 	}
 
 	/* (non-Javadoc)
@@ -110,14 +113,8 @@ public class QuestionJSON
 	public String toString()
 	{	
 		String s = "q id = "+id+" | q title = "+title+" | q type = "+type+" | q required = "+required;
-		
-		if (details != null)
-			s += " | "+details.toString(type);
-		
-		if (dependent_questions != null)
-			for (DependentQuestionsJSON d : dependent_questions)
-				s += " | "+d.toString();
-		
 		return s;
 	}
+	
+	
 }

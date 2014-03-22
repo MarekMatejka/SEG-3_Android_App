@@ -226,7 +226,7 @@ public class QuestionActivity extends Activity
 		
 		//set buttons visible or gone based on some basic conditions
 		Button skip = (Button)findViewById(R.id.skip);
-		if (q.isRequired())
+		if (q.isRequired() || currentQuestion == ques.getNumberOfQuestions()-1)
 			skip.setVisibility(View.GONE);
 		else
 			skip.setVisibility(View.VISIBLE);
@@ -239,9 +239,9 @@ public class QuestionActivity extends Activity
 		
 		Button next = (Button)findViewById(R.id.next);
 		if (currentQuestion == ques.getNumberOfQuestions()-1)
-			next.setText("Submit");
+			next.setText(getResources().getString(R.string.submit_answers));
 		else
-			next.setText("Next");
+			next.setText(getResources().getString(R.string.next_question));
 	}
 	
 	/**

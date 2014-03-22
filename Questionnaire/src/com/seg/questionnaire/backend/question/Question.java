@@ -255,4 +255,14 @@ public abstract class Question
 			return false;
 		return true;
 	}
+	
+	/**
+	 * Returns answers as a List.
+	 * 
+	 * @return List of answers.
+	 */
+	public List<String> getAnswerAsList()
+	{
+		return answer.getAnswersAsList();
+	}
 }

@@ -93,4 +93,12 @@ public class MultipleAnswer extends Answer
 	{
 		this.answers.clear();
 	}
+
+	/* (non-Javadoc)
+	 * @see com.seg.questionnaire.backend.answer.Answer#getAnswersAsArray()
+	 */
+	@Override
+	public List<String> getAnswersAsList() {
+		return answers;
+	}
 }

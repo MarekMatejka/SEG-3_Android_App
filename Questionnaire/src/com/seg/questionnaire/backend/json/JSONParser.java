@@ -28,7 +28,7 @@ public class JSONParser
 		QuestionnaireJSON qj = null;
 		try {
 			AssetManager assetManager = context.getAssets();
-			BufferedReader in = new BufferedReader(new InputStreamReader(assetManager.open("test.json")));
+			BufferedReader in = new BufferedReader(new InputStreamReader(assetManager.open("questionnaire.json")));
 			
 			String s = "";
 			String result = "";

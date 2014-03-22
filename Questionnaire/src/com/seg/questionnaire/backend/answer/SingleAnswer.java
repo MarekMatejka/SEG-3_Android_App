@@ -1,5 +1,8 @@
 package com.seg.questionnaire.backend.answer;
 
+import java.util.LinkedList;
+import java.util.List;
+
 
 /**
  * Answer that contains only a single answer.
@@ -65,9 +68,23 @@ public class SingleAnswer extends Answer
 		this.answer = answer;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.seg.questionnaire.backend.answer.Answer#clearAnswer()
+	 */
 	@Override
 	public void clearAnswer()
 	{
 		this.answer = "";
+	}
+
+	/* (non-Javadoc)
+	 * @see com.seg.questionnaire.backend.answer.Answer#getAnswersAsArray()
+	 */
+	@Override
+	public List<String> getAnswersAsList() 
+	{
+		List<String> l = new LinkedList<String>();
+		l.add(answer);
+		return l;
 	}
 }

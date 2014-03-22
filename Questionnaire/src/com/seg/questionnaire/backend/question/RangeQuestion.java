@@ -73,6 +73,9 @@ public class RangeQuestion extends Question
 		//create and initialize the SeekBar
 		b = new SeekBar(context);
 		b.setMax(upperBound-lowerBound);
+		b.setProgressDrawable(context.getResources().getDrawable(R.drawable.progress_bar_style));
+		b.setThumb(context.getResources().getDrawable(R.drawable.seekbar_thumb));
+		b.setPadding(30, 0, 30, 0);
 		b.incrementProgressBy(1);
 		b.setProgress((lowerBound+upperBound)/2-lowerBound);
 		b.setLayoutParams(getLayoutParams());

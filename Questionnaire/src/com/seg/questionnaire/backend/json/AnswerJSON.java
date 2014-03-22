@@ -1,5 +1,7 @@
 package com.seg.questionnaire.backend.json;
 
+import java.util.List;
+
 /**
  * JSON template class for Answer object. 
  * 
@@ -18,7 +20,7 @@ public class AnswerJSON
 	 * Answer field.
 	 */
 	@SuppressWarnings("unused")
-	private String answer;
+	private List<String> answer;
 
 	/**
 	 * Sets the question_id field with given value.
@@ -35,7 +37,7 @@ public class AnswerJSON
 	 * 
 	 * @param answer Value of the field.
 	 */
-	public void setAnswer(String answer) 
+	public void setAnswer(List<String> answer) 
 	{
 		this.answer = answer;
 	}

@@ -24,6 +24,7 @@
     <string name="questionnaires_available">Questionnaires available to</string>
     <string name="no_available_questionnaires">No available questionnaires found for</string>
     <string name="close">Close</string>
+    <string name="submit_answers">Submit answers</string>
 
     <!-- Patient detail activity -->
     <string name="title_activity_patient_detail">PatientDetailActivity</string>

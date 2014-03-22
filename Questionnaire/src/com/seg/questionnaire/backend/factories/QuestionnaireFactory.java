@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.seg.questionnaire.backend.Questionnaire;
-import com.seg.questionnaire.backend.json.DependentQuestionsJSON;
 import com.seg.questionnaire.backend.json.QuestionJSON;
 import com.seg.questionnaire.backend.json.QuestionnaireJSON;
 import com.seg.questionnaire.backend.question.Question;
@@ -69,41 +68,47 @@ public class QuestionnaireFactory
 		{
 			case 0: q = new RangeQuestion(json.getId(),
 			/*Range Question*/			  json.getTitle(), 
-										  json.getDetails().getLowerBound(),
-										  json.getDetails().getUpperBound(),
+										  json.getLowerBound(),
+										  json.getUpperBound(),
 										  json.isRequired());
 										  break;
 			case 1: q = new SelectManyQuestion(json.getId(),
 			/*Select Many Question*/  	 	   json.getTitle(),
-					   						   json.getDetails().getChoices(),
+					   						   json.getAnswerOptions(),
 											   json.isRequired());
-											   break;
+					addDependentQuestions(json, q);
+					break;
 			case 2: q = new YesNoQuestion(json.getId(),
 			/*Yes/No Question*/			  json.getTitle(), 
 										  json.isRequired());
-										  break;
+					addDependentQuestions(json, q);
+					break;
 			case 3: q = new TextQuestion(json.getId(),
 			/*Text Question*/			 json.getTitle(), 
 						 				 json.isRequired());
 										 break;
 			case 4: q = new SelectOneQuestion(json.getId(),
 			/*Select One Question*/			  json.getTitle(),
-											  json.getDetails().getChoices(), 
+											  json.getAnswerOptions(),
 											  json.isRequired());
-											  break;
+					addDependentQuestions(json, q);
+					break;
 			case 5: q = new RankQuestion(json.getId(),
 			/*Rank Question*/			 json.getTitle(), 
-										 json.getDetails().getChoices(),
+										 json.getAnswerOptions(),
 										 json.isRequired());
 										 break;
 			default: q = null; //Unknown error
 		}
-				
-		List<DependentQuestionsJSON> l; //list of all dependent questions
-		if ((l = json.getDependentQuestions()) != null) // if there are any
-			for (DependentQuestionsJSON d : l) //loop through them
-				q.addDependentQuestions(d.getCondition(), convertQuestions(d.getQuestions())); //add them to the question
 		
 		return q; //return question
+	}
+	
+	private static void addDependentQuestions(QuestionJSON json, Question q)
+	{
+		List<QuestionJSON> l; //list of all dependent questions
+		for (String key : json.getAnswerOptions())
+			if ((l = json.getDependentQuestions(key)) != null) // if there are any
+				q.addDependentQuestions(key, convertQuestions(l)); //add them to the question
 	}
 }

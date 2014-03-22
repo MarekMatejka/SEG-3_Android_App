@@ -93,20 +93,6 @@
 	            android:text="@string/previous_question" />
 		    
 		    <Button
-			    android:id="@+id/next"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="3dp"
-	            android:layout_marginRight="3dp"
-	            android:layout_marginTop="16dp"
-	            android:layout_weight="1"
-	            android:fontFamily="sans-serif-light"
-	            android:background="@color/button_background_color"
-	            style="?android:attr/textAppearanceLarge"
-	            android:onClick="changeQuestion"
-	            android:text="@string/next_question" />
-		    
-		    <Button
 			    android:id="@+id/skip"
 	            android:layout_width="match_parent"
 	            android:layout_height="match_parent"
@@ -119,6 +105,20 @@
 	            style="?android:attr/textAppearanceLarge"
 	            android:onClick="changeQuestion"
 	            android:text="@string/skip_question" />	    
+	            
+		    <Button
+			    android:id="@+id/next"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="3dp"
+	            android:layout_marginRight="3dp"
+	            android:layout_marginTop="16dp"
+	            android:layout_weight="1"
+	            android:fontFamily="sans-serif-light"
+	            android:background="@color/button_background_color"
+	            style="?android:attr/textAppearanceLarge"
+	            android:onClick="changeQuestion"
+	            android:text="@string/next_question" />
 	    </LinearLayout>
 	    
 	    <LinearLayout
