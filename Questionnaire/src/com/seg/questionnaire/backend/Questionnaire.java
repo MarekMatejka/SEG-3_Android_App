@@ -192,7 +192,7 @@ public class Questionnaire
 	}
 	
 	/**
-	 * Returns all the questions of the questionanire.
+	 * Returns all the questions of the questionnaire.
 	 * 
 	 * @return All questionnaire's questions.
 	 */

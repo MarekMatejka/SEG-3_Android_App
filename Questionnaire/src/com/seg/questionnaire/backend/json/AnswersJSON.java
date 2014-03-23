@@ -21,7 +21,7 @@ public class AnswersJSON
 	 * Patient ID field.
 	 */
 	@SuppressWarnings("unused")
-	private long patient_id;
+	private String patient_id;
 	
 	/**
 	 * List of Answers.
@@ -43,7 +43,7 @@ public class AnswersJSON
 	 * 
 	 * @param patient_id Value given to the field.
 	 */
-	public void setPatient_id(long patient_id) 
+	public void setPatient_id(String patient_id) 
 	{
 		this.patient_id = patient_id;
 	}

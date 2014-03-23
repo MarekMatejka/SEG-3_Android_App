@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,12 +21,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.seg.questionnaire.R;
 import com.seg.questionnaire.activities.adapter.SideListAdapter;
 import com.seg.questionnaire.backend.Questionnaire;
+import com.seg.questionnaire.backend.connectivity.SocketAPI;
 import com.seg.questionnaire.backend.factories.AnswersFactory;
 import com.seg.questionnaire.backend.factories.QuestionnaireFactory;
 import com.seg.questionnaire.backend.json.JSONParser;
+import com.seg.questionnaire.backend.json.QuestionnaireJSON;
 import com.seg.questionnaire.backend.question.Question;
 
 /**
@@ -61,13 +65,28 @@ public class QuestionActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_question);
 		
+		//highContrastMode();
+		
 		//initialize questionnaire
-		ques = QuestionnaireFactory.creatQuestionnaire(JSONParser.parse(this));
+		//ques = QuestionnaireFactory.creatQuestionnaire(JSONParser.parse(this));
+		Gson gson = new Gson();
+		String questionnaire = SocketAPI.getQuestionnaireByName(AvailableQuestionnairesActivity.getQuestionnaireID());
+		Log.e("ques", questionnaire);
+		ques = QuestionnaireFactory.creatQuestionnaire(gson.fromJson(questionnaire, QuestionnaireJSON.class));
+		
 		//ques.loadDummy();
 			
 		//set questionnaire's title
 		TextView questionnaireTitle = (TextView)findViewById(R.id.questionnaireTitle);
 		questionnaireTitle.setText(ques.getQuestionnaireTitle());
+		
+		Log.e("size", ""+ques.getNumberOfQuestions());
+		if (ques.getNumberOfQuestions() == 0)
+		{
+			startActivity(new Intent(QuestionActivity.this, ThankYouActivity.class));
+			finish();
+			return;
+		}
 		
 		//load first question
 		loadQuestion(ques.getQuestion(currentQuestion));
@@ -148,6 +167,7 @@ public class QuestionActivity extends Activity
 		//TODO: SocketAPI.sendAnswers(serverIP, AnswersFactory.createJSON(ques));
 		Log.e("DEBUG", AnswersFactory.createJSON(ques));
 		
+		Log.e("answer", SocketAPI.sendAnswers(AnswersFactory.createJSON(ques)));
 		startActivity(new Intent(this, ThankYouActivity.class));
 		finish();
 	}
@@ -328,5 +348,23 @@ public class QuestionActivity extends Activity
 			if (question.hasDependentQuestions(answer)) //if there are some dependent questions for a given answer
 				ques.addQuestions(question.getDependentQuestions(answer.toString()), currentQuestion); //add them to the questionnaire
 		}
+	}
+	
+	private void highContrastMode()
+	{
+		Resources r = getResources();
+		findViewById(R.id.questionRoot).setBackgroundColor(r.getColor(R.color.white));
+		((TextView)findViewById(R.id.questionnaireTitle)).setTextColor(r.getColor(R.color.black));
+		((TextView)findViewById(R.id.poweredBy)).setTextColor(r.getColor(R.color.black));
+		((TextView)findViewById(R.id.poweredBy)).setCompoundDrawables(null, null, null, r.getDrawable(R.drawable.logo_with_text_small_300_bw));
+		((TextView)findViewById(R.id.question)).setTextColor(r.getColor(R.color.black));
+		((Button)findViewById(R.id.previous)).setTextColor(r.getColor(R.color.text_color_bw));
+		((Button)findViewById(R.id.previous)).setBackground(r.getDrawable(R.color.button_background_color_bw));
+		((Button)findViewById(R.id.skip)).setTextColor(r.getColor(R.color.text_color_bw));
+		((Button)findViewById(R.id.skip)).setBackground(r.getDrawable(R.color.button_background_color_bw));
+		((Button)findViewById(R.id.next)).setTextColor(r.getColor(R.color.text_color_bw));
+		((Button)findViewById(R.id.next)).setBackground(r.getDrawable(R.color.button_background_color_bw));
+		((ProgressBar)findViewById(R.id.progressBar1)).setProgressDrawable(r.getDrawable(R.drawable.progress_bar_style_bw));
+		((TextView)findViewById(R.id.outOf)).setTextColor(r.getColor(R.color.black));
 	}
 }

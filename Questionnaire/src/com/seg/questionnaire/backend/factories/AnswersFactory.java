@@ -1,6 +1,8 @@
 package com.seg.questionnaire.backend.factories;
 
 import com.google.gson.Gson;
+import com.seg.questionnaire.activities.LoginActivity;
+import com.seg.questionnaire.activities.PatientDetailActivity;
 import com.seg.questionnaire.backend.Questionnaire;
 import com.seg.questionnaire.backend.json.AnswerJSON;
 import com.seg.questionnaire.backend.json.AnswersJSON;
@@ -24,7 +26,7 @@ public class AnswersFactory
 	public static String createJSON(Questionnaire q)
 	{
 		AnswersJSON a = new AnswersJSON();
-		a.setPatient_id(1);
+		a.setPatient_id(PatientDetailActivity.getPatientNHS());
 		a.setQuestionnaire_id(q.getQuestionnaireID());
 		
 		for (Question qq : q.getQuestions())

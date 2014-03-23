@@ -26,9 +26,9 @@ import com.seg.questionnaire.backend.json.QuestionnairePointersJSON;
 
 public class AvailableQuestionnairesActivity extends Activity 
 {
-
 	private List<QuestionnairePointerJSON> pointers;
 	private AvailableQuestionnaireTask task;
+	private static String questionnaireID = "";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -147,11 +147,22 @@ public class AvailableQuestionnairesActivity extends Activity
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id) 
 					{
 						Log.e("DEBUG", ""+pointers.get(position).getId());
+						questionnaireID = ""+pointers.get(position).getId();
+						startActivity(new Intent(AvailableQuestionnairesActivity.this, VideoActivity.class));
 						finish();
 					}
 				});
 	}
-			
+		
+	/**
+	 * Returns the currently selected questionnaire ID.
+	 * 
+	 * @return Currently selected questionnaire ID.
+	 */
+	public static String getQuestionnaireID()
+	{
+		return questionnaireID;
+	}
 	
 	/**
 	 * AsyncTask making sure that the animation is working correctly with the 
@@ -168,7 +179,6 @@ public class AvailableQuestionnairesActivity extends Activity
 		@Override
 		protected Void doInBackground(Void... params) 
 		{
-			Log.e("DEBUG", PatientDetailActivity.getPatientNHS());
 			pointers = getAllAvailableQuestionnaires(PatientDetailActivity.getPatientNHS()); //get pointers
 			return (Void)null;
 		}

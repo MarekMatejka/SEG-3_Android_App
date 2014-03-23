@@ -2,6 +2,8 @@ package com.seg.questionnaire.backend.json;
 
 import java.util.List;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Class used as a template for Questionnaire object
  * in the JSON.
@@ -13,6 +15,7 @@ public class QuestionnaireJSON
 	/**
 	 * Questionnaire_id in JSON.
 	 */
+	@SerializedName (value = "id")
 	private int questionnaire_id;
 
 	/**

@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/questionRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="25dp"
@@ -43,6 +44,7 @@
 	        android:layout_weight="3"/>
 	    
 	    <TextView 
+	        android:id="@+id/poweredBy"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:textColor="@color/white"
@@ -136,8 +138,7 @@
 	            android:layout_marginRight="5dp"
 	            android:layout_weight="1"
 	            android:layout_gravity="center"
-	            android:progressDrawable="@drawable/progress_bar_style"
-	            android:clickable="true" />
+	            android:progressDrawable="@drawable/progress_bar_style"/>
 	
 	        <TextView
 	            android:id="@+id/outOf"

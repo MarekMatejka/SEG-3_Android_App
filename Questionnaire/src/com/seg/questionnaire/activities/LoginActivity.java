@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -209,15 +210,10 @@ public class LoginActivity extends Activity
 		@Override
 		protected Boolean doInBackground(Void... params) 
 		{
-			// TODO: attempt authentication against a network service.
-			try {
-				// Simulate network access.
-				//SocketAPI.checkUser(serverIP, username, password);
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {return false;}
-
-			// TODO: remove this when real connection is available			
-			return SocketAPI.checkPasscode(password).contains("true") ? true : false;
+			String s = SocketAPI.checkPasscode(password);
+			if (s.equals("Socket timeout"))
+				return false;
+			return s.contains("true") ? true : false;
 		}
 
 		@Override
@@ -227,7 +223,10 @@ public class LoginActivity extends Activity
 			showProgress(false);
 
 			if (success) 
+			{
+				startActivity(new Intent(LoginActivity.this, PatientDetailActivity.class));
 				finish();
+			}
 			else 
 			{
 				passwordView.setError(getString(R.string.error_incorrect_password));

@@ -3,6 +3,7 @@ package com.seg.questionnaire.activities;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech;
@@ -42,7 +43,9 @@ public class ThankYouActivity extends Activity implements OnInitListener
 			}
 			
 			@Override
-			public void onFinish() {
+			public void onFinish() 
+			{
+				startActivity(new Intent(ThankYouActivity.this, LoginActivity.class));
 				finish();
 			}
 		}.start();

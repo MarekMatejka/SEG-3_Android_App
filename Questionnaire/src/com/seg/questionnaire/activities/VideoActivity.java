@@ -3,10 +3,12 @@ package com.seg.questionnaire.activities;
 import java.io.File;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
@@ -29,6 +31,8 @@ public class VideoActivity extends Activity
 	 * Name and extension of the video file.
 	 */
 	private static String videoFileName = "MediQ.mp4";
+	
+	private boolean wasHere = false;
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -41,7 +45,10 @@ public class VideoActivity extends Activity
 		
 		File f = new File(VIDEO_FILE_DIRECTORY+"/"+videoFileName);
 		if (!f.isFile()) 
+		{
+			startActivity(new Intent(VideoActivity.this, QuestionActivity.class));
 			finish();
+		}
 		
 		VideoView video = (VideoView) findViewById(R.id.videoView1); //find view
         video.setVideoPath(f.getAbsolutePath()); //set video file
@@ -52,7 +59,13 @@ public class VideoActivity extends Activity
 			@Override
 			public void onCompletion(MediaPlayer mp) 
 			{
-				finish(); //close the Activity
+				//TODO: startActivity(new Intent(VideoActivity.this, TutorialActivity.class));
+				if (!wasHere)
+				{
+					wasHere = true;
+					startActivity(new Intent(VideoActivity.this, QuestionActivity.class));
+					finish(); //close the Activity
+				}
 			}
 		});
 	}
