@@ -73,6 +73,7 @@ public class SelectOneQuestion extends Question
 			//create new RadioButton and set its text
 			RadioButton rb = new RadioButton(context);
 			rb.setText(answerOptions.get(i).toString());
+			rb.setButtonDrawable(context.getResources().getDrawable(R.drawable.radio_button_style));
 			rb.setTextColor(context.getResources().getColor(R.color.white));
 			rb.setTextSize(context.getResources().getDimension(R.dimen.normal_text_size));
 			

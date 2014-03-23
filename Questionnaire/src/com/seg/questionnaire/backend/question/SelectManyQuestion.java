@@ -64,6 +64,7 @@ public class SelectManyQuestion extends Question
 			//create a CheckBox and set its text to one of the answers
 			CheckBox c = new CheckBox(context);
 			c.setText(answerOptions.get(i).toString());
+			c.setButtonDrawable(context.getResources().getDrawable(R.drawable.check_box_style));
 			c.setTextColor(context.getResources().getColor(R.color.white));
 			c.setTextSize(context.getResources().getDimension(R.dimen.normal_text_size));
 			
