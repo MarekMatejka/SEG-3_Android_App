@@ -49,7 +49,7 @@ public class SelectManyQuestion extends Question
 	 * @see com.seg.questionnaire.backend.question.Question#getView(android.content.Context)
 	 */
 	@Override
-	public View getView(Context context) 
+	public View getView(Context context, boolean highContrastMode) 
 	{
 		//initialize options list
 		options = new LinkedList<CheckBox>();
@@ -64,8 +64,16 @@ public class SelectManyQuestion extends Question
 			//create a CheckBox and set its text to one of the answers
 			CheckBox c = new CheckBox(context);
 			c.setText(answerOptions.get(i).toString());
-			c.setButtonDrawable(context.getResources().getDrawable(R.drawable.check_box_style));
-			c.setTextColor(context.getResources().getColor(R.color.white));
+			if (highContrastMode)
+			{
+				c.setButtonDrawable(context.getResources().getDrawable(R.drawable.check_box_style_bw));
+				c.setTextColor(context.getResources().getColor(R.color.black));
+			}
+			else
+			{
+				c.setButtonDrawable(context.getResources().getDrawable(R.drawable.check_box_style));
+				c.setTextColor(context.getResources().getColor(R.color.white));
+			}
 			c.setTextSize(context.getResources().getDimension(R.dimen.normal_text_size));
 			
 			//add the CheckBox to options List and to the LinearLayout

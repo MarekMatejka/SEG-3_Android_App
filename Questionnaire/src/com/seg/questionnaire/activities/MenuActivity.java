@@ -3,6 +3,7 @@ package com.seg.questionnaire.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.View;
 
@@ -41,6 +42,7 @@ public class MenuActivity extends Activity {
 			case R.id.login_button: startActivity(new Intent(this, LoginActivity.class)); onStop(); break;
 			case R.id.thank_you_button: startActivity(new Intent(this, ThankYouActivity.class)); onStop(); break;
 			case R.id.patient_details_button: startActivity(new Intent(this, PatientDetailActivity.class)); onStop(); break;
+			case R.id.accessibilityButton: startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)); onStop(); break;
 		}
 	}
 

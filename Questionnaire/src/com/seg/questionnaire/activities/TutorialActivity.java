@@ -118,7 +118,7 @@ public class TutorialActivity extends Activity
 		
 		RelativeLayout answer = (RelativeLayout)findViewById(R.id.answer);
 		answer.removeAllViews();
-		answer.addView(q.getView(this));
+		answer.addView(q.getView(this, QuestionActivity.isHighContrastMode()));
 		
 		TextView question = (TextView)findViewById(R.id.question);
 		question.setText(q.getQuestion());

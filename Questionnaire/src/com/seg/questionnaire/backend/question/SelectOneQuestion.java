@@ -55,7 +55,7 @@ public class SelectOneQuestion extends Question
 	 * @see com.seg.questionnaire.backend.question.Question#getView(android.content.Context)
 	 */
 	@Override
-	public View getView(Context context) 
+	public View getView(Context context, boolean highContrastMode) 
 	{
 		//create linear layout and set its orientation
 		LinearLayout l = new LinearLayout(context);
@@ -73,8 +73,16 @@ public class SelectOneQuestion extends Question
 			//create new RadioButton and set its text
 			RadioButton rb = new RadioButton(context);
 			rb.setText(answerOptions.get(i).toString());
-			rb.setButtonDrawable(context.getResources().getDrawable(R.drawable.radio_button_style));
-			rb.setTextColor(context.getResources().getColor(R.color.white));
+			if (highContrastMode)
+			{
+				rb.setButtonDrawable(context.getResources().getDrawable(R.drawable.radio_button_style_bw));
+				rb.setTextColor(context.getResources().getColor(R.color.black));
+			}
+			else
+			{
+				rb.setButtonDrawable(context.getResources().getDrawable(R.drawable.radio_button_style));
+				rb.setTextColor(context.getResources().getColor(R.color.white));
+			}
 			rb.setTextSize(context.getResources().getDimension(R.dimen.normal_text_size));
 			
 			//add the RadioButton to the RadioGroup and options list.

@@ -53,7 +53,7 @@ public class RangeQuestion extends Question
 	 * @see com.seg.questionnaire.backend.question.Question#getView(android.content.Context)
 	 */
 	@Override
-	public View getView(Context context) 
+	public View getView(Context context, boolean highContrastMode) 
 	{			
 		//create a linear layout with basic parameters
 		LinearLayout l = new LinearLayout(context);
@@ -67,14 +67,25 @@ public class RangeQuestion extends Question
 		t.setText(""+(lowerBound+upperBound)/2);
 		t.setLayoutParams(getLayoutParams());
 		t.setGravity(Gravity.CENTER_HORIZONTAL);
-		t.setTextColor(context.getResources().getColor(R.color.white));
+		if (highContrastMode)
+			t.setTextColor(context.getResources().getColor(R.color.black));
+		else
+			t.setTextColor(context.getResources().getColor(R.color.white));
 		t.setTextSize(context.getResources().getDimension(R.dimen.normal_text_size));
 		
 		//create and initialize the SeekBar
 		b = new SeekBar(context);
 		b.setMax(upperBound-lowerBound);
-		b.setProgressDrawable(context.getResources().getDrawable(R.drawable.progress_bar_style));
-		b.setThumb(context.getResources().getDrawable(R.drawable.seekbar_thumb));
+		if (highContrastMode)
+		{
+			b.setProgressDrawable(context.getResources().getDrawable(R.drawable.progress_bar_style_bw));
+			b.setThumb(context.getResources().getDrawable(R.drawable.seekbar_thumb_bw));
+		}
+		else
+		{
+			b.setProgressDrawable(context.getResources().getDrawable(R.drawable.progress_bar_style));
+			b.setThumb(context.getResources().getDrawable(R.drawable.seekbar_thumb));
+		}
 		b.setPadding(30, 0, 30, 0);
 		b.incrementProgressBy(1);
 		b.setProgress((lowerBound+upperBound)/2-lowerBound);

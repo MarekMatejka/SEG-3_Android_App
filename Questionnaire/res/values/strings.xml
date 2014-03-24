@@ -25,6 +25,10 @@
     <string name="no_available_questionnaires">No available questionnaires found for</string>
     <string name="close">Close</string>
     <string name="submit_answers">Submit answers</string>
+    <string name="no_disability">No disability</string>
+    <string name="high_contrast_mode">High contrast mode</string>
+    <string name="advanced_accessibility_settings">Advanced accessibility settings</string>
+    <string name="select_disability">Please select disability:</string>
 
     <!-- Patient detail activity -->
     <string name="title_activity_patient_detail">PatientDetailActivity</string>

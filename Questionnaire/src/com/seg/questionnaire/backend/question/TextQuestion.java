@@ -42,7 +42,7 @@ public class TextQuestion extends Question
 	 * @see com.seg.questionnaire.backend.question.Question#getView(android.content.Context)
 	 */
 	@Override
-	public View getView(final Context context) 
+	public View getView(final Context context, boolean highContrastMode) 
 	{	
 		//Initialize and prepare EditText
 		et = new EditText(context);

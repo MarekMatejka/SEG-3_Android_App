@@ -47,10 +47,13 @@ public class RankQuestion extends Question
 	 * @see com.seg.questionnaire.backend.question.Question#getView(android.content.Context)
 	 */
 	@Override
-	public View getView(Context context)
+	public View getView(Context context, boolean highContrastMode)
 	{
 		list = new DynamicListView(context);
-		adapter = new StableArrayAdapter(context, R.layout.layout_dynamic_list_view_row, answerOptions);
+		if (highContrastMode)
+			adapter = new StableArrayAdapter(context, R.layout.layout_dynamic_list_view_row_bw, answerOptions);
+		else
+			adapter = new StableArrayAdapter(context, R.layout.layout_dynamic_list_view_row, answerOptions);
 		
 		list.setAdapter(adapter);
 		list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);

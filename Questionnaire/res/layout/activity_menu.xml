@@ -55,6 +55,13 @@
         android:text="Patient details"
         android:onClick="onClick" />
     
+    <Button
+        android:id="@+id/accessibilityButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Accessibility"
+        android:onClick="onClick" />
+    
     
 
 </LinearLayout>

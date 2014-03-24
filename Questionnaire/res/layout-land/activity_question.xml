@@ -51,7 +51,18 @@
 			android:textAppearance="?android:attr/textAppearanceMedium" 
 			android:fontFamily="sans-serif-light"
 			android:text="@string/powered_by"
-			android:drawableBottom="@drawable/logo_with_text_small_300"/>        
+			android:drawableBottom="@drawable/logo_with_text_small_300"/>
+	    
+	    <TextView 
+	        android:id="@+id/poweredByBW"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:textColor="@color/black"
+			android:textAppearance="?android:attr/textAppearanceMedium" 
+			android:fontFamily="sans-serif-light"
+			android:text="@string/powered_by"
+			android:drawableBottom="@drawable/logo_with_text_small_300_bw"
+			android:visibility="gone"/>
 	    
     </LinearLayout>
     

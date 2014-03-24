@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.seg.questionnaire.R;
+import com.seg.questionnaire.activities.QuestionActivity;
 import com.seg.questionnaire.backend.question.Question;
 
 /**
@@ -55,6 +56,9 @@ public class SideListAdapter extends ArrayAdapter<Question>
 		if (q.isAnswered()) //if the question is answered
 			user.setBackgroundColor(Color.GREEN); //set its background green
 
+		if (QuestionActivity.isHighContrastMode())
+			user.setTextColor(context.getResources().getColor(R.color.black));
+		
 	    return row; //return the row
 	}
 }

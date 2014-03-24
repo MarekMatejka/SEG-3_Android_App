@@ -7,11 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -65,6 +67,7 @@ public class PatientDetailActivity extends Activity
 		{
 			startActivity(new Intent(this, AvailableQuestionnairesActivity.class));
 			finish();
+			getDisability(); //must be last to open Settings after the following page!
 		}
 		else if (v.getId() == R.id.newSearch)
 			newSearch();
@@ -105,9 +108,6 @@ public class PatientDetailActivity extends Activity
 		
 		TextView postcode = (TextView)findViewById(R.id.patient_postcode);
 		postcode.setText(patient.getPostcode());
-		
-		TextView disability = (TextView)findViewById(R.id.patient_disability);
-		disability.setText(patient.getDisability() == null ? "No dissability" : patient.getDisability());
 	}
 	
 	
@@ -258,6 +258,22 @@ public class PatientDetailActivity extends Activity
 	public static String getPatientName()
 	{
 		return patientName;
+	}
+	
+	/**
+	 * Gets the user selected disability and does appropriate steps to 
+	 * ensure that the correct mode is applied through the application.
+	 */
+	private void getDisability()
+	{
+		RadioGroup g = (RadioGroup)findViewById(R.id.disability);
+		switch (g.getCheckedRadioButtonId())
+		{
+			case R.id.no_dissability: return;
+			case R.id.high_contrast_mode: QuestionActivity.setHighContrastMode(true); break;
+			case R.id.advanced_accessibility_settings: startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)); onStop(); break;
+			default: return;
+		}
 	}
 	
 	/**

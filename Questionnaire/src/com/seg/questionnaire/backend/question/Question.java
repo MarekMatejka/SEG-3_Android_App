@@ -48,10 +48,11 @@ public abstract class Question
 	 * for the question.
 	 * 
 	 * @param context Context of the Activity.
+	 * @param highContrastMode Defines whether highContrastMode is on or not.
 	 * @return View (layout) generated based on the type
 	 * of the question.
 	 */
-	public abstract View getView(Context context);
+	public abstract View getView(Context context, boolean highContrastMode);
 	
 	/**
 	 * Reads answer(s) from the question and saves them in 
