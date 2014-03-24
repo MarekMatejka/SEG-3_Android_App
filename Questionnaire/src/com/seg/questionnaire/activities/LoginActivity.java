@@ -26,6 +26,8 @@ import com.seg.questionnaire.backend.connectivity.SocketAPI;
  */
 public class LoginActivity extends Activity 
 {	
+	public static final String COMES_FROM_QUESTION_ACTIVITY = "QA";
+	
 	private static String serverIP = "";
 
 	/**
@@ -224,7 +226,8 @@ public class LoginActivity extends Activity
 
 			if (success) 
 			{
-				startActivity(new Intent(LoginActivity.this, PatientDetailActivity.class));
+				if (!getIntent().getBooleanExtra(COMES_FROM_QUESTION_ACTIVITY, false))
+					startActivity(new Intent(LoginActivity.this, PatientDetailActivity.class));
 				finish();
 			}
 			else 

@@ -328,7 +328,11 @@ public class QuestionActivity extends Activity
 	{
 		super.onStop();
 		if (currentQuestion != ques.getNumberOfQuestions())
-			startActivity(new Intent(this, LoginActivity.class));
+		{
+			Intent i = new Intent(this, LoginActivity.class);
+			i.putExtra(LoginActivity.COMES_FROM_QUESTION_ACTIVITY, true);
+			startActivity(i);
+		}
 	}
 	
 	/**
@@ -351,6 +355,9 @@ public class QuestionActivity extends Activity
 		}
 	}
 	
+	/**
+	 * Turns the whole UI into high contrast mode.
+	 */
 	private void highContrastMode()
 	{
 		Resources r = getResources();
@@ -379,11 +386,22 @@ public class QuestionActivity extends Activity
 		inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
 	}
 	
+	/**
+	 * Checks if the high contrast mode is turned on or off.
+	 * 
+	 * @return TRUE if high contrast mdoe is on, FALSE otherwise.
+	 */
 	public static boolean isHighContrastMode()
 	{
 		return highContrastMode;
 	}
 	
+	/**
+	 * Sets the high contrast mode on or off.
+	 * 
+	 * @param newHighContrastMode TRUE to set the high contrast mode on,
+	 * FALSE to turn it off.
+	 */
 	public static void setHighContrastMode(boolean newHighContrastMode)
 	{
 		highContrastMode = newHighContrastMode;
