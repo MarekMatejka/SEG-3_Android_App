@@ -9,7 +9,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -28,6 +27,7 @@ import com.seg.questionnaire.backend.Questionnaire;
 import com.seg.questionnaire.backend.connectivity.SocketAPI;
 import com.seg.questionnaire.backend.factories.AnswersFactory;
 import com.seg.questionnaire.backend.factories.QuestionnaireFactory;
+import com.seg.questionnaire.backend.file.AnswerFile;
 import com.seg.questionnaire.backend.json.QuestionnaireJSON;
 import com.seg.questionnaire.backend.question.Question;
 
@@ -55,6 +55,9 @@ public class QuestionActivity extends Activity
 	 */
 	private Context context = this;
 	
+	/**
+	 * Flag defining whether the high contrast mode is on or off.
+	 */
 	private static boolean highContrastMode = false;
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -75,8 +78,7 @@ public class QuestionActivity extends Activity
 		TextView questionnaireTitle = (TextView)findViewById(R.id.questionnaireTitle);
 		questionnaireTitle.setText(ques.getQuestionnaireTitle());
 		
-		Log.e("size", ""+ques.getNumberOfQuestions());
-		if (ques.getNumberOfQuestions() == 0)
+		if (ques.getNumberOfQuestions() == 0) //no questions in the questionnaire
 		{
 			startActivity(new Intent(QuestionActivity.this, ThankYouActivity.class));
 			finish();
@@ -87,11 +89,16 @@ public class QuestionActivity extends Activity
 		loadQuestion(ques.getQuestion(currentQuestion));
 	}
 	
+	/**
+	 * Returns Questionnaire retrieved from the server and automatically
+	 * parses it and uses factory to build the Questionnaire object.
+	 * 
+	 * @return Questionnaire object retrieved from the server.
+	 */
 	protected Questionnaire getQuestionnaire()
 	{
 		Gson gson = new Gson();
 		String questionnaire = SocketAPI.getQuestionnaireByName(AvailableQuestionnairesActivity.getQuestionnaireID());
-		Log.e("ques", questionnaire);
 		return QuestionnaireFactory.creatQuestionnaire(gson.fromJson(questionnaire, QuestionnaireJSON.class));
 	}
 	
@@ -162,11 +169,14 @@ public class QuestionActivity extends Activity
 	 * Next Activity is ThankYouActivity.
 	 */
 	protected void sendAnswers()
-	{
-		Log.e("DEBUG", AnswersFactory.createJSON(ques));
+	{		
+		String response = SocketAPI.sendAnswers(AnswersFactory.createJSON(ques));
 		
-		Log.e("answer", SocketAPI.sendAnswers(AnswersFactory.createJSON(ques)));
-		SocketAPI.close();
+		if (!response.equals("Socket timeout"))
+			SocketAPI.close();
+		else
+			AnswerFile.writeFile(this, AnswersFactory.createJSON(ques));
+		
 		startActivity(new Intent(this, ThankYouActivity.class));
 		finish();
 		ques.deleteQuestionnaire(); //wipe questionnaire data

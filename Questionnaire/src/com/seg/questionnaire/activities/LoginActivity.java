@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.seg.questionnaire.R;
 import com.seg.questionnaire.backend.connectivity.SocketAPI;
+import com.seg.questionnaire.backend.file.AnswerFile;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
@@ -33,14 +34,15 @@ public class LoginActivity extends Activity
 	public static final String COMES_FROM_QUESTION_ACTIVITY = "QA";
 	
 	private static String serverIP = "";
+	
+	private Context context = this;
 
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
 	private UserLoginTask authTask = null;
 
-	// Values for username and password at the time of the login attempt.
-	//private String username;
+	// Values for password at the time of the login attempt.
 	private String password;
 
 	// UI references.
@@ -233,6 +235,7 @@ public class LoginActivity extends Activity
 				if (!getIntent().getBooleanExtra(COMES_FROM_QUESTION_ACTIVITY, false))
 					startActivity(new Intent(LoginActivity.this, PatientDetailActivity.class));
 				finish();
+				AnswerFile.readAndSendFile(context);
 			}
 			else 
 			{

@@ -49,7 +49,6 @@ public class AvailableQuestionnairesActivity extends Activity
 		Gson gson = new Gson();
 		
 		String response = SocketAPI.getAllQuestionnairesForPatient(NHS);
-		Log.e("response", response);
 		response = "{\"pointers\":"+response+"}";
 		
 		return gson.fromJson(response, QuestionnairePointersJSON.class).getPointers();

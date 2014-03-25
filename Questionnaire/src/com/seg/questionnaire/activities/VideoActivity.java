@@ -8,7 +8,6 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Environment;
-import android.widget.MediaController;
 import android.widget.VideoView;
 
 import com.seg.questionnaire.R;
@@ -48,7 +47,7 @@ public class VideoActivity extends Activity
 		
 		VideoView video = (VideoView) findViewById(R.id.videoView1); //find view
         video.setVideoPath(f.getAbsolutePath()); //set video file
-        video.setMediaController(new MediaController(this)); //TODO: WILL BE REMOVED
+        video.setKeepScreenOn(true);
         video.start(); //start playing
         video.setOnCompletionListener(new OnCompletionListener() //when video ends
         {	

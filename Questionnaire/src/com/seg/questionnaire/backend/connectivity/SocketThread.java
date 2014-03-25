@@ -32,10 +32,10 @@ import android.util.Base64;
 public class SocketThread extends Thread 
 {
     private static SecretKeySpec secret;
-
     private static IvParameterSpec iv;
     private static Cipher decryptor;
     private static Cipher encryptor;
+    
     private static Socket socket;
 	
 	/**
@@ -181,6 +181,9 @@ public class SocketThread extends Thread
 	}
 	
 	//ENCRYTION AND DECRYPTION
+    /**
+     * Create the secret for use with AES encryption.
+     */
     private static void createSecret()
     {
         try
@@ -199,12 +202,18 @@ public class SocketThread extends Thread
         }
     }
 
+    /**
+     * Create the initialization vector for use with AES encryption.
+     */
     private static void createIV()
     {
         byte[] ivSpec = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         iv = new IvParameterSpec(ivSpec);
     }
 
+    /**
+     * Create the encryptor for use with AES encryption.
+     */
     private static void createEncryptor()
     {
         try
@@ -218,6 +227,9 @@ public class SocketThread extends Thread
         }
     }
 
+    /**
+     * Create the decryptor for use with AES encryption.
+     */
     private static void createDecryptor()
     {
         try
@@ -231,7 +243,13 @@ public class SocketThread extends Thread
         }
     }
 
-    private static String decrypt(String message)
+    /**
+     * Decrypts the message using AES.
+     * 
+     * @param message Encrypted message.
+     * @return Decrypted message.
+     */
+    public static String decrypt(String message)
     {
     	if(secret == null)
         {
@@ -254,7 +272,13 @@ public class SocketThread extends Thread
         return "hello";
     }
 
-    private static String encrypt(String message)
+    /**
+     * Encrypts the given message with AES.
+     * 
+     * @param message Unencrypted message.
+     * @return Encrypted message.
+     */
+    public static String encrypt(String message)
     {
         if(secret == null)
         {
