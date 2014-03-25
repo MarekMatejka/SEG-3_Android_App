@@ -1,33 +1,31 @@
 package com.seg.questionnaire.activities;
 
-import java.util.Locale;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnInitListener;
 import android.widget.TextView;
 
 import com.seg.questionnaire.R;
 
 /**
- * @author Marek Matejka, parts of code based on code by Gupta Avinash
- * @see http://www.codeproject.com/Articles/655709/Using-Text-to-Speech-TTS-engine-in-an-Android-appl
+ * ThankYou screen.
+ * 
+ * @author Marek Matejka
  *
  */
-public class ThankYouActivity extends Activity implements OnInitListener
+public class ThankYouActivity extends Activity
 {
-	private TextToSpeech tts;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_thank_you);
 		
-		tts  = new TextToSpeech(this, this);
+		TextView text = (TextView)findViewById(R.id.thankYou);
+		text.setText(getResources().getString(R.string.thank_you_1)+" "+
+					 PatientDetailActivity.getPatientName()+
+					 getResources().getString(R.string.thank_you_2));
 		
 		final TextView autoClose = (TextView)findViewById(R.id.autoClose);
 		autoClose.setText(getString(R.string.auto_close_1)+" 10 "+getString(R.string.auto_close_2));
@@ -47,22 +45,9 @@ public class ThankYouActivity extends Activity implements OnInitListener
 			{
 				startActivity(new Intent(ThankYouActivity.this, LoginActivity.class));
 				finish();
+				PatientDetailActivity.clearPatientData(); //wipe patient data
 			}
 		}.start();
-	}
-
-	@Override
-	public void onInit(int status) 
-	{
-		tts.setLanguage(Locale.UK);
-		tts.speak(getString(R.string.thank_you), TextToSpeech.QUEUE_ADD, null);
-	}
-	
-	@Override
-	protected void onStop()
-	{
-		super.onStop();
-		tts.shutdown();
 	}
 
 	/* (non-Javadoc)

@@ -29,9 +29,6 @@ public class LoginActivity extends Activity
 	//TODO: tutorial
 	//TODO: socket timeout handling
 	//TODO: accessibility focuses
-	//TODO: update the launcher icon
-	//TODO: delete unnecessary classes
-	//TODO: data wipe
 	
 	public static final String COMES_FROM_QUESTION_ACTIVITY = "QA";
 	

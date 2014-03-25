@@ -8,7 +8,6 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.widget.MediaController;
 import android.widget.VideoView;
 

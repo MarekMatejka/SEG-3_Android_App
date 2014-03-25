@@ -26,8 +26,7 @@
         android:layout_below="@id/logoThankYou"
         android:textColor="@color/white"
         android:fontFamily="sans-serif-light"
-        android:textSize="35sp"
-        android:text="@string/thank_you"/>
+        android:textSize="35sp"/>
     
     <TextView
         android:id="@+id/autoClose"

@@ -169,6 +169,7 @@ public class QuestionActivity extends Activity
 		SocketAPI.close();
 		startActivity(new Intent(this, ThankYouActivity.class));
 		finish();
+		ques.deleteQuestionnaire(); //wipe questionnaire data
 	}
 	
 	/**

@@ -261,6 +261,25 @@ public class PatientDetailActivity extends Activity
 	}
 	
 	/**
+	 * Returns the currently active patient's NHS number.
+	 * 
+	 * @return NHS number of the currently active patient.
+	 */
+	public static String getPatientNHS()
+	{
+		return patientNHS;
+	}
+	
+	/**
+	 * Clears all patient data.
+	 */
+	public static void clearPatientData()
+	{
+		patientName = "";
+		patientNHS = "";
+	}
+	
+	/**
 	 * Gets the user selected disability and does appropriate steps to 
 	 * ensure that the correct mode is applied through the application.
 	 */
@@ -274,16 +293,6 @@ public class PatientDetailActivity extends Activity
 			case R.id.advanced_accessibility_settings: startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)); onStop(); break;
 			default: return;
 		}
-	}
-	
-	/**
-	 * Returns the currently active patient's NHS number.
-	 * 
-	 * @return NHS number of the currently active patient.
-	 */
-	public static String getPatientNHS()
-	{
-		return patientNHS;
 	}
 	
 	/**

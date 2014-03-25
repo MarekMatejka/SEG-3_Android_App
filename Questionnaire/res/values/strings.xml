@@ -3,7 +3,8 @@
 
     <string name="app_name">MediQ</string>
     <string name="settings">Settings</string>
-    <string name="thank_you">Thank you for finishing the questionnaire!</string>
+    <string name="thank_you_1">Dear</string>
+    <string name="thank_you_2">, thank you for finishing the questionnaire!</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="answer_first">Please select your answer first.</string>
