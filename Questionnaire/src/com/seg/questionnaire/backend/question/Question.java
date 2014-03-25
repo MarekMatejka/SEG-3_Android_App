@@ -39,6 +39,11 @@ public abstract class Question
 	protected boolean required;
 	
 	/**
+	 * Description of the question as specified by the doctor.
+	 */
+	private String description;
+	
+	/**
 	 * Map of all dependent questions to a question.
 	 */
 	protected Map<String, List<Question>> dependentQuestions = new HashMap<String, List<Question>>();
@@ -77,11 +82,20 @@ public abstract class Question
 	 */
 	public abstract void loadAnswer();
 	
-	public Question (String id, String question, boolean required)
+	/**
+	 * General constructor for Question object.
+	 *  
+	 * @param id Question ID.
+	 * @param question Question text.
+	 * @param required Is the question required?
+	 * @param description Description of the question.
+	 */
+	public Question (String id, String question, boolean required, String description)
 	{
 		this.id = id;
 		this.question = question;
 		this.required = required;
+		this.description = description;
 	}
 	
 	/**
@@ -265,5 +279,15 @@ public abstract class Question
 	public List<String> getAnswerAsList()
 	{
 		return answer.getAnswersAsList();
+	}
+	
+	/**
+	 * Returns the description defined for this Question.
+	 * 
+	 * @return Description of the question.
+	 */
+	public String getDescription()
+	{
+		return this.description;
 	}
 }

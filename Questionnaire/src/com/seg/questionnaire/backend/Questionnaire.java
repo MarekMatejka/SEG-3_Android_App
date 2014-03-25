@@ -1,15 +1,8 @@
 package com.seg.questionnaire.backend;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import com.seg.questionnaire.backend.question.Question;
-import com.seg.questionnaire.backend.question.RangeQuestion;
-import com.seg.questionnaire.backend.question.RankQuestion;
-import com.seg.questionnaire.backend.question.SelectManyQuestion;
-import com.seg.questionnaire.backend.question.SelectOneQuestion;
-import com.seg.questionnaire.backend.question.TextQuestion;
-import com.seg.questionnaire.backend.question.YesNoQuestion;
 
 /**
  * Class representing a questionnaire.
@@ -142,45 +135,6 @@ public class Questionnaire
 	public int getNumberOfQuestions()
 	{
 		return this.questions.size();
-	}
-	
-	/**
-	 * UNUSED AT THE MOMENT!
-	 * 
-	 * Loads dummy data into the questionnaire.
-	 */
-	public void loadDummy()
-	{
-		//list of possible answers
-		List <String> a = new LinkedList<String>();
-		a.add("awesome");
-		a.add("good");
-		a.add("can be"); 
-		a.add("nothing special");
-		a.add("terrible");
-		
-		//add different questions
-		questions.add(new TextQuestion("1", "1. Tell me how you are", false));
-		
-		//add also dependent questions
-		YesNoQuestion y = new YesNoQuestion("2", "2. Are you good?", true);
-		y.addDependentQuestion("Yes", new YesNoQuestion("3", "2.0 Feeling well?", true));
-		y.addDependentQuestion("Yes", new SelectOneQuestion("4", "2.1 Mood?", a, true));
-		y.addDependentQuestion("No", new SelectManyQuestion("5", "2.2 Mood? 2", a, false));
-		questions.add(y);
-		
-		//some more questions and dependent questions
-		SelectManyQuestion m = new SelectManyQuestion("6", "3. Pick your mood", a, true);
-		m.addDependentQuestion("awesome", new YesNoQuestion("7", "3.1 Is it raining?", false));
-		m.addDependentQuestion("nothing special", new YesNoQuestion("8", "3.2 Is it freezing?", false));
-		questions.add(m);
-		questions.add(new SelectOneQuestion("9", "4. What is your current mood?", a, true));
-		RangeQuestion r = new RangeQuestion("10", "5. How good are you?", -10, 10, true);
-		r.addDependentQuestion("10", new YesNoQuestion("11", "5.1 Is it snowing?", false));
-		questions.add(r);
-		
-		questions.add(new RankQuestion("12", "Test", a, true));
-		
 	}
 	
 	/**

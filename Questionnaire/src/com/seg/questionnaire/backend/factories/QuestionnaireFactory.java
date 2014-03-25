@@ -70,33 +70,39 @@ public class QuestionnaireFactory
 			/*Range Question*/			  json.getTitle(), 
 										  json.getLowerBound(),
 										  json.getUpperBound(),
-										  json.isRequired());
+										  json.isRequired(),
+										  json.getDescription());
 										  break;
 			case 1: q = new SelectManyQuestion(json.getId(),
 			/*Select Many Question*/  	 	   json.getTitle(),
 					   						   json.getAnswerOptions(),
-											   json.isRequired());
+											   json.isRequired(),
+											   json.getDescription());
 					addDependentQuestions(json, q);
 					break;
 			case 2: q = new YesNoQuestion(json.getId(),
 			/*Yes/No Question*/			  json.getTitle(), 
-										  json.isRequired());
+										  json.isRequired(),
+										  json.getDescription());
 					addDependentQuestions(json, q);
 					break;
 			case 3: q = new TextQuestion(json.getId(),
 			/*Text Question*/			 json.getTitle(), 
-						 				 json.isRequired());
+						 				 json.isRequired(),
+						 				 json.getDescription());
 										 break;
 			case 4: q = new SelectOneQuestion(json.getId(),
 			/*Select One Question*/			  json.getTitle(),
 											  json.getAnswerOptions(),
-											  json.isRequired());
+											  json.isRequired(),
+											  json.getDescription());
 					addDependentQuestions(json, q);
 					break;
 			case 5: q = new RankQuestion(json.getId(),
 			/*Rank Question*/			 json.getTitle(), 
 										 json.getAnswerOptions(),
-										 json.isRequired());
+										 json.isRequired(),
+										 json.getDescription());
 										 break;
 			default: q = null; //Unknown error
 		}

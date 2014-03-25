@@ -43,10 +43,11 @@ public class SelectOneQuestion extends Question
 	 * @param answerOptions List of answer options.
 	 * @param required Flag defining whether the question
 	 * is required or not.
+	 * @param description Description of the question.
 	 */
-	public SelectOneQuestion(String id, String question, List<String> answerOptions, boolean required)
+	public SelectOneQuestion(String id, String question, List<String> answerOptions, boolean required, String description)
 	{
-		super(id, question, required);
+		super(id, question, required, description);
 		this.answer = new SingleAnswer(id);
 		this.answerOptions = answerOptions;
 	}

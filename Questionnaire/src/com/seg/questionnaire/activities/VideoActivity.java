@@ -45,10 +45,7 @@ public class VideoActivity extends Activity
 		
 		File f = new File(VIDEO_FILE_DIRECTORY+"/"+videoFileName);
 		if (!f.isFile()) 
-		{
-			startActivity(new Intent(VideoActivity.this, QuestionActivity.class));
-			finish();
-		}
+			goToTutorial();
 		
 		VideoView video = (VideoView) findViewById(R.id.videoView1); //find view
         video.setVideoPath(f.getAbsolutePath()); //set video file
@@ -63,11 +60,19 @@ public class VideoActivity extends Activity
 				if (!wasHere)
 				{
 					wasHere = true;
-					startActivity(new Intent(VideoActivity.this, QuestionActivity.class));
-					finish(); //close the Activity
+					goToTutorial();
 				}
 			}
 		});
+	}
+	
+	/**
+	 * Changes the Activity to TutorialActivity.
+	 */
+	private void goToTutorial()
+	{
+		startActivity(new Intent(VideoActivity.this, TutorialActivity.class));
+		finish(); //close the Activity
 	}
 
 	/**

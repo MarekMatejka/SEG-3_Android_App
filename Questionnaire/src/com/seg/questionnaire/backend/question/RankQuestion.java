@@ -35,10 +35,11 @@ public class RankQuestion extends Question
 	 * @param question Question text.
 	 * @param answerOptions List of answer options.
 	 * @param required Flag specifying whether the question is required or not.
+	 * @param description Description of the question.
 	 */
-	public RankQuestion(String id, String question, List<String> answerOptions, boolean required)
+	public RankQuestion(String id, String question, List<String> answerOptions, boolean required, String description)
 	{
-		super(id, question, required);
+		super(id, question, required, description);
 		this.answer = new MultipleAnswer(id);
 		this.answerOptions = answerOptions;
 	}

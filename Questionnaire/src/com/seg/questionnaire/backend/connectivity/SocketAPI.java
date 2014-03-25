@@ -11,7 +11,7 @@ import com.seg.questionnaire.activities.LoginActivity;
  *
  */
 public class SocketAPI 
-{	
+{		
 	/**
 	 * Calls 'FindPatient' method at the server side.
 	 * 
@@ -74,6 +74,14 @@ public class SocketAPI
 	}
 	
 	/**
+	 * Calls 'Close' method at the server side.
+	 */
+	public static void close()
+	{
+		executeCommand("Close");
+	}
+	
+	/**
 	 * Method that runs a new Thread that retrieves the answer from the server.
 	 * 
 	 * @param serverIP IP of a server.
@@ -84,9 +92,9 @@ public class SocketAPI
 	{
 		//used to make sure that the result is not returned before the Thread received it.
 		CountDownLatch l = new CountDownLatch(1);
-		
 		SocketThread t = new SocketThread(LoginActivity.getServerIP(), command, l); //create new custom Thread
 		t.start(); //start the Thread
+		
 		try {
 			l.await(); //turn on 'waiting mode' which is turned off only when the Thread receives the answer
 		} catch (InterruptedException e) {e.printStackTrace();}

@@ -28,7 +28,6 @@ import com.seg.questionnaire.backend.Questionnaire;
 import com.seg.questionnaire.backend.connectivity.SocketAPI;
 import com.seg.questionnaire.backend.factories.AnswersFactory;
 import com.seg.questionnaire.backend.factories.QuestionnaireFactory;
-import com.seg.questionnaire.backend.json.JSONParser;
 import com.seg.questionnaire.backend.json.QuestionnaireJSON;
 import com.seg.questionnaire.backend.question.Question;
 
@@ -49,7 +48,7 @@ public class QuestionActivity extends Activity
 	/**
 	 * Current questionnaire being used.
 	 */
-	private Questionnaire ques;
+	protected Questionnaire ques;
 		
 	/**
 	 * Context of this Activity
@@ -70,14 +69,8 @@ public class QuestionActivity extends Activity
 			highContrastMode();
 		
 		//initialize questionnaire
-		//ques = QuestionnaireFactory.creatQuestionnaire(JSONParser.parse(this));
-		Gson gson = new Gson();
-		String questionnaire = SocketAPI.getQuestionnaireByName(AvailableQuestionnairesActivity.getQuestionnaireID());
-		Log.e("ques", questionnaire);
-		ques = QuestionnaireFactory.creatQuestionnaire(gson.fromJson(questionnaire, QuestionnaireJSON.class));
+		ques = getQuestionnaire();
 		
-		//ques.loadDummy();
-			
 		//set questionnaire's title
 		TextView questionnaireTitle = (TextView)findViewById(R.id.questionnaireTitle);
 		questionnaireTitle.setText(ques.getQuestionnaireTitle());
@@ -92,8 +85,14 @@ public class QuestionActivity extends Activity
 		
 		//load first question
 		loadQuestion(ques.getQuestion(currentQuestion));
-		
-		JSONParser.parse(this);	
+	}
+	
+	protected Questionnaire getQuestionnaire()
+	{
+		Gson gson = new Gson();
+		String questionnaire = SocketAPI.getQuestionnaireByName(AvailableQuestionnairesActivity.getQuestionnaireID());
+		Log.e("ques", questionnaire);
+		return QuestionnaireFactory.creatQuestionnaire(gson.fromJson(questionnaire, QuestionnaireJSON.class));
 	}
 	
 	/**
@@ -162,11 +161,12 @@ public class QuestionActivity extends Activity
 	 * Sends the data to the server and closes the Activity.
 	 * Next Activity is ThankYouActivity.
 	 */
-	private void sendAnswers()
+	protected void sendAnswers()
 	{
 		Log.e("DEBUG", AnswersFactory.createJSON(ques));
 		
 		Log.e("answer", SocketAPI.sendAnswers(AnswersFactory.createJSON(ques)));
+		SocketAPI.close();
 		startActivity(new Intent(this, ThankYouActivity.class));
 		finish();
 	}
@@ -242,6 +242,10 @@ public class QuestionActivity extends Activity
 		//find the question TextView and set it with question text for the question
 		TextView question = (TextView)findViewById(R.id.question);
 		question.setText(q.getQuestion());
+		
+		//find the question TextView and set it with question text for the question
+		TextView description = (TextView)findViewById(R.id.description);
+		description.setText(q.getDescription());
 		
 		q.loadAnswer(); //load answer for the question
 		
@@ -365,7 +369,7 @@ public class QuestionActivity extends Activity
 		((TextView)findViewById(R.id.questionnaireTitle)).setTextColor(r.getColor(R.color.black));
 		findViewById(R.id.poweredBy).setVisibility(View.GONE);
 		findViewById(R.id.poweredByBW).setVisibility(View.VISIBLE);
-		((TextView)findViewById(R.id.poweredBy)).setCompoundDrawables(null, null, null, r.getDrawable(R.drawable.logo_with_text_small_300_bw));
+		((TextView)findViewById(R.id.description)).setTextColor(r.getColor(R.color.black));
 		((TextView)findViewById(R.id.question)).setTextColor(r.getColor(R.color.black));
 		((Button)findViewById(R.id.previous)).setTextColor(r.getColor(R.color.text_color_bw));
 		((Button)findViewById(R.id.previous)).setBackground(r.getDrawable(R.color.button_background_color_bw));

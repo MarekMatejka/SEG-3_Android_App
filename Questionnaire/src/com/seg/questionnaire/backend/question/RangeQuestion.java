@@ -40,10 +40,11 @@ public class RangeQuestion extends Question
 	 * @param upperBound Upper bound of the range.
 	 * @param required Flag defining is the question is
 	 * required or not.
+	 * @param description Description of the question.
 	 */
-	public RangeQuestion(String id, String question, int lowerBound, int upperBound, boolean required)
+	public RangeQuestion(String id, String question, int lowerBound, int upperBound, boolean required, String description)
 	{
-		super(id, question, required);
+		super(id, question, required, description);
 		this.lowerBound = lowerBound;
 		this.upperBound = upperBound;
 		this.answer = new SingleAnswer(id);

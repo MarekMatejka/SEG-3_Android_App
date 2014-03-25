@@ -21,6 +21,7 @@ public class QuestionnaireJSON
 	/**
 	 * Questionnaire_title in JSON.
 	 */
+	@SerializedName (value = "title")
 	private String questionnaire_title;
 	
 	/**

@@ -84,6 +84,18 @@
             android:textSize="35sp"
 	        android:textAppearance="?android:attr/textAppearanceLarge" />
 	    
+	    <TextView
+	        android:id="@+id/description"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:layout_below="@id/question"
+	        android:paddingTop="3dp"
+	        android:fontFamily="sans-serif-light"
+            android:textColor="@color/white"
+            android:textSize="@dimen/normal_text_size"
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
+	    
 	    <LinearLayout
 	        android:id="@+id/navigationButtonsBar"
 	        android:layout_width="match_parent"
@@ -167,8 +179,9 @@
 	        android:orientation="horizontal"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_below="@id/question"
+	        android:layout_below="@id/description"
 	        android:layout_above="@id/pb"
+	        android:paddingTop="7dp"
 	        android:animateLayoutChanges="true"
 	        android:layout_centerHorizontal="true"
 	        android:layout_centerVertical="true" />

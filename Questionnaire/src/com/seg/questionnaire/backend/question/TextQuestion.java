@@ -31,10 +31,11 @@ public class TextQuestion extends Question
 	 * @param question Question text.
 	 * @param required Flag defining whether the question
 	 * is required or not.
+	 * @param description Description of the question.
 	 */
-	public TextQuestion(String id, String question, boolean required)
+	public TextQuestion(String id, String question, boolean required, String description)
 	{
-		super(id, question, required);
+		super(id, question, required, description);
 		this.answer = new SingleAnswer(id);
 	}
 

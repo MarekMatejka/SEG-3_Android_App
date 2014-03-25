@@ -36,6 +36,7 @@ public class SocketThread extends Thread
     private static IvParameterSpec iv;
     private static Cipher decryptor;
     private static Cipher encryptor;
+    private static Socket socket;
 	
 	/**
 	 * Port at which the app and the server communicates
@@ -114,13 +115,13 @@ public class SocketThread extends Thread
 	 */
 	@Override
 	public void run() 
-	{
-		Socket socket = new Socket();
+	{	
 		try {
-			//initialize the connection
+			Socket socket = new Socket();
 			InetAddress serverAddr = InetAddress.getByName(serverIP);
-			socket.connect(new InetSocketAddress(serverAddr, PORT), 4000);
+			socket.connect(new InetSocketAddress(serverAddr, PORT), 4000); //4000 is timeout not Port
 			connected = true;
+			
 			PrintWriter out = null;
 			try {				
 				//prepare a stream to send command
@@ -153,7 +154,11 @@ public class SocketThread extends Thread
 			{
 				if (out != null)
 				{
-					out.println("Close");
+					String temps = encrypt("Close");
+					temps = temps.replace("\n", "");
+					temps = temps.replace("\r", "");				
+					temps += "END";
+					out.println(temps);
 					out.close();
 				}
 				latch.countDown(); //notify that the communication is over
@@ -164,7 +169,7 @@ public class SocketThread extends Thread
 		} catch (SocketTimeoutException se) {se.printStackTrace(); this.result = "Socket timeout";}
 		catch (Exception e) {e.printStackTrace();}	
 		finally{
-			if (!socket.isClosed())
+			if (socket != null && !socket.isClosed())
 			{
 				try {
 					socket.close();

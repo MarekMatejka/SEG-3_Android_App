@@ -37,10 +37,11 @@ public class SelectManyQuestion extends Question
 	 * @param answerOptions List of possible answers.
 	 * @param required Flag defining whether the question
 	 * is required or not.
+	 * @param description Description of the question.
 	 */
-	public SelectManyQuestion(String id, String question, List<String> answerOptions, boolean required)
+	public SelectManyQuestion(String id, String question, List<String> answerOptions, boolean required, String description)
 	{
-		super(id, question, required);
+		super(id, question, required, description);
 		this.answer = new MultipleAnswer(id);
 		this.answerOptions = answerOptions;
 	}

@@ -1,20 +1,30 @@
 package com.seg.questionnaire.activities;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.seg.questionnaire.R;
 import com.seg.questionnaire.backend.Questionnaire;
+import com.seg.questionnaire.backend.connectivity.SocketAPI;
+import com.seg.questionnaire.backend.factories.QuestionnaireFactory;
+import com.seg.questionnaire.backend.json.QuestionnaireJSON;
 import com.seg.questionnaire.backend.question.Question;
 import com.seg.questionnaire.backend.question.RangeQuestion;
 import com.seg.questionnaire.backend.question.RankQuestion;
@@ -29,8 +39,9 @@ import com.seg.questionnaire.backend.question.YesNoQuestion;
  * @author Marek Matejka
  *
  */
-public class TutorialActivity extends Activity
+public class TutorialActivity extends QuestionActivity
 {
+	
 	/**
 	 * Questionnaire used.
 	 */
@@ -46,10 +57,50 @@ public class TutorialActivity extends Activity
 	 */
 	private int currentQuestion = 0;
 	
+	@Override
+	protected Questionnaire getQuestionnaire()
+	{
+		Gson gson = new Gson();
+		return QuestionnaireFactory.creatQuestionnaire(gson.fromJson(readTutorialQuestionnaire(), 
+																	 QuestionnaireJSON.class));
+	}
+	
+	@Override
+	protected void sendAnswers()
+	{
+		startActivity(new Intent(this, QuestionActivity.class));
+		finish();
+	}
+	
+	/**
+	 * Reads a JSON file containing the tutorial.
+	 * 
+	 * @param context Activity's context.
+	 * @return JSON parsed QuestionnaireJSON object.
+	 */
+	private String readTutorialQuestionnaire()
+	{
+		String result = "";
+		try {
+			BufferedReader in = new BufferedReader(
+					new InputStreamReader(getAssets().open("tutorial_questionnaire.json")));
+			
+			String s = "";
+
+			while ((s = in.readLine()) != null)
+				result += s.trim();
+	
+			in.close();
+			
+		} catch (IOException e) {e.printStackTrace();}
+		 
+		return result;
+	}
+	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
-	@SuppressWarnings("serial")
+	/*@SuppressWarnings("serial")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -60,7 +111,7 @@ public class TutorialActivity extends Activity
 		ques = new Questionnaire(0, new LinkedList<Question>(), "Tutorial questionnaire");
 		
 		//add Yes/No question
-		ques.addQuestion(new YesNoQuestion("0", "Is the weather nice?", true));
+		ques.addQuestion(new YesNoQuestion("0", "Is the weather nice?", true, ""));
 		
 		//add Select Many Question
 		ques.addQuestion(new SelectManyQuestion("1", "What do you need to prepare ham and eggs?", 
@@ -69,7 +120,7 @@ public class TutorialActivity extends Activity
 																		   add("Lemon"); 
 																		   add("Eggs"); 
 																		   add("Apples");}}, 
-												true));
+												true, ""));
 		
 		//add Select One Question
 		SelectOneQuestion q1 = new SelectOneQuestion("2", "Which month is the shortest?",
@@ -78,25 +129,25 @@ public class TutorialActivity extends Activity
 													add("March"); 
 													add("April"); 
 													add("May");}}, 
-													true);
+													true, "");
 		//add its dependent Question
 		q1.addDependentQuestion("February", new SelectManyQuestion("3", "How many days can it have?",
 																   new LinkedList<String>() {{add("28"); 
 																   add("29"); 
 																   add("30"); 
 																   add("31");}}, 
-																   true));
+																   true, ""));
 		ques.addQuestion(q1);
 		
 		//Add Range Question
 		ques.addQuestion(new RangeQuestion("4", "Which month in a year is February? Select on a scale from 1 to 12, where 1 is January and 12 is December.", 
-										   1, 12, true));
+										   1, 12, true, ""));
 		//Add Non-Required Question
 		ques.addQuestion(new RangeQuestion("5", "Which month in a year is August? Select on a scale from 1 to 12, where 1 is January and 12 is December.", 
-				   1, 12, false));
+				   1, 12, false, ""));
 		
 		//Add Text Question
-		ques.addQuestion(new TextQuestion("6", "Please fill in your name", true));
+		ques.addQuestion(new TextQuestion("6", "Please fill in your name", true, ""));
 		
 		//Add Rank Question
 		ques.addQuestion(new RankQuestion("7", "Rank the following cities based on how much you like them", 
@@ -104,7 +155,7 @@ public class TutorialActivity extends Activity
 											 							add("Paris"); 
 											 							add("Bratislava"); 
 											 							add("New York");}},
-											 true));
+											 true, ""));
 		
 		//load first question and first tutorial step
 		loadQuestion(ques.getQuestion(currentQuestion));
@@ -173,5 +224,5 @@ public class TutorialActivity extends Activity
 			startActivity(new Intent(this, QuestionActivity.class));
 			finish();
 		}
-	}
+	}*/
 }
