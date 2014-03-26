@@ -32,6 +32,11 @@ public class RangeQuestion extends Question
 	private SeekBar b;
 	
 	/**
+	 * TextView showing the current value.
+	 */
+	private TextView t;
+	
+	/**
 	 * Constructor for a RangeQuestion.
 	 * 
 	 * @param id Question's unique ID.
@@ -64,7 +69,8 @@ public class RangeQuestion extends Question
 		//create a TextView used to show the currently
 		//selected value from the range (SeekBar) and apply
 		//basic layout parameters
-		final TextView t = new TextView(context);
+		t = new TextView(context);
+		t.setId(11);
 		t.setText(""+(lowerBound+upperBound)/2);
 		t.setLayoutParams(getLayoutParams());
 		t.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -76,6 +82,7 @@ public class RangeQuestion extends Question
 		
 		//create and initialize the SeekBar
 		b = new SeekBar(context);
+		b.setId(10);
 		b.setMax(upperBound-lowerBound);
 		if (highContrastMode)
 		{
@@ -110,6 +117,19 @@ public class RangeQuestion extends Question
 		l.addView(b);
 		l.addView(t);
 		return l; //return layout (View)
+	}
+	
+	@Override
+	protected void setAccessibilityFocuses()
+	{
+		//add accessibility focuses
+		t.setFocusable(true);
+		t.setNextFocusDownId(R.id.outOf);
+		t.setNextFocusUpId(b.getId());
+		
+		b.setFocusable(true);
+		b.setNextFocusDownId(t.getId());
+		b.setNextFocusUpId(R.id.description);
 	}
 
 	/* (non-Javadoc)

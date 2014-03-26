@@ -78,6 +78,8 @@ public class QuestionActivity extends Activity
 		
 		if (highContrastMode)
 			highContrastMode();
+		
+		setAccessibilityFocuses();
 	}
 	
 	/**
@@ -456,6 +458,61 @@ public class QuestionActivity extends Activity
 		((Button)findViewById(R.id.next)).setBackground(r.getDrawable(R.color.button_background_color_bw));
 		((ProgressBar)findViewById(R.id.progressBar1)).setProgressDrawable(r.getDrawable(R.drawable.progress_bar_style_bw));
 		((TextView)findViewById(R.id.outOf)).setTextColor(r.getColor(R.color.black));
+	}
+	
+	/**
+	 * Sets accessibility focuses to all view on this page.
+	 */
+	private void setAccessibilityFocuses()
+	{
+		View quesTitle = findViewById(R.id.questionnaireTitle);
+			quesTitle.setNextFocusDownId(R.id.question);
+			quesTitle.setNextFocusLeftId(R.id.questionsList);
+		View qList = findViewById(R.id.questionsList);
+			qList.setNextFocusDownId(highContrastMode ? R.id.poweredByBW : R.id.poweredBy);
+			qList.setNextFocusRightId(R.id.questionnaireTitle);
+		View poweredBy = findViewById(R.id.poweredBy);
+			poweredBy.setNextFocusUpId(R.id.questionsList);
+			poweredBy.setNextFocusRightId(R.id.questionnaireTitle);
+		View poweredByBW = findViewById(R.id.poweredByBW);
+			poweredByBW.setNextFocusUpId(R.id.questionsList);
+			poweredByBW.setNextFocusRightId(R.id.questionnaireTitle);
+		View qTitle = findViewById(R.id.question);
+			qTitle.setNextFocusDownId(R.id.description);
+			qTitle.setNextFocusUpId(R.id.questionnaireTitle);
+		View qDesc = findViewById(R.id.description);
+			qDesc.setNextFocusDownId(R.id.answer);
+			qDesc.setNextFocusUpId(R.id.question);
+		View answer = findViewById(R.id.answer);
+			answer.setNextFocusDownId(R.id.outOf);
+			answer.setNextFocusUpId(R.id.description);
+		View outOf = findViewById(R.id.outOf);
+			if (findViewById(R.id.previous).getVisibility() == View.VISIBLE)
+				outOf.setNextFocusDownId(R.id.previous);
+			else if (findViewById(R.id.skip).getVisibility() == View.VISIBLE)
+				outOf.setNextFocusDownId(R.id.skip);
+			else
+				outOf.setNextFocusDownId(R.id.next);
+			outOf.setNextFocusUpId(R.id.answer);
+		View previous = findViewById(R.id.previous);
+			if (findViewById(R.id.skip).getVisibility() == View.VISIBLE)
+				previous.setNextFocusRightId(R.id.skip);
+			else
+				previous.setNextFocusRightId(R.id.next);
+			previous.setNextFocusUpId(R.id.outOf);
+		View skip = findViewById(R.id.skip);
+			if (findViewById(R.id.previous).getVisibility() == View.VISIBLE)
+				skip.setNextFocusLeftId(R.id.skip);
+			else
+				skip.setNextFocusUpId(R.id.outOf);
+			skip.setNextFocusRightId(R.id.next);
+		View next = findViewById(R.id.next);
+			if (findViewById(R.id.skip).getVisibility() == View.VISIBLE)
+				next.setNextFocusLeftId(R.id.skip);
+			else if (findViewById(R.id.previous).getVisibility() == View.VISIBLE)
+				next.setNextFocusRightId(R.id.previous);
+			else
+				next.setNextFocusUpId(R.id.outOf);
 	}
 	
 	/**

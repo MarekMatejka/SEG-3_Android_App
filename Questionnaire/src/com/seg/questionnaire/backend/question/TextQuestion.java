@@ -89,4 +89,15 @@ public class TextQuestion extends Question
 		et.setText(answer.getAnswer());
 	}
 
+	/* (non-Javadoc)
+	 * @see com.seg.questionnaire.backend.question.Question#setAccessibilityFocuses()
+	 */
+	@Override
+	protected void setAccessibilityFocuses() 
+	{
+		et.setFocusable(true);
+		et.setNextFocusDownId(R.id.outOf);
+		et.setNextFocusUpId(R.id.description);
+	}
+
 }

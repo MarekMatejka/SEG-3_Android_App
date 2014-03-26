@@ -134,4 +134,15 @@ public class RankQuestion extends Question
 	{		
 		//do nothing, updated automatically by adapter
 	}
+
+	/* (non-Javadoc)
+	 * @see com.seg.questionnaire.backend.question.Question#setAccessibilityFocuses()
+	 */
+	@Override
+	protected void setAccessibilityFocuses() 
+	{
+		list.setFocusable(true);
+		list.setNextFocusDownId(R.id.outOf);
+		list.setNextFocusUpId(R.id.description);		
+	}
 }

@@ -83,6 +83,11 @@ public abstract class Question
 	public abstract void loadAnswer();
 	
 	/**
+	 * Sets accessibility focuses to all views in the question.
+	 */
+	protected abstract void setAccessibilityFocuses();
+	
+	/**
 	 * General constructor for Question object.
 	 *  
 	 * @param id Question ID.

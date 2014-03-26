@@ -133,4 +133,35 @@ public class SelectOneQuestion extends Question
 					break;
 				}
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.seg.questionnaire.backend.question.Question#setAccessibilityFocuses()
+	 */
+	@Override
+	protected void setAccessibilityFocuses()
+	{
+		for (int i = 0; i < options.size(); i++)
+		{
+			RadioButton rb = options.get(i);
+			rb.setFocusable(true);
+			if (options.size() > 1)
+			{
+				if (rb.getId() == 0)
+				{
+					rb.setNextFocusDownId(1);
+					rb.setNextFocusUpId(R.id.description);
+				}
+				else if (rb.getId() == options.size()-1)
+				{
+					rb.setNextFocusDownId(R.id.outOf);
+					rb.setNextFocusUpId(options.size()-2);
+				}
+				else
+				{
+					rb.setNextFocusDownId(rb.getId()+1);
+					rb.setNextFocusUpId(rb.getId()-1);
+				}
+			}
+		}
+	}
 }

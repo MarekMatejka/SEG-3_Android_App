@@ -46,6 +46,7 @@ public class VideoActivity extends Activity
 			goToTutorial();
 		
 		VideoView video = (VideoView) findViewById(R.id.videoView1); //find view
+		video.requestFocus();
         video.setVideoPath(f.getAbsolutePath()); //set video file
         video.setKeepScreenOn(true);
         video.start(); //start playing
@@ -82,5 +83,13 @@ public class VideoActivity extends Activity
 	{
 		videoFileName = videoName;
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onBackPressed()
+	 */
+	@Override
+	public void onBackPressed() 
+	{
+		//do nothing
+	}
 }

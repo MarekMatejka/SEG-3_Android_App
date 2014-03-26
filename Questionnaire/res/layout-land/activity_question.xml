@@ -22,7 +22,8 @@
             android:textColor="@color/white"
             android:textSize="35sp"
 			android:textAppearance="?android:attr/textAppearanceLarge"            
-			android:text="@string/app_name"/>
+			android:text="@string/app_name"
+			android:focusable="true"/>
         
     </RelativeLayout>
     
@@ -41,7 +42,8 @@
 	        android:layout_height="0dp"
 	        android:paddingRight="10dp"
 	        android:paddingBottom="10dp"
-	        android:layout_weight="3"/>
+	        android:layout_weight="3"
+	        android:focusable="true"/>
 	    
 	    <TextView 
 	        android:id="@+id/poweredBy"
@@ -51,7 +53,8 @@
 			android:textAppearance="?android:attr/textAppearanceMedium" 
 			android:fontFamily="sans-serif-light"
 			android:text="@string/powered_by"
-			android:drawableBottom="@drawable/logo_with_text_small_300"/>
+			android:drawableBottom="@drawable/logo_with_text_small_300"
+			android:focusable="true"/>
 	    
 	    <TextView 
 	        android:id="@+id/poweredByBW"
@@ -62,7 +65,8 @@
 			android:fontFamily="sans-serif-light"
 			android:text="@string/powered_by"
 			android:drawableBottom="@drawable/logo_with_text_small_300_bw"
-			android:visibility="gone"/>
+			android:visibility="gone"
+			android:focusable="true"/>
 	    
     </LinearLayout>
     
@@ -82,7 +86,8 @@
 	        android:fontFamily="sans-serif-light"
             android:textColor="@color/white"
             android:textSize="35sp"
-	        android:textAppearance="?android:attr/textAppearanceLarge" />
+	        android:textAppearance="?android:attr/textAppearanceLarge"
+	        android:focusable="true" />
 	    
 	    <TextView
 	        android:id="@+id/description"
@@ -94,7 +99,8 @@
 	        android:fontFamily="sans-serif-light"
             android:textColor="@color/white"
             android:textSize="@dimen/normal_text_size"
-	        android:textAppearance="?android:attr/textAppearanceLarge" />
+	        android:textAppearance="?android:attr/textAppearanceLarge"
+	        android:focusable="true" />
 	    
 	    <LinearLayout
 	        android:id="@+id/navigationButtonsBar"
@@ -115,7 +121,8 @@
 	            android:background="@color/button_background_color"
 	            style="?android:attr/textAppearanceLarge"
 	            android:onClick="changeQuestion"
-	            android:text="@string/previous_question" />
+	            android:text="@string/previous_question"
+	            android:focusable="true" />
 		    
 		    <Button
 			    android:id="@+id/skip"
@@ -129,7 +136,8 @@
 	            android:background="@color/button_background_color"
 	            style="?android:attr/textAppearanceLarge"
 	            android:onClick="changeQuestion"
-	            android:text="@string/skip_question" />	    
+	            android:text="@string/skip_question"
+	            android:focusable="true" />	    
 	            
 		    <Button
 			    android:id="@+id/next"
@@ -143,7 +151,8 @@
 	            android:background="@color/button_background_color"
 	            style="?android:attr/textAppearanceLarge"
 	            android:onClick="changeQuestion"
-	            android:text="@string/next_question" />
+	            android:text="@string/next_question"
+	            android:focusable="true" />
 	    </LinearLayout>
 	    
 	    <LinearLayout
@@ -170,7 +179,8 @@
 	            android:fontFamily="sans-serif-light"
             	android:textColor="@color/white"
             	android:textAppearance="?android:attr/textAppearanceMedium"
-	            android:layout_marginLeft="3dip" />
+	            android:layout_marginLeft="3dip"
+	            android:focusable="true" />
 	        
 	    </LinearLayout>
 	    
@@ -184,7 +194,8 @@
 	        android:paddingTop="7dp"
 	        android:animateLayoutChanges="true"
 	        android:layout_centerHorizontal="true"
-	        android:layout_centerVertical="true" />
+	        android:layout_centerVertical="true"
+	        android:focusable="true" />
     
     </RelativeLayout>
     

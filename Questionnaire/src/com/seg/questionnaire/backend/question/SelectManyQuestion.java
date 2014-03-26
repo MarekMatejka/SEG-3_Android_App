@@ -64,6 +64,7 @@ public class SelectManyQuestion extends Question
 		{
 			//create a CheckBox and set its text to one of the answers
 			CheckBox c = new CheckBox(context);
+			c.setId(i);
 			c.setText(answerOptions.get(i).toString());
 			if (highContrastMode)
 			{
@@ -82,9 +83,38 @@ public class SelectManyQuestion extends Question
 			l.addView(c);
 		}
 		
+		setAccessibilityFocuses();
+		
 		return l; //return filled LinearLayout
 	}
 
+	@Override
+	protected void setAccessibilityFocuses()
+	{
+		for (CheckBox cb : options)
+		{
+			cb.setFocusable(true);
+			if (options.size() > 1)
+			{
+				if (cb.getId() == 0)
+				{
+					cb.setNextFocusDownId(1);
+					cb.setNextFocusUpId(R.id.description);
+				}
+				else if (cb.getId() == options.size()-1)
+				{
+					cb.setNextFocusDownId(R.id.outOf);
+					cb.setNextFocusUpId(options.size()-2);
+				}
+				else
+				{
+					cb.setNextFocusDownId(cb.getId()+1);
+					cb.setNextFocusUpId(cb.getId()-1);
+				}
+			}
+		}
+	}
+	
 	/* (non-Javadoc)
 	 * @see com.seg.questionnaire.backend.question.Question#readAnswer()
 	 */

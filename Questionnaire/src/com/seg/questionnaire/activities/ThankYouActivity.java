@@ -25,11 +25,15 @@ public class ThankYouActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_thank_you);
 		
+		findViewById(R.id.logoThankYou).setNextFocusDownId(R.id.thankYou); //logo
+		
 		//set thank you text
 		TextView text = (TextView)findViewById(R.id.thankYou);
 		text.setText(getResources().getString(R.string.thank_you_1)+" "+
 					 PatientDetailActivity.getPatientName()+
 					 getResources().getString(R.string.thank_you_2));
+		text.requestFocus();
+		text.setNextFocusDownId(R.id.autoClose);
 		
 		//set initial count down text
 		final TextView autoClose = (TextView)findViewById(R.id.autoClose);

@@ -11,4 +11,5 @@
 	    android:paddingRight="15dp"
 	    android:minHeight="50dp"
 	    android:fontFamily="sans-serif-light"
-	    android:textColor="@color/black"/>
+	    android:textColor="@color/black"
+	    android:focusable="true"/>

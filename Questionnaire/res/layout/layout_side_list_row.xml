@@ -8,5 +8,6 @@
 	android:fontFamily="sans-serif-light"
 	android:textColor="@color/white"
 	android:paddingTop="3dp"
-	android:paddingBottom="3dp" />
+	android:paddingBottom="3dp"
+	android:focusable="true" />
 	

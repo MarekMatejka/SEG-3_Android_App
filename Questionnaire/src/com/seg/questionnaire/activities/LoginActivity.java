@@ -31,10 +31,14 @@ import com.seg.questionnaire.backend.file.AnswerFile;
  */
 public class LoginActivity extends Activity 
 {		
-	//TODO: socket timeout handling
-	//TODO: accessibility focuses
-	
+	/**
+	 * Tag used to define whether the app should go the activity that called it or to PatientDetail.
+	 */
 	public static final String RETURN_TO_THE_SAME_ACTIVITY = "RTTSA";
+	
+	/**
+	 * Tag used to define whether the no connection dialog should be opened or not.
+	 */
 	public static final String SHOW_NO_CONNECTION_DIALOG = "SNCD";
 	
 	private static String serverIP = "";
