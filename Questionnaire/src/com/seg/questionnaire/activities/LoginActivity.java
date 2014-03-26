@@ -12,7 +12,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -112,7 +111,6 @@ public class LoginActivity extends Activity
 		super.onStart();
 		if (!activityRunning)
 		{
-			Log.e("LA", "onStart - "+getIntent().getBooleanExtra(RETURN_TO_THE_SAME_ACTIVITY, false)+" "+getIntent().getBooleanExtra(SHOW_NO_CONNECTION_DIALOG, false));
 			if (getIntent().getBooleanExtra(SHOW_NO_CONNECTION_DIALOG, false))
 				showNoConnectionDialog();
 			activityRunning = true;
@@ -321,11 +319,8 @@ public class LoginActivity extends Activity
 			{
 				if (!getIntent().getBooleanExtra(RETURN_TO_THE_SAME_ACTIVITY, false))
 				{
-					Log.e("LA", "NOT return to the same activity");
 					startActivity(new Intent(LoginActivity.this, PatientDetailActivity.class));
 				}
-				else
-					Log.e("LA", "return to the same activity");
 				finish();
 				activityRunning = false;
 				AnswerFile.readAndSendFile(context); //check if there is a file that needs to be send, if yes send it

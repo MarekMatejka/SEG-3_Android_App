@@ -9,7 +9,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -363,7 +362,6 @@ public class QuestionActivity extends Activity
 		Intent i = new Intent(this, LoginActivity.class);
 		if (ques == null) //socket timeout exception
 		{
-			Log.e("QA", "ques == null");
 			if (!called)
 			{
 				i.putExtra(LoginActivity.SHOW_NO_CONNECTION_DIALOG, true);
@@ -378,7 +376,6 @@ public class QuestionActivity extends Activity
 		}
 		else if (currentQuestion != ques.getNumberOfQuestions()) //page left through home button
 		{
-			Log.e("QA", "left");
 			i.putExtra(LoginActivity.SHOW_NO_CONNECTION_DIALOG, false);
 			i.putExtra(LoginActivity.RETURN_TO_THE_SAME_ACTIVITY, true);
 			startActivity(i);
