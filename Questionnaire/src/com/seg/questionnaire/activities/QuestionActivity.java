@@ -9,6 +9,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -56,6 +57,11 @@ public class QuestionActivity extends Activity
 	private Context context = this;
 	
 	/**
+	 * Flag used to control the app flow.
+	 */
+	private boolean called = false;
+	
+	/**
 	 * Flag defining whether the high contrast mode is on or off.
 	 */
 	private static boolean highContrastMode = false;
@@ -68,43 +74,10 @@ public class QuestionActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_question);
 		
+		called = false;
+		
 		if (highContrastMode)
 			highContrastMode();
-	}
-	
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onStart()
-	 */
-	@Override
-	public void onStart()
-	{
-		super.onStart();
-		
-		//initialize questionnaire
-		ques = getQuestionnaire();
-		
-		if (ques == null)
-		{
-			Intent i = new Intent(this, LoginActivity.class);
-			i.putExtra(LoginActivity.INNTERRUPTED_ACTIVITY_RETURN_SAME_ACTIVITY, true);
-			startActivity(i);
-			onStop();
-			return;
-		}
-		
-		//set questionnaire's title
-		TextView questionnaireTitle = (TextView)findViewById(R.id.questionnaireTitle);
-		questionnaireTitle.setText(ques.getQuestionnaireTitle());
-		
-		if (ques.getNumberOfQuestions() == 0) //no questions in the questionnaire
-		{
-			startActivity(new Intent(QuestionActivity.this, ThankYouActivity.class));
-			finish();
-			return;
-		}
-				
-		//load first question
-		loadQuestion(ques.getQuestion(currentQuestion));
 	}
 	
 	/**
@@ -377,7 +350,7 @@ public class QuestionActivity extends Activity
 		if (currentQuestion > 0)
 			changeQuestion(currentQuestion-1); //change to previous question
 	}
-	
+		
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onStop()
 	 */
@@ -385,12 +358,62 @@ public class QuestionActivity extends Activity
 	public void onStop()
 	{
 		super.onStop();
-		if (ques != null && currentQuestion != ques.getNumberOfQuestions())
+		Intent i = new Intent(this, LoginActivity.class);
+		if (ques == null) //socket timeout exception
 		{
-			Intent i = new Intent(this, LoginActivity.class);
-			i.putExtra(LoginActivity.QUESTIONNAIRE_STOPPED, true);
-			startActivity(i);
+			Log.e("QA", "ques == null");
+			if (!called)
+			{
+				i.putExtra(LoginActivity.SHOW_NO_CONNECTION_DIALOG, true);
+				i.putExtra(LoginActivity.RETURN_TO_THE_SAME_ACTIVITY, true);
+				startActivity(i);
+				called = true;
+			}
 		}
+		else if (ques.getNumberOfQuestions() == 0) //no questions or questionnaire completed
+		{
+			return; //both cases handled separately
+		}
+		else if (currentQuestion != ques.getNumberOfQuestions()) //page left through home button
+		{
+			Log.e("QA", "left");
+			i.putExtra(LoginActivity.SHOW_NO_CONNECTION_DIALOG, false);
+			i.putExtra(LoginActivity.RETURN_TO_THE_SAME_ACTIVITY, true);
+			startActivity(i);
+			return;
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onStart()
+	 */
+	@Override
+	public void onStart()
+	{
+		super.onStart();
+		
+		//initialize questionnaire
+		ques = getQuestionnaire();
+		
+		if (ques == null) //socket timeout exception
+		{
+			onStop();
+			return;
+		}
+		
+		//set questionnaire's title
+		TextView questionnaireTitle = (TextView)findViewById(R.id.questionnaireTitle);
+		questionnaireTitle.setText(ques.getQuestionnaireTitle());
+		
+		if (ques.getNumberOfQuestions() == 0) //no questions in the questionnaire
+		{
+			startActivity(new Intent(QuestionActivity.this, ThankYouActivity.class));
+			finish();
+			return;
+		}
+				
+		//load first question
+		loadQuestion(ques.getQuestion(currentQuestion));
 	}
 	
 	/**

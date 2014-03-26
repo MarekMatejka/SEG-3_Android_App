@@ -51,6 +51,11 @@ public class AvailableQuestionnairesActivity extends Activity
 	public void onStart()
 	{
 		super.onStart();
+		
+		findViewById(R.id.noQuestionnaireAvailable).setVisibility(View.GONE);
+		findViewById(R.id.questionnairesAvailable).setVisibility(View.GONE);
+		findViewById(R.id.waitAvailableQuestionnaires).setVisibility(View.VISIBLE);
+		
 		task = new AvailableQuestionnaireTask();
 		task.execute();
 	}
@@ -64,7 +69,8 @@ public class AvailableQuestionnairesActivity extends Activity
 		if (response.equals(SocketAPI.SOCKET_TIMEOUT_EXCEPTION))
 		{
 			Intent i = new Intent(this, LoginActivity.class);
-			i.putExtra(LoginActivity.INNTERRUPTED_ACTIVITY_RETURN_SAME_ACTIVITY, true);
+			i.putExtra(LoginActivity.RETURN_TO_THE_SAME_ACTIVITY, true);
+			i.putExtra(LoginActivity.SHOW_NO_CONNECTION_DIALOG, true);
 			startActivity(i);
 			onStop();
 			return new LinkedList<QuestionnairePointerJSON>();
@@ -76,7 +82,10 @@ public class AvailableQuestionnairesActivity extends Activity
 	
 	public void close(View v)
 	{
-		startActivity(new Intent(this, LoginActivity.class));
+		Intent i = new Intent(this, LoginActivity.class);
+		i.putExtra(LoginActivity.SHOW_NO_CONNECTION_DIALOG, false);
+		i.putExtra(LoginActivity.RETURN_TO_THE_SAME_ACTIVITY, false);
+		startActivity(i);
 		finish();
 	}
 	

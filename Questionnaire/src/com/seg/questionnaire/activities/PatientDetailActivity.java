@@ -138,7 +138,8 @@ public class PatientDetailActivity extends Activity
 		else if (patient.equals(SocketAPI.SOCKET_TIMEOUT_EXCEPTION)) //if socket timeout
 		{
 			Intent i = new Intent(this, LoginActivity.class);
-			i.putExtra(LoginActivity.INNTERRUPTED_ACTIVITY, true);
+			i.putExtra(LoginActivity.RETURN_TO_THE_SAME_ACTIVITY, false);
+			i.putExtra(LoginActivity.SHOW_NO_CONNECTION_DIALOG, true);
 			startActivity(i);
 			onStop();
 			return null;

@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -30,13 +31,11 @@ import com.seg.questionnaire.backend.file.AnswerFile;
  */
 public class LoginActivity extends Activity 
 {		
-	//TODO: tutorial
 	//TODO: socket timeout handling
 	//TODO: accessibility focuses
 	
-	public static final String INNTERRUPTED_ACTIVITY = "IA";
-	public static final String INNTERRUPTED_ACTIVITY_RETURN_SAME_ACTIVITY = "IARSA";
-	public static final String QUESTIONNAIRE_STOPPED = "QS";
+	public static final String RETURN_TO_THE_SAME_ACTIVITY = "RTTSA";
+	public static final String SHOW_NO_CONNECTION_DIALOG = "SNCD";
 	
 	private static String serverIP = "";
 	
@@ -83,6 +82,8 @@ public class LoginActivity extends Activity
 		});
 	}
 	
+	private boolean activityRunning = false;
+	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onStart()
 	 */
@@ -90,12 +91,12 @@ public class LoginActivity extends Activity
 	public void onStart()
 	{
 		super.onStart();
-		if (getIntent().getBooleanExtra(INNTERRUPTED_ACTIVITY, false))
-			showNoConnectionDialog();
-		else if (getIntent().getBooleanExtra(INNTERRUPTED_ACTIVITY_RETURN_SAME_ACTIVITY, false))
+		if (!activityRunning)
 		{
-			showNoConnectionDialog();
-			getIntent().putExtra(INNTERRUPTED_ACTIVITY_RETURN_SAME_ACTIVITY, true);
+			Log.e("LA", "onStart - "+getIntent().getBooleanExtra(RETURN_TO_THE_SAME_ACTIVITY, false)+" "+getIntent().getBooleanExtra(SHOW_NO_CONNECTION_DIALOG, false));
+			if (getIntent().getBooleanExtra(SHOW_NO_CONNECTION_DIALOG, false))
+				showNoConnectionDialog();
+			activityRunning = true;
 		}
 		
 	}
@@ -121,7 +122,7 @@ public class LoginActivity extends Activity
 		serverIP = serverIPView.getText().toString();
 
 
-		if (validatePassword() && validateIP()) //validateUsername() && 
+		if (validatePassword() && validateIP())
 		{
 			// Show a progress spinner, and start a background task to perform the user login attempt.
 			TextView mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
@@ -299,11 +300,15 @@ public class LoginActivity extends Activity
 
 			if (success) 
 			{
-				if (!getIntent().getBooleanExtra(INNTERRUPTED_ACTIVITY_RETURN_SAME_ACTIVITY, false) || 
-					!getIntent().getBooleanExtra(QUESTIONNAIRE_STOPPED, false) ||
-					getIntent().getBooleanExtra(INNTERRUPTED_ACTIVITY, false))
+				if (!getIntent().getBooleanExtra(RETURN_TO_THE_SAME_ACTIVITY, false))
+				{
+					Log.e("LA", "NOT return to the same activity");
 					startActivity(new Intent(LoginActivity.this, PatientDetailActivity.class));
+				}
+				else
+					Log.e("LA", "return to the same activity");
 				finish();
+				activityRunning = false;
 				AnswerFile.readAndSendFile(context); //check if there is a file that needs to be send, if yes send it
 			}
 			else 
