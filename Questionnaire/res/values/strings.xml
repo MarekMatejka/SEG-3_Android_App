@@ -11,6 +11,7 @@
     <string name="answer_question">Please answer this question first.</string>
     <string name="auto_close_1">This window will close automatically in</string>
     <string name="option_dialog">You have not answered all non-required questions, would you like to go back and answer them?</string>
+    <string name="accessibility_settings">Accessibility settings</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="auto_close_2">seconds.</string>

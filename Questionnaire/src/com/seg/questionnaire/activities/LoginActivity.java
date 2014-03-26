@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -79,6 +80,20 @@ public class LoginActivity extends Activity
 			public void onClick(View view) 
 			{
 				attemptLogin();
+				//hide the keyboard
+				InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); 
+				inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS); 
+			}
+		});
+		
+
+		findViewById(R.id.accessibility_settings).setOnClickListener(new View.OnClickListener() 
+		{
+			@Override
+			public void onClick(View view) 
+			{
+				startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));  //open accessibility settings
+				onStop();
 				//hide the keyboard
 				InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); 
 				inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS); 
