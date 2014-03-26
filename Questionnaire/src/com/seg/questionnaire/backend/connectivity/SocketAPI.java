@@ -12,6 +12,8 @@ import com.seg.questionnaire.activities.LoginActivity;
  */
 public class SocketAPI 
 {		
+	public static final String SOCKET_TIMEOUT_EXCEPTION = "Socket timeout";
+	
 	/**
 	 * Calls 'FindPatient' method at the server side.
 	 * 

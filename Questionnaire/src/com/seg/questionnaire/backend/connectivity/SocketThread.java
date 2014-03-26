@@ -30,7 +30,7 @@ import android.util.Base64;
  *
  */
 public class SocketThread extends Thread 
-{
+{	
     private static SecretKeySpec secret;
     private static IvParameterSpec iv;
     private static Cipher decryptor;
@@ -114,7 +114,7 @@ public class SocketThread extends Thread
 	 * @see java.lang.Thread#run()
 	 */
 	@Override
-	public void run() 
+	public void run()
 	{	
 		try {
 			Socket socket = new Socket();
@@ -128,7 +128,7 @@ public class SocketThread extends Thread
 				out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 				
 				String temps = encrypt(command);
-				temps = temps.replace("\n", "");
+				temps = temps.replace("\n", ""); //has to get rid of all new lines!
 				temps = temps.replace("\r", "");				
 				temps += "END";				
 				out.println(temps); //send the command to the server
@@ -166,17 +166,17 @@ public class SocketThread extends Thread
 				connected = false;
 			}
 			
-		} catch (SocketTimeoutException se) {se.printStackTrace(); this.result = "Socket timeout";}
-		catch (Exception e) {e.printStackTrace();}	
+		} catch (SocketTimeoutException se) {se.printStackTrace(); this.result = SocketAPI.SOCKET_TIMEOUT_EXCEPTION;}
+		catch (Exception e) {e.printStackTrace(); this.result = SocketAPI.SOCKET_TIMEOUT_EXCEPTION;}	
 		finally{
 			if (socket != null && !socket.isClosed())
 			{
 				try {
 					socket.close();
-					connected = false;
-					latch.countDown();
 				} catch (IOException e) {e.printStackTrace();}
 			}
+			connected = false;
+			latch.countDown();
 		}
 	}
 	

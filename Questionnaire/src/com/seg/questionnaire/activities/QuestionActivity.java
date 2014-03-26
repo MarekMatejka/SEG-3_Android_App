@@ -43,7 +43,7 @@ public class QuestionActivity extends Activity
 	/**
 	 * Defines the current question
 	 */
-	private int currentQuestion = 0;
+	protected int currentQuestion = 0;
 		
 	/**
 	 * Current questionnaire being used.
@@ -70,9 +70,27 @@ public class QuestionActivity extends Activity
 		
 		if (highContrastMode)
 			highContrastMode();
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onStart()
+	 */
+	@Override
+	public void onStart()
+	{
+		super.onStart();
 		
 		//initialize questionnaire
 		ques = getQuestionnaire();
+		
+		if (ques == null)
+		{
+			Intent i = new Intent(this, LoginActivity.class);
+			i.putExtra(LoginActivity.INNTERRUPTED_ACTIVITY_RETURN_SAME_ACTIVITY, true);
+			startActivity(i);
+			onStop();
+			return;
+		}
 		
 		//set questionnaire's title
 		TextView questionnaireTitle = (TextView)findViewById(R.id.questionnaireTitle);
@@ -84,7 +102,7 @@ public class QuestionActivity extends Activity
 			finish();
 			return;
 		}
-		
+				
 		//load first question
 		loadQuestion(ques.getQuestion(currentQuestion));
 	}
@@ -99,6 +117,8 @@ public class QuestionActivity extends Activity
 	{
 		Gson gson = new Gson();
 		String questionnaire = SocketAPI.getQuestionnaireByName(AvailableQuestionnairesActivity.getQuestionnaireID());
+		if (questionnaire.equals(SocketAPI.SOCKET_TIMEOUT_EXCEPTION))
+			return null;
 		return QuestionnaireFactory.creatQuestionnaire(gson.fromJson(questionnaire, QuestionnaireJSON.class));
 	}
 	
@@ -120,6 +140,19 @@ public class QuestionActivity extends Activity
 	}
 	
 	/**
+	 * Validates given answer.
+	 * Used to be overrriden in the TutorialActivity!
+	 * 
+	 * @param answer Answer to the question.
+	 * @return TRUE if the validation is successful, FALSE otherwise.
+	 * Always returns TRUE in QuestionActivity.
+	 */
+	protected boolean validateAnswer(String answer)
+	{
+		return true;
+	}
+	
+	/**
 	 * Does all the necessary steps to change the question.
 	 * 
 	 * @param changeTo Position to which the question should be moved
@@ -134,12 +167,12 @@ public class QuestionActivity extends Activity
 				
 		if (answer.equals("")) //if no answer
 			Toast.makeText(this, getString(R.string.answer_first), Toast.LENGTH_SHORT).show(); //ask for it
+		else if (!validateAnswer(answer)) //if the answer is incorrect
+			Toast.makeText(this, getString(R.string.answer_not_correct), Toast.LENGTH_LONG).show();
 		else
 		{
 			checkDependentQuestions(q, answer, lastAnswer); //deal with dependent questions
-			
-			Toast.makeText(this, "answer = '"+answer+"'", Toast.LENGTH_SHORT).show(); //show the answer
-					
+								
 			currentQuestion = changeTo; //change the current position pointer value
 			
 			if (currentQuestion == ques.getNumberOfQuestions()) //if we are at the end of the questionnaire
@@ -151,6 +184,7 @@ public class QuestionActivity extends Activity
 						sendAnswers(); //send answers to server
 					else
 						showOptionDialog(index); //show dialog to the user
+					showTutorialStep();
 				}
 				else //not all required questions has been answered
 				{
@@ -172,10 +206,10 @@ public class QuestionActivity extends Activity
 	{		
 		String response = SocketAPI.sendAnswers(AnswersFactory.createJSON(ques));
 		
-		if (!response.equals("Socket timeout"))
+		if (!response.equals(SocketAPI.SOCKET_TIMEOUT_EXCEPTION))
 			SocketAPI.close();
-		else
-			AnswerFile.writeFile(this, AnswersFactory.createJSON(ques));
+		else //if socket timeout
+			AnswerFile.writeFile(this, AnswersFactory.createJSON(ques)); //save answers in a file
 		
 		startActivity(new Intent(this, ThankYouActivity.class));
 		finish();
@@ -222,10 +256,7 @@ public class QuestionActivity extends Activity
 	 * @param skipTo Index of the question to which the questionnaire should go next.
 	 */
 	private void skipQuestion(int skipTo)
-	{
-		Question q  = ques.getQuestion(currentQuestion);
-		Toast.makeText(this, "answer = '"+q.getAnswer()+"'", Toast.LENGTH_SHORT).show(); //show the answer
-			
+	{			
 		currentQuestion = skipTo; //change the current position pointer value
 		loadQuestion(ques.getQuestion(currentQuestion)); //load next question
 		
@@ -278,6 +309,18 @@ public class QuestionActivity extends Activity
 			next.setText(getResources().getString(R.string.submit_answers));
 		else
 			next.setText(getResources().getString(R.string.next_question));
+		
+		showTutorialStep();
+	}
+	
+	/**
+	 * Displays the next tutorial step.
+	 * To be overriden in the TutorialActivity.
+	 * Does nothing in QuestionActivity.
+	 */
+	protected void showTutorialStep()
+	{
+		//does nothing in QuestionActivity
 	}
 	
 	/**
@@ -342,10 +385,10 @@ public class QuestionActivity extends Activity
 	public void onStop()
 	{
 		super.onStop();
-		if (currentQuestion != ques.getNumberOfQuestions())
+		if (ques != null && currentQuestion != ques.getNumberOfQuestions())
 		{
 			Intent i = new Intent(this, LoginActivity.class);
-			i.putExtra(LoginActivity.COMES_FROM_QUESTION_ACTIVITY, true);
+			i.putExtra(LoginActivity.QUESTIONNAIRE_STOPPED, true);
 			startActivity(i);
 		}
 	}

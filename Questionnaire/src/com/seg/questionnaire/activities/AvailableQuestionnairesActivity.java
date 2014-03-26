@@ -1,5 +1,6 @@
 package com.seg.questionnaire.activities;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import android.animation.Animator;
@@ -8,7 +9,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -30,6 +30,9 @@ public class AvailableQuestionnairesActivity extends Activity
 	private AvailableQuestionnaireTask task;
 	private static String questionnaireID = "";
 	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -39,7 +42,15 @@ public class AvailableQuestionnairesActivity extends Activity
 		//loads the spinner animation
 		ImageView spinner = (ImageView)findViewById(R.id.spinnerAvailableQuestionnaires);
 		spinner.startAnimation(AnimationUtils.loadAnimation(this, R.anim.loading_bar));
-		
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onStart()
+	 */
+	@Override
+	public void onStart()
+	{
+		super.onStart();
 		task = new AvailableQuestionnaireTask();
 		task.execute();
 	}
@@ -49,8 +60,17 @@ public class AvailableQuestionnairesActivity extends Activity
 		Gson gson = new Gson();
 		
 		String response = SocketAPI.getAllQuestionnairesForPatient(NHS);
-		response = "{\"pointers\":"+response+"}";
 		
+		if (response.equals(SocketAPI.SOCKET_TIMEOUT_EXCEPTION))
+		{
+			Intent i = new Intent(this, LoginActivity.class);
+			i.putExtra(LoginActivity.INNTERRUPTED_ACTIVITY_RETURN_SAME_ACTIVITY, true);
+			startActivity(i);
+			onStop();
+			return new LinkedList<QuestionnairePointerJSON>();
+		}
+		
+		response = "{\"pointers\":"+response+"}";
 		return gson.fromJson(response, QuestionnairePointersJSON.class).getPointers();
 	}
 	
@@ -101,56 +121,51 @@ public class AvailableQuestionnairesActivity extends Activity
 	private void questionnairesFoundAnimation()
 	{
 		//get animation time
-				int animTime = getResources().getInteger(android.R.integer.config_mediumAnimTime);
+		int animTime = getResources().getInteger(android.R.integer.config_mediumAnimTime);
 						
-				//animate waiting for response to disappear
-				final View waiting = findViewById(R.id.waitAvailableQuestionnaires);
-				waiting.setVisibility(View.VISIBLE);
-				waiting.animate().setDuration(animTime)
-										 .alpha(0)
-										 .setListener(new AnimatorListenerAdapter() 
-										 {
-											 @Override
-											 public void onAnimationEnd(Animator animation) 
-											 {
-												 waiting.setVisibility(View.GONE);
-											 }
-										 });
-
-				//animate List of Questionnaires found to appear
-				final View questionnaireAvailable = findViewById(R.id.questionnairesAvailable);
-				questionnaireAvailable.setVisibility(View.VISIBLE);
-				questionnaireAvailable.animate().setDuration(animTime)
-									  .alpha(1)
-				 				      .setListener(new AnimatorListenerAdapter() 
-		 						      {
-				 				    	  @Override
-										  public void onAnimationEnd(Animator animation) 
-										  {
-				 				    		  questionnaireAvailable.setVisibility(View.VISIBLE);
-										  }
-									  });
-				
-				TextView t = (TextView) findViewById(R.id.availableQuestionnairesTV);
-				t.setText(getResources().getString(R.string.questionnaires_available)+" "+
-												   PatientDetailActivity.getPatientName());
-				
-				Log.e("DEBUG", "size = "+pointers.size());
-				
-				ListView list = (ListView) findViewById(R.id.availableQuestionnairesList);
-				list.setAdapter(new AvailableQuestionnairesAdapter(this, pointers));
-				list.setOnItemClickListener(new OnItemClickListener() 
-				{
-
-					@Override
-					public void onItemClick(AdapterView<?> parent, View view, int position, long id) 
-					{
-						Log.e("DEBUG", ""+pointers.get(position).getId());
-						questionnaireID = ""+pointers.get(position).getId();
-						startActivity(new Intent(AvailableQuestionnairesActivity.this, VideoActivity.class));
-						finish();
-					}
-				});
+		//animate waiting for response to disappear
+		final View waiting = findViewById(R.id.waitAvailableQuestionnaires);
+		waiting.setVisibility(View.VISIBLE);
+		waiting.animate().setDuration(animTime)
+						 .alpha(0)
+						 .setListener(new AnimatorListenerAdapter() 
+						 {
+							 @Override
+							 public void onAnimationEnd(Animator animation) 
+							 {
+								 waiting.setVisibility(View.GONE);
+							 }
+						 });
+		//animate List of Questionnaires found to appear
+		final View questionnaireAvailable = findViewById(R.id.questionnairesAvailable);
+		questionnaireAvailable.setVisibility(View.VISIBLE);
+		questionnaireAvailable.animate().setDuration(animTime)
+							  .alpha(1)
+		 				      .setListener(new AnimatorListenerAdapter() 
+ 						      {
+		 				    	  @Override
+								  public void onAnimationEnd(Animator animation) 
+								  {
+		 				    		  questionnaireAvailable.setVisibility(View.VISIBLE);
+								  }
+ 						      });
+			
+		TextView t = (TextView) findViewById(R.id.availableQuestionnairesTV);
+		t.setText(getResources().getString(R.string.questionnaires_available)+" "+
+										   PatientDetailActivity.getPatientName());
+						
+		ListView list = (ListView) findViewById(R.id.availableQuestionnairesList);
+		list.setAdapter(new AvailableQuestionnairesAdapter(this, pointers));
+		list.setOnItemClickListener(new OnItemClickListener() 
+		{
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) 
+			{
+				questionnaireID = ""+pointers.get(position).getId();
+				startActivity(new Intent(AvailableQuestionnairesActivity.this, VideoActivity.class));
+				finish();
+			}
+		});
 	}
 		
 	/**
@@ -202,8 +217,7 @@ public class AvailableQuestionnairesActivity extends Activity
 		@Override
 		protected void onCancelled() 
 		{
-			//task = null;
-			//fromFormToWaitingAnimation(false);
+			task = null;
 		}
 	}
 }

@@ -47,6 +47,16 @@ public class PatientDetailActivity extends Activity
 		
 		nhs = (EditText)findViewById(R.id.patientNHS);
 	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public void onStart()
+	{
+		super.onStart();
+		nhs.setError(null); //clear any error message
+	}
 
 	/**
 	 * Handles onClick calls.
@@ -123,8 +133,16 @@ public class PatientDetailActivity extends Activity
 		Gson gson = new Gson();
 		String patient = SocketAPI.findPatient(NHS);
 		
-		if (patient.contains("'error_code': 666"))
+		if (patient.contains("'error_code': 666")) //if patient not found
 			return null;
+		else if (patient.equals(SocketAPI.SOCKET_TIMEOUT_EXCEPTION)) //if socket timeout
+		{
+			Intent i = new Intent(this, LoginActivity.class);
+			i.putExtra(LoginActivity.INNTERRUPTED_ACTIVITY, true);
+			startActivity(i);
+			onStop();
+			return null;
+		}
 		return gson.fromJson(patient, PatientJSON.class);
 	}
 	

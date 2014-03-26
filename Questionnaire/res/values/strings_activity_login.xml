@@ -10,7 +10,7 @@
     <string name="login_progress_signing_in">Signing in&#8230;</string>
     <string name="error_invalid_username">This username is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect for the given username</string>
+    <string name="error_incorrect_password">This passcode is incorrect, please try again.</string>
     <string name="error_field_required">This field is required</string>
 
 </resources>

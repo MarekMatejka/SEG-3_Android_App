@@ -3,7 +3,10 @@ package com.seg.questionnaire.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,7 +34,9 @@ public class LoginActivity extends Activity
 	//TODO: socket timeout handling
 	//TODO: accessibility focuses
 	
-	public static final String COMES_FROM_QUESTION_ACTIVITY = "QA";
+	public static final String INNTERRUPTED_ACTIVITY = "IA";
+	public static final String INNTERRUPTED_ACTIVITY_RETURN_SAME_ACTIVITY = "IARSA";
+	public static final String QUESTIONNAIRE_STOPPED = "QS";
 	
 	private static String serverIP = "";
 	
@@ -56,9 +61,8 @@ public class LoginActivity extends Activity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_login);
-
+		
 		// Set up the login form.
 		//usernameView = (EditText) findViewById(R.id.username);
 		passwordView = (EditText) findViewById(R.id.password);
@@ -77,6 +81,23 @@ public class LoginActivity extends Activity
 				inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS); 
 			}
 		});
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onStart()
+	 */
+	@Override
+	public void onStart()
+	{
+		super.onStart();
+		if (getIntent().getBooleanExtra(INNTERRUPTED_ACTIVITY, false))
+			showNoConnectionDialog();
+		else if (getIntent().getBooleanExtra(INNTERRUPTED_ACTIVITY_RETURN_SAME_ACTIVITY, false))
+		{
+			showNoConnectionDialog();
+			getIntent().putExtra(INNTERRUPTED_ACTIVITY_RETURN_SAME_ACTIVITY, true);
+		}
+		
 	}
 
 	/**
@@ -204,9 +225,39 @@ public class LoginActivity extends Activity
 					 });
 	}
 	
+	/**
+	 * Returns the currently stored server IP.
+	 * 
+	 * @return Server IP.
+	 */
 	public static String getServerIP()
 	{
 		return serverIP;
+	}
+	
+	/**
+	 * Displays a dialog saying that the app could not connect to the server.
+	 * 
+	 * @param context Activity's context.
+	 */
+	private void showNoConnectionDialog()
+	{
+		final AlertDialog dialog;
+		
+		Builder builder = new AlertDialog.Builder(context);
+	    builder.setMessage(context.getResources().getString(R.string.no_server_connection));
+	    builder.setCancelable(false);
+	    builder.setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() 
+	    {	
+			@Override
+			public void onClick(DialogInterface dialog, int which) 
+			{
+				dialog.dismiss();
+			}
+		}); 
+
+	    dialog = builder.create();
+	    dialog.show();
 	}
 
 	/**
@@ -219,8 +270,24 @@ public class LoginActivity extends Activity
 		protected Boolean doInBackground(Void... params) 
 		{
 			String s = SocketAPI.checkPasscode(password);
-			if (s.equals("Socket timeout"))
+			if (s.equals(SocketAPI.SOCKET_TIMEOUT_EXCEPTION))
+			{
+				//must be like this, because it must run on UI thread and not the background (Async) thread!
+				new Thread(){ 
+					public void run()
+					{
+						LoginActivity.this.runOnUiThread(new Runnable() 
+						{
+							@Override
+							public void run() 
+							{
+								showNoConnectionDialog();
+							}
+						});
+					}
+				}.start();
 				return false;
+			}
 			return s.contains("true") ? true : false;
 		}
 
@@ -232,10 +299,12 @@ public class LoginActivity extends Activity
 
 			if (success) 
 			{
-				if (!getIntent().getBooleanExtra(COMES_FROM_QUESTION_ACTIVITY, false))
+				if (!getIntent().getBooleanExtra(INNTERRUPTED_ACTIVITY_RETURN_SAME_ACTIVITY, false) || 
+					!getIntent().getBooleanExtra(QUESTIONNAIRE_STOPPED, false) ||
+					getIntent().getBooleanExtra(INNTERRUPTED_ACTIVITY, false))
 					startActivity(new Intent(LoginActivity.this, PatientDetailActivity.class));
 				finish();
-				AnswerFile.readAndSendFile(context);
+				AnswerFile.readAndSendFile(context); //check if there is a file that needs to be send, if yes send it
 			}
 			else 
 			{

@@ -10,7 +10,7 @@
     <string name="answer_first">Please select your answer first.</string>
     <string name="answer_question">Please answer this question first.</string>
     <string name="auto_close_1">This window will close automatically in</string>
-    <string name="option_dialog">You have not answered all questions, would you like to go back and answer them? They are non-required.</string>
+    <string name="option_dialog">You have not answered all non-required questions, would you like to go back and answer them?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="auto_close_2">seconds.</string>
@@ -30,6 +30,8 @@
     <string name="high_contrast_mode">High contrast mode</string>
     <string name="advanced_accessibility_settings">Advanced accessibility settings</string>
     <string name="select_disability">Please select disability:</string>
+    <string name="no_server_connection">The application was unable to connect to the server.\nPlease check if the server is running and if the connection is working.</string>
+    <string name="ok">OK</string>
 
     <!-- Patient detail activity -->
     <string name="title_activity_patient_detail">PatientDetailActivity</string>
