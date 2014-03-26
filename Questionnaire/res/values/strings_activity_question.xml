@@ -1,0 +1,26 @@
+<resources>
+
+    <string name="answer_not_correct">This is not a correct answer, please try again.</string>
+    <string name="ok_let_me_try">OK, got it!</string>
+    <string name="step_start">Welcome to the MediQ tutorial!\n\nThis is a very simple-to-use application so let me quickly give you an overview. The question is slightly to the right and below 
+        						questionnaire title which is on top of the screen in the centre.
+	    				  		Below the question is further description of the question. Below the description is the answer, which is different for every question type.
+	    				  		On the bottom of the page is a progress bar so that you know how far did you get and a set of buttons (1 to 3 buttons).
+	    				  		So let\'s get to questions.</string>
+	<string name="step_0">This is a Yes/No question, please select your answer by tapping on either Yes or No.\nYou can only select one option. Confirm your selection by tapping \'Save and Next\'.</string>
+	<string name="step_1">This is a Multiple Choice question. It allows you to select multiple options. Please select your answer by tapping all appropriate squares.</string>
+	<string name="step_2">You are doing great so far! This is a Single Choice question which works exactly like Yes/No question but you have more options to choose from.</string>
+	<string name="step_3">This is again a Multiple Choice question, however, this one is dependent on the answer you gave in the previous question. 
+	    				  This means that if you would have selected a different answer in the previous question you might have got different question(s).</string>
+	<string name="step_4">You are becoming a master! This is a Range question which allows you to choose any number from within the range. To change your answer drag the slider (logo) left or right, 
+	    				  depending on whether you want to go to higher numbers or smaller. You can see your answer in the middle below the bar.</string>
+	<string name="step_5">Until now all questions were followed by an asterisk(*) which means that they were required. However, this Range question does not have an asterisk, which means that you
+	    				  can skip the question without selecting any answer by tapping on \'Skip Question\' button in the bottom of the screen.</string>
+	<string name="step_6">This is a Rank question which allows you to rank or sort answers. It is very easy to use! You just tap on any answer and hold it until its borders turn orange. Then you
+	    				  can drag it up or down to change its position within the list. Easy! Right?</string>
+	<string name="step_7">This is the last type of questions which you can find in the questionnaire. It is a Free text question, therefore, you can write anything you want! Just tap into the orange
+	   					  highlighted field and start typing! When you properly answered the question, click \'Submit answers\' button and that\'s it!</string>
+	<string name="step_end">Congratulations, you just finished the tutorial! Just last quick reminder, if you want to change your answer you can always click \'Save and Previous\' button and it will
+	    					take you to previous question or you can even tap any question from the list on the left side and it will automatically take you there. If you have any questions please
+	    					do not hesitate to ask!</string>
+</resources>
